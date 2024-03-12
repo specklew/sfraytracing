@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/macie/CLionProjects/sfraytracing/cmake-build-debug",
+  "command": "\"E:\\Program Files\\JetBrains\\CLion 2023.3.4\\bin\\mingw\\bin\\g++.exe\" -g -std=gnu++23 -fdiagnostics-color=always -o CMakeFiles\\sfraytracing.dir\\main.cpp.obj -c C:\\Users\\macie\\CLionProjects\\sfraytracing\\main.cpp",
+  "file": "C:\\Users\\macie\\CLionProjects\\sfraytracing\\main.cpp",
+  "output": "CMakeFiles\\sfraytracing.dir\\main.cpp.obj"
+}
+]

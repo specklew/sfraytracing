@@ -1,0 +1,5 @@
+C:/Users/macie/CLionProjects/sfraytracing/cmake-build-debug/CMakeFiles/sfraytracing.dir
+C:/Users/macie/CLionProjects/sfraytracing/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/macie/CLionProjects/sfraytracing/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/macie/CLionProjects/sfraytracing/cmake-build-debug/dependencies/CMakeFiles/edit_cache.dir
+C:/Users/macie/CLionProjects/sfraytracing/cmake-build-debug/dependencies/CMakeFiles/rebuild_cache.dir
