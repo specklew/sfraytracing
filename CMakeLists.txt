@@ -24,5 +24,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 add_subdirectory(dependencies)
+add_subdirectory(library)
 
-add_executable(sfraytracing main.cpp)
+add_executable(sfraytracing main.cpp
+        library/source/Vector.cpp)
