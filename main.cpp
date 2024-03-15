@@ -2,9 +2,9 @@
 #include "library/include/Vector.h"
 
 int main() {
-    Vector vector;
-    vector.X = 10.0f;
-    vector.Y = 11.0f;
-    std::cout << "X = " << vector.X << " Y = " << vector.Y << std::endl;
+    Vector vec1 = Vector(1.0f, 0.0f, 0.0f);
+    Vector vec2 = Vector(0.0f, 0.0f, 1.0f);
+    Vector cross = vec1.CrossProduct(vec2);
+    std::cout << "Cross product: [" << cross.X << ", " << cross.Y << ", " << cross.Z << "]" << std::endl;
     return 0;
 }

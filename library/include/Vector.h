@@ -5,10 +5,11 @@
 class Vector{
 public:
     Vector();
+    Vector(float x, float y, float z);
     float X{};
     float Y{};
     float Z{};
-    
+
     Vector operator+(const Vector& other) const;
     Vector operator-(const Vector& other) const;
 

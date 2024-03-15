@@ -2,6 +2,12 @@
 
 Vector::Vector() = default;
 
+Vector::Vector(float x, float y, float z) {
+    X = x;
+    Y = y;
+    Z = z;
+}
+
 Vector Vector::operator+(const Vector &other) const {
     return Vector(X + other.X, Y + other.Y, Z + other.Z);
 }
