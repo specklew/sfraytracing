@@ -4,7 +4,9 @@ project(Library)
 message("Loading library...")
 
 set(SOURCE_FILES
-        include/Vector.h source/Vector.cpp)
+        include/Vector.h source/Vector.cpp
+        include/Ray.h
+        source/Ray.cpp)
 
 add_library(Library ${SOURCE_FILES})
 
