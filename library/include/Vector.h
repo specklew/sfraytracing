@@ -2,10 +2,13 @@
 #define SFRAYTRACING_VECTOR_H
 
 
+#include <string>
+
 class Vector{
 public:
     Vector();
     Vector(float x, float y, float z);
+    Vector(const Vector& p1, const Vector& p2);
     float X{};
     float Y{};
     float Z{};
@@ -22,6 +25,13 @@ public:
 
     [[nodiscard]] float DotProduct(const Vector& other) const;
     [[nodiscard]] Vector CrossProduct(const Vector& other) const;
+
+    Vector Normalize();
+
+    [[nodiscard]] float Length() const;
+    [[nodiscard]] float Angle(Vector other) const;
+
+    [[nodiscard]] std::string toString() const;
 };
 
 #endif //SFRAYTRACING_VECTOR_H
