@@ -30,11 +30,12 @@ int main() {
     std::vector<Vector> intersectionPoints1;
     std::vector<Vector> intersectionPoints2;
     std::vector<Vector> intersectionPoints3;
+    float t_min=-10000;
+    float t_max=10000;
 
-
-    S1.Hit(r1, nullptr, &intersectionPoints1, FLT_MIN, FLT_MAX);
-    S1.Hit(r2, nullptr, &intersectionPoints2, FLT_MIN, FLT_MAX);
-    bool r3hit= S1.Hit(r3, nullptr, &intersectionPoints3, FLT_MIN, FLT_MAX);
+    S1.Hit(r1, nullptr, &intersectionPoints1, t_min, t_max);
+    S1.Hit(r2, nullptr, &intersectionPoints2, t_min, t_max);
+    S1.Hit(r3, nullptr, &intersectionPoints3, t_min, t_max);
 
 
     std::cout << "For a Sphere 'S1' with a:"  << std::endl << " Center in: " + S1.getCenter().toString() << std::endl << " Radius of: " + std::to_string(S1.getRadius())<< std::endl;
@@ -47,7 +48,6 @@ int main() {
     std::cout << std::endl << std::endl << "For the 'S1' Sphere and a Ray 'R3' with a: "  << std::endl << " Starting point in: " + r3.getOrigin().toString() << std::endl << " Direction: " + r3.getDirection().toString() << std::endl << "The intersection points are: " << std:: endl << " ";
     S1.printIntersectionPoints(intersectionPoints3);
 
-    std::cout << std::endl << "tu powinien byc 1 ale jest zero dlaczego: " + std::to_string(r3hit);
 
     std::cout << std::endl;
 
