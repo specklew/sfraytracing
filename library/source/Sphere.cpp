@@ -11,14 +11,14 @@ Sphere::Sphere(float r){
     Radius_ = r;
 }
 
-Sphere::Sphere(Vector v){
-    Center_ = v;
+Sphere::Sphere(Vector center){
+    Center_ = center;
     Radius_ = 1.0f;
 }
 
-Sphere::Sphere(Vector v, float r){
-    Center_ = v;
-    Radius_ = r;
+Sphere::Sphere(Vector center, float radius){
+    Center_ = center;
+    Radius_ = radius;
 }
 
 bool Sphere::Hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector> *iPoints, float t_min, float t_max) {

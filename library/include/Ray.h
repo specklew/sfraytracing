@@ -10,21 +10,21 @@ public:
     Ray(Vector origin, float distance);
     Ray(Vector origin, Vector direction, float distance);
 
-    const Vector &getOrigin() const;
-    float getDistance() const;
-    const Vector &getDirection() const;
-    const Vector &getDestination() const;
+    [[nodiscard]] const Vector& getOrigin() const;
+    [[nodiscard]] float getDistance() const;
+    [[nodiscard]] const Vector& getDirection() const;
+    [[nodiscard]] const Vector& getDestination() const;
 
-    void setOrigin(const Vector &mOrigin);
-    void setDistance(float mDistance);
-    void setDirection(const Vector &mDirection);
-    void setDestination(const Vector &mDestination);
+    void setOrigin(const Vector& origin);
+    void setDistance(float distance);
+    void setDirection(const Vector& direction);
+    void setDestination(const Vector& destination);
 
 private:
-    Vector mOrigin;
-    Vector mDirection;
-    Vector mDestination;
-    float mDistance;
+    Vector Origin_;
+    Vector Direction_;
+    Vector Destination_;
+    float Distance_;
 
 };
 

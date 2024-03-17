@@ -9,9 +9,9 @@ public:
     Vector();
     Vector(float x, float y, float z);
     Vector(const Vector& p1, const Vector& p2);
-    float X{};
-    float Y{};
-    float Z{};
+    float x{};
+    float y{};
+    float z{};
 
     Vector operator+(const Vector& other) const;
     Vector operator-(const Vector& other) const;
@@ -27,6 +27,7 @@ public:
     [[nodiscard]] Vector CrossProduct(const Vector& other) const;
 
     Vector Normalize();
+    Vector Normalized() const;
 
     [[nodiscard]] float Length() const;
     [[nodiscard]] float Angle(Vector other) const;
