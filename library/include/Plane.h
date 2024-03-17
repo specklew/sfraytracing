@@ -10,10 +10,14 @@ class Plane {
 public:
     Plane(Vector point, Vector normal);
 
-    Vector Point;
-    Vector Normal;
-
     bool Intersect(Ray &ray, Vector &v);
+
+    const Vector &getPoint() const;
+    const Vector &getNormal() const;
+
+private:
+    Vector Point_;
+    Vector Normal_;
 };
 
 #endif //SFRAYTRACING_PLANE_H

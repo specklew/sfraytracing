@@ -51,11 +51,9 @@ int main() {
 
     Plane P1= {{0,0,0},{0,1,1}};
     Vector planeIntersection;
-
     bool P1hit = P1.Intersect(r2,planeIntersection);
 
-    std::cout << std::endl << std::endl << "For the Ray 'R2' and a Plane 'P1' with a: "  << std::endl << " Point in: " + P1.Point.toString() << std::endl << " Normal Vector of: " + P1.Normal.toString() << std::endl << "The intersection points are: " << std:: endl << " ";
-
+    std::cout << std::endl << std::endl << "For the Ray 'R2' and a Plane 'P1' with a: "  << std::endl << " Point in: " + P1.getPoint().toString() << std::endl << " Normal Vector of: " + P1.getNormal().toString() << std::endl << "The intersection points are: " << std:: endl << " ";
     if (P1hit) {
         std::cout << planeIntersection.toString() << std::endl;
     } else {

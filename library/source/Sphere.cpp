@@ -21,7 +21,7 @@ Sphere::Sphere(Vector v, float r){
     Radius_ = r;
 }
 
-bool Sphere::Hit(Ray &ray, std::vector<float> *points, std::vector<Vector> *iPoints, float t_min, float t_max) {
+bool Sphere::Hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector> *iPoints, float t_min, float t_max) {
     Vector rayDirection = ray.getDirection();
     rayDirection.Normalize();
 
@@ -46,8 +46,8 @@ bool Sphere::Hit(Ray &ray, std::vector<float> *points, std::vector<Vector> *iPoi
             if (iPoints){
                 iPoints->push_back(tempPoint1);
             }
-            if(points){
-                points->push_back(t1);
+            if(t_points){
+                t_points->push_back(t1);
             }
             hit=true;
         }
@@ -58,8 +58,8 @@ bool Sphere::Hit(Ray &ray, std::vector<float> *points, std::vector<Vector> *iPoi
             if (iPoints){
                 iPoints->push_back(tempPoint2);
             }
-            if(points){
-                points->push_back(t2);
+            if(t_points){
+                t_points->push_back(t2);
 
             }
             hit=true;

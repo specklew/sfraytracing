@@ -18,7 +18,7 @@ public:
     Sphere(Vector v);
     Sphere(Vector v, float r);
 
-    bool Hit(Ray &ray, std::vector<float> *points, std::vector<Vector> *iPoints, float t_min, float t_max);
+    bool Hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector> *iPoints, float t_min, float t_max);
 
     void printIntersectionPoints(std::vector<Vector> &iPoints);
 
