@@ -7,41 +7,38 @@
 Sphere::Sphere() = default;
 
 Sphere::Sphere(float r){
-    Center_= Vector(0,0,0);
-    Radius_=r;
+    Center_ = Vector(0,0,0);
+    Radius_ = r;
 }
 
 Sphere::Sphere(Vector v){
-    Center_= v;
-    Radius_=1.0f;
+    Center_ = v;
+    Radius_ = 1.0f;
 }
 
 Sphere::Sphere(Vector v, float r){
-    Center_= v;
-    Radius_=r;
+    Center_ = v;
+    Radius_ = r;
 }
 
-bool Sphere::Hit(Ray ray, std::vector<float> *points, std::vector<Vector> *iPoints, float t_min, float t_max) const {
+bool Sphere::Hit(Ray &ray, std::vector<float> *points, std::vector<Vector> *iPoints, float t_min, float t_max) {
     Vector rayDirection = ray.getDirection();
     rayDirection.Normalize();
+
     Vector oc = ray.getOrigin() - Center_;
     float a = rayDirection.DotProduct(rayDirection);
     float b = oc.DotProduct(rayDirection);
     float c = oc.DotProduct(oc) - Radius_ * Radius_;
-    float discriminant = b * b - a * c;
+    float discriminant = b * b -  a * c;
 
-    bool hit=false;
-
+    bool hit = false;
 
 
     if (discriminant >= 0) {
 
 
-
-        float t1 = (-b - std::sqrt(discriminant)) / a;
-        float t2 = (-b + std::sqrt(discriminant)) / a;
-
-
+        float t1 = (-b - std::sqrt(discriminant)) /  a;
+        float t2 = (-b + std::sqrt(discriminant)) /  a;
 
         if (t1 >= 0 && (t1<t_max && t1>t_min)) {
 

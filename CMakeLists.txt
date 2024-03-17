@@ -30,4 +30,5 @@ add_executable(sfraytracing main.cpp
         library/source/Vector.cpp
         library/source/Sphere.cpp
         library/source/Ray.cpp
-        )
+        library/source/Plane.cpp
+)

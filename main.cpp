@@ -2,6 +2,7 @@
 #include "library/include/Vector.h"
 #include "library/include/Sphere.h"
 #include "library/include/Ray.h"
+#include "library/include/Plane.h"
 #include <cfloat>
 
 int main() {
@@ -30,8 +31,8 @@ int main() {
     std::vector<Vector> intersectionPoints1;
     std::vector<Vector> intersectionPoints2;
     std::vector<Vector> intersectionPoints3;
-    float t_min=-10000;
-    float t_max=10000;
+    float t_min=-1;
+    float t_max=FLT_MAX;
 
     S1.Hit(r1, nullptr, &intersectionPoints1, t_min, t_max);
     S1.Hit(r2, nullptr, &intersectionPoints2, t_min, t_max);
@@ -48,6 +49,18 @@ int main() {
     std::cout << std::endl << std::endl << "For the 'S1' Sphere and a Ray 'R3' with a: "  << std::endl << " Starting point in: " + r3.getOrigin().toString() << std::endl << " Direction: " + r3.getDirection().toString() << std::endl << "The intersection points are: " << std:: endl << " ";
     S1.printIntersectionPoints(intersectionPoints3);
 
+    Plane P1= {{0,0,0},{0,1,1}};
+    Vector planeIntersection;
+
+    bool P1hit = P1.Intersect(r2,planeIntersection);
+
+    std::cout << std::endl << std::endl << "For the Ray 'R2' and a Plane 'P1' with a: "  << std::endl << " Point in: " + P1.Point.toString() << std::endl << " Normal Vector of: " + P1.Normal.toString() << std::endl << "The intersection points are: " << std:: endl << " ";
+
+    if (P1hit) {
+        std::cout << planeIntersection.toString() << std::endl;
+    } else {
+        std::cout << "No intersection with plane P1 and R2." << std::endl;
+    }
 
     std::cout << std::endl;
 

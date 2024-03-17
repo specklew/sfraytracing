@@ -5,10 +5,9 @@ message("Loading library...")
 
 set(SOURCE_FILES
         include/Vector.h source/Vector.cpp
-        include/Ray.h
-        source/Ray.cpp
-        source/Sphere.cpp
-        include/Sphere.h)
+        include/Ray.h source/Ray.cpp
+        source/Sphere.cpp include/Sphere.h
+        source/Plane.cpp include/Plane.h)
 
 add_library(Library ${SOURCE_FILES})
 
