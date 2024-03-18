@@ -47,9 +47,11 @@ bool Triangle::Hit(const Ray &ray) {
     Vector bi = intersection - vertices[1];
     Vector ci = intersection - vertices[2];
 
+    Vector bc = vertices[2] - vertices[1];
+
     Vector v1 = ab.CrossProduct(ai);
     Vector v2 = ac.CrossProduct(bi);
-    Vector v3 = (vertices[1] - vertices[2]).CrossProduct(ci);
+    Vector v3 = bc.CrossProduct(ci);
 
     if(v1.DotProduct(normal) >= 0.0f
     && v2.DotProduct(normal) >= 0.0f

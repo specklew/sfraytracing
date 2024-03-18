@@ -20,6 +20,8 @@ public:
     void setDirection(const Vector& direction);
     void setDestination(const Vector& destination);
 
+    std::string toString() const;
+
 private:
     Vector Origin_;
     Vector Direction_;

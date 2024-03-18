@@ -37,6 +37,10 @@ void Ray::setDirection(const Vector& direction) { Direction_ = direction; }
 void Ray::setDestination(const Vector& destination) { Destination_ = destination; }
 void Ray::setDistance(float distance) { Distance_ = distance; }
 
+std::string Ray::toString() const {
+    return "{" + Origin_.toString() + ", " + Direction_.toString() + "}";
+}
+
 
 
 

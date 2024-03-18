@@ -70,15 +70,32 @@ int main() {
     Triangle t1 = Triangle(v1, v2, v3);
 
     Vector p1 = Vector(-1, 0.5, 0);
-    //Vector p2 = Vector(1, 0.5, 0);
     r1 = Ray(p1, Vector(1, 0, 0), 2);
 
     std::cout << "For triangle 'T1': " + t1.toString() << std::endl;
-    std::cout << "A ray 'R1' ";
+    std::cout << "A ray 'R1' " + r1.toString();
     if(t1.Hit(r1)){
-        std::cout << "passes through the triangle 'T1'" << std::endl;
+        std::cout << " passes through the triangle 'T1'" << std::endl;
     } else {
-        std::cout << "does not pass through the triangle 'T1'" << std::endl;
+        std::cout << " does not pass through the triangle 'T1'" << std::endl;
+    }
+
+    r2 = Ray(Vector(2,-1,0), Vector(0,1,0), 3);
+
+    std::cout << "A ray 'R2' " + r1.toString();
+    if(t1.Hit(r2)){
+        std::cout << " passes through the triangle 'T1'" << std::endl;
+    } else {
+        std::cout << " does not pass through the triangle 'T1'" << std::endl;
+    }
+
+    r3 = Ray(Vector(0,0,-1), Vector(0,0,1), 2);
+
+    std::cout << "A ray 'R3' " + r1.toString();
+    if(t1.Hit(r3)){
+        std::cout << " passes through the triangle 'T1'" << std::endl;
+    } else {
+        std::cout << " does not pass through the triangle 'T1'" << std::endl;
     }
 
     return 0;
