@@ -8,7 +8,8 @@ set(SOURCE_FILES
         include/Ray.h source/Ray.cpp
         include/Sphere.h source/Sphere.cpp
         include/Plane.h source/Plane.cpp
-        include/Triangle.h source/Triangle.cpp)
+        include/Triangle.h source/Triangle.cpp
+        include/Matrix4x4.h source/Matrix4x4.cpp)
 
 add_library(Library ${SOURCE_FILES})
 

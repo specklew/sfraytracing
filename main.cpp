@@ -1,11 +1,13 @@
 #include <iostream>
 
 #include <cfloat>
+#include <cmath>
 #include "library/include/Vector.h"
 #include "library/include/Ray.h"
 #include "library/include/Sphere.h"
 #include "library/include/Plane.h"
 #include "library/include/Triangle.h"
+#include "library/include/Matrix4x4.h"
 
 int main() {
 
@@ -98,5 +100,11 @@ int main() {
         std::cout << " does not pass through the triangle 'T1'" << std::endl;
     }
 
+    v1 = Vector(1,0,0);
+
+    Matrix4x4 matrix = Matrix4x4::getRotateYMatrix(M_PI * 0.5);
+    v2 = matrix.Transform(v1);
+
+    std::cout << "Vector " << v1.toString() << " rotated 90 degrees around the Y axis is " << v2.toString() << std::endl;
     return 0;
 }
