@@ -15,6 +15,8 @@ public:
     Vector normals[3];
 
     bool Hit(const Ray& ray);
+
+    [[nodiscard]] std::string toString() const;
 };
 
 #endif //SFRAYTRACING_TRIANGLE_H

@@ -1,9 +1,11 @@
 #include <iostream>
-#include "library/include/Vector.h"
-#include "library/include/Sphere.h"
-#include "library/include/Ray.h"
-#include "library/include/Plane.h"
+
 #include <cfloat>
+#include "library/include/Vector.h"
+#include "library/include/Ray.h"
+#include "library/include/Sphere.h"
+#include "library/include/Plane.h"
+#include "library/include/Triangle.h"
 
 int main() {
 
@@ -62,6 +64,22 @@ int main() {
 
     std::cout << std::endl;
 
+    v1 = Vector(0,0,0);
+    v2 = Vector(1,0,0);
+    Vector v3 = Vector(0,1,0);
+    Triangle t1 = Triangle(v1, v2, v3);
+
+    Vector p1 = Vector(-1, 0.5, 0);
+    //Vector p2 = Vector(1, 0.5, 0);
+    r1 = Ray(p1, Vector(1, 0, 0), 2);
+
+    std::cout << "For triangle 'T1': " + t1.toString() << std::endl;
+    std::cout << "A ray 'R1' ";
+    if(t1.Hit(r1)){
+        std::cout << "passes through the triangle 'T1'" << std::endl;
+    } else {
+        std::cout << "does not pass through the triangle 'T1'" << std::endl;
+    }
 
     return 0;
 }
