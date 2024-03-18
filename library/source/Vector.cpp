@@ -4,9 +4,9 @@
 Vector::Vector() = default;
 
 Vector::Vector(float x, float y, float z) {
-    x = x;
-    y = y;
-    z = z;
+    this->x = x;
+    this->y = y;
+    this->z = z;
 }
 
 Vector::Vector(const Vector& p1, const Vector& p2) {
