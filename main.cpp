@@ -82,7 +82,7 @@ int main() {
 
     r2 = Ray(Vector(2,-1,0), Vector(0,1,0), 3);
 
-    std::cout << "A ray 'R2' " + r1.toString();
+    std::cout << "A ray 'R2' " + r2.toString();
     if(t1.Hit(r2)){
         std::cout << " passes through the triangle 'T1'" << std::endl;
     } else {
@@ -91,7 +91,7 @@ int main() {
 
     r3 = Ray(Vector(0,0,-1), Vector(0,0,1), 2);
 
-    std::cout << "A ray 'R3' " + r1.toString();
+    std::cout << "A ray 'R3' " + r3.toString();
     if(t1.Hit(r3)){
         std::cout << " passes through the triangle 'T1'" << std::endl;
     } else {
