@@ -3,8 +3,9 @@
 
 #include "Vector3.h"
 #include "Ray.h"
+#include "Geometry.h"
 
-class Triangle{
+class Triangle : public Geometry{
 public:
     Triangle();
     Triangle(Vector3& vertex1, Vector3& vertex2, Vector3& vertex3);
@@ -14,7 +15,8 @@ public:
     Vector3 vertices[3];
     Vector3 normals[3];
 
-    bool hit(const Ray& ray);
+
+    [[nodiscard]] HitInfo hit(const Ray &ray) const override;
 
     [[nodiscard]] std::string toString() const;
 };

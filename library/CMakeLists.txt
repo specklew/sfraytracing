@@ -10,7 +10,10 @@ set(SOURCE_FILES
         include/Plane.h source/Plane.cpp
         include/Triangle.h source/Triangle.cpp
         include/Matrix4x4.h source/Matrix4x4.cpp
-        include/Quaternion.h source/Quaternion.cpp )
+        include/Quaternion.h source/Quaternion.cpp
+        include/Geometry.h
+        include/HitInfo.h
+)
 
 add_library(Library ${SOURCE_FILES})
 

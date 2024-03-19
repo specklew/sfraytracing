@@ -95,7 +95,7 @@ int main() {
     r3 = Ray(Vector3(0, 0, -1), Vector3(0, 0, 1), 2);
 
     std::cout << "A ray 'R3' " + r3.toString();
-    if(t1.hit(r3)){
+    if(t1.hit(r3).hit){
         std::cout << " passes through the triangle 'T1'" << std::endl;
     } else {
         std::cout << " does not pass through the triangle 'T1'" << std::endl;
