@@ -8,6 +8,7 @@
 #include "library/include/Plane.h"
 #include "library/include/Triangle.h"
 #include "library/include/Matrix4x4.h"
+#include "library/include/Quaternion.h"
 
 int main() {
 
@@ -100,11 +101,36 @@ int main() {
         std::cout << " does not pass through the triangle 'T1'" << std::endl;
     }
 
+    std::cout << std::endl << "---- Additional assignments ----" << std::endl << std::endl;
+
     v1 = Vector(1,0,0);
 
     Matrix4x4 matrix = Matrix4x4::getRotateYMatrix(M_PI * 0.5);
     v2 = matrix.Transform(v1);
 
     std::cout << "Vector " << v1.toString() << " rotated 90 degrees around the Y axis is " << v2.toString() << std::endl;
+
+    v1 = Vector(3,1,3);
+    Vector axis = Vector(1,0,1);
+    float angle = M_PI * 0.5;
+
+    std::cout << "Vector " << v1.toString() << " rotated 90 degrees around the axis " << axis.toString() << " is "
+    << v1.RotateAroundAngleAndAxis(angle, axis).toString() << std::endl;
+
+    Quaternion q1 = Quaternion(M_PI / 6, Vector(1,0,0)).convertToUnitNorm();
+    Quaternion q1Inv = q1.Inverse();
+
+    std::cout << "Unit norm quaternion " << q1.toString() << " inverted is " << q1Inv.toString() << std::endl;
+
+    q1 = {0.233, Vector(0.060, -0.257, -0.935)};
+    Quaternion q2 = {-0.752, Vector(0.286, 0.374, 0.459)};
+
+    std::cout << "Quaternion " << q1.toString() << std::endl
+    << "multiplied by quaternion " << q2.toString() << std::endl
+    << "is " << (q1 * q2).toString() << std::endl;
+
+    std::cout << "Quaternion " << q1.toString() << std::endl
+    << "subtracted by quaternion " << q2.toString() << std::endl
+    << "is " << (q1 - q2).toString() << std::endl;
     return 0;
 }

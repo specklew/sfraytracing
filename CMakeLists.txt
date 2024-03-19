@@ -33,4 +33,5 @@ add_executable(sfraytracing main.cpp
         library/source/Plane.cpp
         library/source/Triangle.cpp
         library/source/Matrix4x4.cpp
+        library/source/Quaternion.cpp
 )

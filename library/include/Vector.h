@@ -20,8 +20,8 @@ public:
 
     Vector operator+=(const Vector& other);
     Vector operator-=(const Vector& other);
-    Vector operator*=(const float& scalar);
-    Vector operator/=(const float& scalar);
+    Vector operator*=(float scalar);
+    Vector operator/=(float scalar);
 
     [[nodiscard]] float DotProduct(const Vector& other) const;
     [[nodiscard]] Vector CrossProduct(const Vector& other) const;
@@ -31,6 +31,8 @@ public:
 
     [[nodiscard]] float Length() const;
     [[nodiscard]] float Angle(Vector other) const;
+
+    Vector RotateAroundAngleAndAxis(float angle, Vector& axis) const;
 
     [[nodiscard]] std::string toString() const;
 };

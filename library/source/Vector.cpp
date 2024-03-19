@@ -1,5 +1,6 @@
 #include <cmath>
 #include "../include/Vector.h"
+#include "../include/Quaternion.h"
 
 Vector::Vector() = default;
 
@@ -49,14 +50,14 @@ Vector Vector::operator-=(const Vector &other) {
     return *this;
 }
 
-Vector Vector::operator*=(const float &scalar) {
+Vector Vector::operator*=(float scalar) {
     x *= scalar;
     y *= scalar;
     z *= scalar;
     return *this;
 }
 
-Vector Vector::operator/=(const float &scalar) {
+Vector Vector::operator/=(float scalar) {
     x /= scalar;
     y /= scalar;
     z /= scalar;
@@ -102,4 +103,16 @@ float Vector::Angle(Vector other) const {
 
 std::string Vector::toString() const {
     return "[" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + "]";
+}
+
+Vector Vector::RotateAroundAngleAndAxis(float angle, Vector &axis) const {
+    Quaternion pure = {0, *this};
+    axis.Normalize();
+
+    Quaternion q = {angle, axis};
+    q = q.convertToUnitNorm();
+    Quaternion qInv = q.Inverse();
+    Quaternion rotatedVector = q * pure * qInv;
+
+    return rotatedVector.vector;
 }
