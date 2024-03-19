@@ -1,32 +1,32 @@
 #ifndef SFRAYTRACING_RAY_H
 #define SFRAYTRACING_RAY_H
 
-#include "Vector.h"
+#include "Vector3.h"
 
 class Ray{
 public:
     Ray();
-    Ray(Vector origin, Vector direction);
-    Ray(Vector origin, float distance);
-    Ray(Vector origin, Vector direction, float distance);
+    Ray(Vector3 origin, Vector3 direction);
+    Ray(Vector3 origin, float distance);
+    Ray(Vector3 origin, Vector3 direction, float distance);
 
-    [[nodiscard]] const Vector& getOrigin() const;
+    [[nodiscard]] const Vector3& getOrigin() const;
     [[nodiscard]] float getDistance() const;
-    [[nodiscard]] const Vector& getDirection() const;
-    [[nodiscard]] const Vector& getDestination() const;
+    [[nodiscard]] const Vector3& getDirection() const;
+    [[nodiscard]] const Vector3& getDestination() const;
 
-    void setOrigin(const Vector& origin);
+    void setOrigin(const Vector3& origin);
     void setDistance(float distance);
-    void setDirection(const Vector& direction);
-    void setDestination(const Vector& destination);
+    void setDirection(const Vector3& direction);
+    void setDestination(const Vector3& destination);
 
-    std::string toString() const;
+    [[nodiscard]] std::string toString() const;
 
 private:
-    Vector Origin_;
-    Vector Direction_;
-    Vector Destination_;
-    float Distance_;
+    Vector3 Origin_{};
+    Vector3 Direction_{};
+    Vector3 Destination_{};
+    float Distance_{};
 
 };
 

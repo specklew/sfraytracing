@@ -1,18 +1,18 @@
 #ifndef SFRAYTRACING_TRIANGLE_H
 #define SFRAYTRACING_TRIANGLE_H
 
-#include "Vector.h"
+#include "Vector3.h"
 #include "Ray.h"
 
 class Triangle{
 public:
     Triangle();
-    Triangle(Vector& vertex1, Vector& vertex2, Vector& vertex3);
-    Triangle(Vector& vertex1, Vector& vertex2, Vector& vertex3,
-             Vector& normal1, Vector& normal2, Vector& normal3);
+    Triangle(Vector3& vertex1, Vector3& vertex2, Vector3& vertex3);
+    Triangle(Vector3& vertex1, Vector3& vertex2, Vector3& vertex3,
+             Vector3& normal1, Vector3& normal2, Vector3& normal3);
 
-    Vector vertices[3];
-    Vector normals[3];
+    Vector3 vertices[3];
+    Vector3 normals[3];
 
     bool hit(const Ray& ray);
 

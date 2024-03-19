@@ -1,15 +1,15 @@
 #ifndef SFRAYTRACING_QUATERNION_H
 #define SFRAYTRACING_QUATERNION_H
 
-#include "Vector.h"
+#include "Vector3.h"
 
 class Quaternion {
 public:
     float scalar{0.0f};
-    Vector vector{0.0f, 0.0f, 0.0f};
+    Vector3 vector{0.0f, 0.0f, 0.0f};
 
     Quaternion();
-    Quaternion(float scalar, const Vector& vector);
+    Quaternion(float scalar, const Vector3& vector);
     Quaternion(const Quaternion& quaternion);
 
     Quaternion& operator=(const Quaternion& quaternion);

@@ -1,16 +1,16 @@
 #include <cmath>
-#include "../include/Vector.h"
+#include "../include/Vector3.h"
 #include "../include/Quaternion.h"
 
-Vector::Vector() = default;
+Vector3::Vector3() = default;
 
-Vector::Vector(float x, float y, float z) {
+Vector3::Vector3(float x, float y, float z) {
     this->x = x;
     this->y = y;
     this->z = z;
 }
 
-Vector::Vector(const Vector& p1, const Vector& p2) {
+Vector3::Vector3(const Vector3& p1, const Vector3& p2) {
     x = p2.x - p1.x;
     y = p2.y - p1.y;
     z = p2.z - p1.z;
@@ -18,46 +18,46 @@ Vector::Vector(const Vector& p1, const Vector& p2) {
 
 //Operators overloads
 
-Vector Vector::operator+(const Vector &other) const {
+Vector3 Vector3::operator+(const Vector3 &other) const {
     return {x + other.x, y + other.y, z + other.z};
 }
 
-Vector Vector::operator-(const Vector &other) const {
+Vector3 Vector3::operator-(const Vector3 &other) const {
     return {x - other.x, y - other.y, z - other.z};
 }
 
-Vector Vector::operator*(const float &scalar) const {
+Vector3 Vector3::operator*(const float &scalar) const {
     return {x * scalar, y * scalar, z * scalar};
 }
 
-Vector Vector::operator/(const float &scalar) const {
+Vector3 Vector3::operator/(const float &scalar) const {
     return {x / scalar, y / scalar, z / scalar};
 }
 
 //Equals operators overloads
 
-Vector Vector::operator+=(const Vector &other) {
+Vector3 Vector3::operator+=(const Vector3 &other) {
     x += other.x;
     y += other.y;
     z += other.z;
     return *this;
 }
 
-Vector Vector::operator-=(const Vector &other) {
+Vector3 Vector3::operator-=(const Vector3 &other) {
     x -= other.x;
     y -= other.y;
     z -= other.z;
     return *this;
 }
 
-Vector Vector::operator*=(float scalar) {
+Vector3 Vector3::operator*=(float scalar) {
     x *= scalar;
     y *= scalar;
     z *= scalar;
     return *this;
 }
 
-Vector Vector::operator/=(float scalar) {
+Vector3 Vector3::operator/=(float scalar) {
     x /= scalar;
     y /= scalar;
     z /= scalar;
@@ -66,34 +66,34 @@ Vector Vector::operator/=(float scalar) {
 
 //Other methods
 
-float Vector::dotProduct(const Vector &other) const{
+float Vector3::dotProduct(const Vector3 &other) const{
     return x * other.x + y * other.y + z * other.z;
 }
 
-Vector Vector::crossProduct(const Vector &other) const {
+Vector3 Vector3::crossProduct(const Vector3 &other) const {
     return {y * other.z - z * other.y,
             z * other.x - x * other.z,
             x * other.y - y * other.x};
 }
 
-Vector Vector::normalize() {
+Vector3 Vector3::normalize() {
     float length = this->length();
     if(length == 0) return *this;
     *this/=length;
     return *this;
 }
 
-Vector Vector::normalized() const {
+Vector3 Vector3::normalized() const {
     float length = this->length();
     if(length == 0) return *this;
     return *this/length;
 }
 
-float Vector::length() const {
+float Vector3::length() const {
     return std::sqrt(x * x + y * y + z * z);
 }
 
-float Vector::angle(Vector other) const {
+float Vector3::angle(Vector3 other) const {
     float dot = this->dotProduct(other);
     float lenSq1 = x * x + y * y + z * z;
     float lenSq2 = other.x * other.x + other.y * other.y + other.z * other.z;
@@ -101,11 +101,11 @@ float Vector::angle(Vector other) const {
     return angle;
 }
 
-std::string Vector::toString() const {
+std::string Vector3::toString() const {
     return "[" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + "]";
 }
 
-Vector Vector::rotateAroundAngleAndAxis(float angle, Vector &axis) const {
+Vector3 Vector3::rotateAroundAngleAndAxis(float angle, Vector3 &axis) const {
     Quaternion pure = {0, *this};
     axis.normalize();
 

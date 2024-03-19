@@ -1,7 +1,7 @@
 #ifndef SFRAYTRACING_MATRIX4X4_H
 #define SFRAYTRACING_MATRIX4X4_H
 
-#include "Vector.h"
+#include "Vector3.h"
 
 class Matrix4x4{
 public:
@@ -18,7 +18,7 @@ public:
     static Matrix4x4 identity();
     static Matrix4x4 getTranslateMatrix(float x, float y, float z);
     static Matrix4x4 getScaleMatrix(float x, float y, float z);
-    static Matrix4x4 getRotateMatrix(float angle, const Vector& axis);
+    static Matrix4x4 getRotateMatrix(float angle, const Vector3& axis);
     static Matrix4x4 getRotateXMatrix(float angle);
     static Matrix4x4 getRotateYMatrix(float angle);
     static Matrix4x4 getRotateZMatrix(float angle);
@@ -32,7 +32,7 @@ public:
     [[nodiscard]] Matrix4x4 transpose() const;
     Matrix4x4 inverse();
 
-    [[nodiscard]] Vector transform(const Vector& v) const;
+    [[nodiscard]] Vector3 transform(const Vector3& v) const;
 
 };
 

@@ -3,7 +3,7 @@
 #ifndef SFRAYTRACING_SPHERE_H
 #define SFRAYTRACING_SPHERE_H
 
-#include "Vector.h"
+#include "Vector3.h"
 #include "Ray.h"
 #include <string>
 #include <vector>
@@ -15,25 +15,25 @@ class Sphere
 public:
     Sphere();
     Sphere(float r);
-    Sphere(Vector center);
-    Sphere(Vector center, float radius);
+    Sphere(Vector3 center);
+    Sphere(Vector3 center, float radius);
 
-    bool hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector> *iPoints, float t_min, float t_max);
+    bool hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector3> *iPoints, float t_min, float t_max);
 
-    void printIntersectionPoints(std::vector<Vector> &iPoints);
+    void printIntersectionPoints(std::vector<Vector3> &iPoints);
 
 
-    [[nodiscard]] const Vector &getCenter() const;
+    [[nodiscard]] const Vector3 &getCenter() const;
     [[nodiscard]] float getRadius() const;
 
-    void setCenter(const Vector &center);
+    void setCenter(const Vector3 &center);
     void setRadius(float radius);
 
     [[nodiscard]] std::string toString() const;
 
 
 private:
-    Vector Center_;
+    Vector3 Center_;
     float Radius_;
 };
 

@@ -2,22 +2,22 @@
 #ifndef SFRAYTRACING_PLANE_H
 #define SFRAYTRACING_PLANE_H
 
-#include "Vector.h"
+#include "Vector3.h"
 #include "Ray.h"
 
 
 class Plane {
 public:
-    Plane(Vector point, Vector normal);
+    Plane(Vector3 point, Vector3 normal);
 
-    bool intersect(Ray &ray, Vector &v);
+    bool intersect(Ray &ray, Vector3 &v);
 
-    [[nodiscard]] const Vector &getPoint() const;
-    [[nodiscard]] const Vector &getNormal() const;
+    [[nodiscard]] const Vector3 &getPoint() const;
+    [[nodiscard]] const Vector3 &getNormal() const;
 
 private:
-    Vector Point_;
-    Vector Normal_;
+    Vector3 Point_;
+    Vector3 Normal_;
 };
 
 #endif //SFRAYTRACING_PLANE_H

@@ -57,7 +57,7 @@ Matrix4x4 Matrix4x4::getScaleMatrix(float x, float y, float z) {
             0, 0, 0, 1};
 }
 
-Matrix4x4 Matrix4x4::getRotateMatrix(float angle, const Vector &axis) {
+Matrix4x4 Matrix4x4::getRotateMatrix(float angle, const Vector3 &axis) {
     float c = std::cos(angle);
     float s = std::sin(angle);
     float t = 1 - c;
@@ -185,7 +185,7 @@ Matrix4x4 Matrix4x4::inverse() {
     return *this;
 }
 
-Vector Matrix4x4::transform(const Vector &v) const {
+Vector3 Matrix4x4::transform(const Vector3 &v) const {
     return {entries[0] * v.x + entries[1] * v.y + entries[2] * v.z + entries[3],
             entries[4] * v.x + entries[5] * v.y + entries[6] * v.z + entries[7],
             entries[8] * v.x + entries[9] * v.y + entries[10] * v.z + entries[11]};

@@ -27,7 +27,7 @@ add_subdirectory(dependencies)
 add_subdirectory(library)
 
 add_executable(sfraytracing main.cpp
-        library/source/Vector.cpp
+        library/source/Vector3.cpp
         library/source/Sphere.cpp
         library/source/Ray.cpp
         library/source/Plane.cpp

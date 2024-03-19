@@ -4,7 +4,7 @@ project(Library)
 message("Loading library...")
 
 set(SOURCE_FILES
-        include/Vector.h source/Vector.cpp
+        include/Vector3.h source/Vector3.cpp
         include/Ray.h source/Ray.cpp
         include/Sphere.h source/Sphere.cpp
         include/Plane.h source/Plane.cpp

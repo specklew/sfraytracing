@@ -4,7 +4,7 @@
 
 Quaternion::Quaternion() = default;
 
-Quaternion::Quaternion(float scalar, const Vector &vector) {
+Quaternion::Quaternion(float scalar, const Vector3 &vector) {
     this->scalar = scalar;
     this->vector = vector;
 }
@@ -30,7 +30,7 @@ Quaternion Quaternion::operator-(const Quaternion &quaternion) const {
 
 Quaternion Quaternion::operator*(const Quaternion &quaternion) const {
     float s = scalar * quaternion.scalar - vector.dotProduct(quaternion.vector);
-    Vector v = vector * quaternion.scalar + quaternion.vector * scalar + vector.crossProduct(quaternion.vector);
+    Vector3 v = vector * quaternion.scalar + quaternion.vector * scalar + vector.crossProduct(quaternion.vector);
     return {s, v};
 }
 
@@ -100,7 +100,7 @@ Quaternion Quaternion::convertToUnitNorm() {
     float angle = scalar;
     vector.normalize();
     float s = std::cos(angle * 0.5f);
-    Vector v = vector * std::sin(angle * 0.5f);
+    Vector3 v = vector * std::sin(angle * 0.5f);
     return {s, v};
 }
 

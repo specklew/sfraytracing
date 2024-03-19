@@ -1,31 +1,31 @@
 
 #include "../include/Sphere.h"
-#include "../include/Vector.h"
+#include "../include/Vector3.h"
 #include <cmath>
 
 
 Sphere::Sphere() = default;
 
 Sphere::Sphere(float r){
-    Center_ = Vector(0,0,0);
+    Center_ = Vector3(0, 0, 0);
     Radius_ = r;
 }
 
-Sphere::Sphere(Vector center){
+Sphere::Sphere(Vector3 center){
     Center_ = center;
     Radius_ = 1.0f;
 }
 
-Sphere::Sphere(Vector center, float radius){
+Sphere::Sphere(Vector3 center, float radius){
     Center_ = center;
     Radius_ = radius;
 }
 
-bool Sphere::hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector> *iPoints, float t_min, float t_max) {
-    Vector rayDirection = ray.getDirection();
+bool Sphere::hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector3> *iPoints, float t_min, float t_max) {
+    Vector3 rayDirection = ray.getDirection();
     rayDirection.normalize();
 
-    Vector oc = ray.getOrigin() - Center_;
+    Vector3 oc = ray.getOrigin() - Center_;
     float a = rayDirection.dotProduct(rayDirection);
     float b = oc.dotProduct(rayDirection);
     float c = oc.dotProduct(oc) - Radius_ * Radius_;
@@ -42,7 +42,7 @@ bool Sphere::hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector> *iP
 
         if (t1 >= 0 && (t1<t_max && t1>t_min)) {
 
-            Vector tempPoint1 = ray.getOrigin() + rayDirection * t1;
+            Vector3 tempPoint1 = ray.getOrigin() + rayDirection * t1;
             if (iPoints){
                 iPoints->push_back(tempPoint1);
             }
@@ -53,7 +53,7 @@ bool Sphere::hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector> *iP
         }
 
         if (t2 >= 0 && t1 != t2 && (t2<t_max && t2>t_min)) {
-            Vector tempPoint2 = ray.getOrigin() + rayDirection * t2;
+            Vector3 tempPoint2 = ray.getOrigin() + rayDirection * t2;
 
             if (iPoints){
                 iPoints->push_back(tempPoint2);
@@ -73,7 +73,7 @@ bool Sphere::hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector> *iP
 
 
 
-const Vector &Sphere::getCenter() const {
+const Vector3 &Sphere::getCenter() const {
     return Center_;
 }
 float Sphere::getRadius() const {
@@ -82,7 +82,7 @@ float Sphere::getRadius() const {
 
 
 
-void Sphere::setCenter(const Vector &center) {
+void Sphere::setCenter(const Vector3 &center) {
     Center_ = center;
 }
 void Sphere::setRadius(float radius) {
@@ -93,9 +93,9 @@ std::string Sphere::toString() const {
     return "Center: " + this->getCenter().toString() + ", Radius: " + std::to_string(this->getRadius());
 }
 
-void Sphere::printIntersectionPoints(std::vector<Vector> &iPoints) {
+void Sphere::printIntersectionPoints(std::vector<Vector3> &iPoints) {
     if (!iPoints.empty()){
-        for (Vector v : iPoints) {
+        for (Vector3 v : iPoints) {
             std::cout << v.toString() << "   ";
         }
     }
