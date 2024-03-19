@@ -10,7 +10,7 @@ Triangle::Triangle(Vector &vertex1, Vector &vertex2, Vector &vertex3) {
 
     Vector ab = vertex2 - vertex1;
     Vector ac = vertex3 - vertex1;
-    Vector normal = ab.CrossProduct(ac).Normalized();
+    Vector normal = ab.crossProduct(ac).normalized();
 
     normals[0] = normal;
     normals[1] = normal;
@@ -28,16 +28,16 @@ Triangle::Triangle(Vector &vertex1, Vector &vertex2, Vector &vertex3,
     normals[2] = normal3;
 }
 
-bool Triangle::Hit(const Ray &ray) {
+bool Triangle::hit(const Ray &ray) {
 
     Vector ab = vertices[1] - vertices[0];
     Vector ac = vertices[2] - vertices[0];
-    Vector normal = ab.CrossProduct(ac);
-    float dot = normal.DotProduct(ray.getDirection());
+    Vector normal = ab.crossProduct(ac);
+    float dot = normal.dotProduct(ray.getDirection());
 
     if(fabsf(dot) < std::numeric_limits<float>::epsilon()) return false;
     
-    float t = normal.DotProduct(vertices[0] - ray.getOrigin()) / dot;
+    float t = normal.dotProduct(vertices[0] - ray.getOrigin()) / dot;
 
     if(t < 0.0f) return false;
 
@@ -49,13 +49,13 @@ bool Triangle::Hit(const Ray &ray) {
 
     Vector bc = vertices[2] - vertices[1];
 
-    Vector v1 = ab.CrossProduct(ai);
-    Vector v2 = ac.CrossProduct(bi);
-    Vector v3 = bc.CrossProduct(ci);
+    Vector v1 = ab.crossProduct(ai);
+    Vector v2 = ac.crossProduct(bi);
+    Vector v3 = bc.crossProduct(ci);
 
-    if(v1.DotProduct(normal) >= 0.0f
-    && v2.DotProduct(normal) >= 0.0f
-    && v3.DotProduct(normal) >= 0.0f) return true;
+    if(v1.dotProduct(normal) >= 0.0f
+    && v2.dotProduct(normal) >= 0.0f
+    && v3.dotProduct(normal) >= 0.0f) return true;
 
     return false;
 }

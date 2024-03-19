@@ -23,16 +23,16 @@ public:
     Vector operator*=(float scalar);
     Vector operator/=(float scalar);
 
-    [[nodiscard]] float DotProduct(const Vector& other) const;
-    [[nodiscard]] Vector CrossProduct(const Vector& other) const;
+    [[nodiscard]] float dotProduct(const Vector& other) const;
+    [[nodiscard]] Vector crossProduct(const Vector& other) const;
 
-    Vector Normalize();
-    Vector Normalized() const;
+    Vector normalize();
+    Vector normalized() const;
 
-    [[nodiscard]] float Length() const;
-    [[nodiscard]] float Angle(Vector other) const;
+    [[nodiscard]] float length() const;
+    [[nodiscard]] float angle(Vector other) const;
 
-    Vector RotateAroundAngleAndAxis(float angle, Vector& axis) const;
+    Vector rotateAroundAngleAndAxis(float angle, Vector& axis) const;
 
     [[nodiscard]] std::string toString() const;
 };

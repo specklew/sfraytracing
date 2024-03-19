@@ -16,18 +16,18 @@ int main() {
 
     Vector v1 = {0, 3, 0};
     Vector v2 = {5, 5, 0};
-    std::cout << "Angle between vector " << v1.toString() << " and " << v2.toString() << " = " << v1.Angle(v2) << std::endl;
+    std::cout << "angle between vector " << v1.toString() << " and " << v2.toString() << " = " << v1.angle(v2) << std::endl;
 
     std::cout << std::endl;
 
     v1 = {4,5,1};
     v2 = {4,1,3};
 
-    Vector perpendicular = v1.CrossProduct(v2);
+    Vector perpendicular = v1.crossProduct(v2);
     std::cout << "Vector perpendicular to: " << std::endl << "v1 = " << v1.toString() << std::endl << "v2 = " << v2.toString() << std::endl;
     std::cout << "Is " << perpendicular.toString() << std::endl;
-    std::cout << "Its angles with v1 and v2 are " << v1.Angle(perpendicular) << " and " << v2.Angle(perpendicular) << std::endl;
-    std::cout << "Normalized perpendicular vector is " << perpendicular.Normalize().toString() << " with length = " << perpendicular.Length() << std::endl << std::endl;
+    std::cout << "Its angles with v1 and v2 are " << v1.angle(perpendicular) << " and " << v2.angle(perpendicular) << std::endl;
+    std::cout << "normalized perpendicular vector is " << perpendicular.normalize().toString() << " with length = " << perpendicular.length() << std::endl << std::endl;
 
     Sphere S1 = {10.0f};
     Ray r1={{0,0,-20},{0,0,1}};
@@ -39,9 +39,9 @@ int main() {
     float t_min=-1;
     float t_max=FLT_MAX;
 
-    S1.Hit(r1, nullptr, &intersectionPoints1, t_min, t_max);
-    S1.Hit(r2, nullptr, &intersectionPoints2, t_min, t_max);
-    S1.Hit(r3, nullptr, &intersectionPoints3, t_min, t_max);
+    S1.hit(r1, nullptr, &intersectionPoints1, t_min, t_max);
+    S1.hit(r2, nullptr, &intersectionPoints2, t_min, t_max);
+    S1.hit(r3, nullptr, &intersectionPoints3, t_min, t_max);
 
 
     std::cout << "For a Sphere 'S1' with a:"  << std::endl << " Center in: " + S1.getCenter().toString() << std::endl << " Radius of: " + std::to_string(S1.getRadius())<< std::endl;
@@ -56,7 +56,7 @@ int main() {
 
     Plane P1= {{0,0,0},{0,1,1}};
     Vector planeIntersection;
-    bool P1hit = P1.Intersect(r2,planeIntersection);
+    bool P1hit = P1.intersect(r2, planeIntersection);
 
     std::cout << std::endl << std::endl << "For the Ray 'R2' and a Plane 'P1' with a: "  << std::endl << " Point in: " + P1.getPoint().toString() << std::endl << " Normal Vector of: " + P1.getNormal().toString() << std::endl << "The intersection points are: " << std:: endl << " ";
     if (P1hit) {
@@ -77,7 +77,7 @@ int main() {
 
     std::cout << "For triangle 'T1': " + t1.toString() << std::endl;
     std::cout << "A ray 'R1' " + r1.toString();
-    if(t1.Hit(r1)){
+    if(t1.hit(r1)){
         std::cout << " passes through the triangle 'T1'" << std::endl;
     } else {
         std::cout << " does not pass through the triangle 'T1'" << std::endl;
@@ -86,7 +86,7 @@ int main() {
     r2 = Ray(Vector(2,-1,0), Vector(0,1,0), 3);
 
     std::cout << "A ray 'R2' " + r2.toString();
-    if(t1.Hit(r2)){
+    if(t1.hit(r2)){
         std::cout << " passes through the triangle 'T1'" << std::endl;
     } else {
         std::cout << " does not pass through the triangle 'T1'" << std::endl;
@@ -95,7 +95,7 @@ int main() {
     r3 = Ray(Vector(0,0,-1), Vector(0,0,1), 2);
 
     std::cout << "A ray 'R3' " + r3.toString();
-    if(t1.Hit(r3)){
+    if(t1.hit(r3)){
         std::cout << " passes through the triangle 'T1'" << std::endl;
     } else {
         std::cout << " does not pass through the triangle 'T1'" << std::endl;
@@ -106,7 +106,7 @@ int main() {
     v1 = Vector(1,0,0);
 
     Matrix4x4 matrix = Matrix4x4::getRotateYMatrix(M_PI * 0.5);
-    v2 = matrix.Transform(v1);
+    v2 = matrix.transform(v1);
 
     std::cout << "Vector " << v1.toString() << " rotated 90 degrees around the Y axis is " << v2.toString() << std::endl;
 
@@ -115,10 +115,10 @@ int main() {
     float angle = M_PI * 0.5;
 
     std::cout << "Vector " << v1.toString() << " rotated 90 degrees around the axis " << axis.toString() << " is "
-    << v1.RotateAroundAngleAndAxis(angle, axis).toString() << std::endl;
+              << v1.rotateAroundAngleAndAxis(angle, axis).toString() << std::endl;
 
     Quaternion q1 = Quaternion(M_PI / 6, Vector(1,0,0)).convertToUnitNorm();
-    Quaternion q1Inv = q1.Inverse();
+    Quaternion q1Inv = q1.inverse();
 
     std::cout << "Unit norm quaternion " << q1.toString() << " inverted is " << q1Inv.toString() << std::endl;
 

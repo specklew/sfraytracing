@@ -14,7 +14,7 @@ public:
     Vector vertices[3];
     Vector normals[3];
 
-    bool Hit(const Ray& ray);
+    bool hit(const Ray& ray);
 
     [[nodiscard]] std::string toString() const;
 };

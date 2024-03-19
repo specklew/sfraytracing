@@ -23,13 +23,13 @@ public:
     Quaternion operator*=(const Quaternion& quaternion);
     Quaternion operator*=(float f);
 
-    [[nodiscard]] float Norm() const;
+    [[nodiscard]] float norm() const;
 
-    Quaternion Normalize();
-    [[nodiscard]] Quaternion Normalized() const;
+    Quaternion normalize();
+    [[nodiscard]] Quaternion normalized() const;
 
-    [[nodiscard]] Quaternion Conjugate() const;
-    [[nodiscard]] Quaternion Inverse() const;
+    [[nodiscard]] Quaternion conjugate() const;
+    [[nodiscard]] Quaternion inverse() const;
     Quaternion convertToUnitNorm();
 
     [[nodiscard]] std::string toString() const;

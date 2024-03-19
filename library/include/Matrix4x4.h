@@ -15,7 +15,7 @@ public:
     Matrix4x4(const Matrix4x4& m);
     explicit Matrix4x4(const float * pF);
 
-    static Matrix4x4 Identity();
+    static Matrix4x4 identity();
     static Matrix4x4 getTranslateMatrix(float x, float y, float z);
     static Matrix4x4 getScaleMatrix(float x, float y, float z);
     static Matrix4x4 getRotateMatrix(float angle, const Vector& axis);
@@ -29,10 +29,10 @@ public:
 
     Matrix4x4 operator*(float f) const;
 
-    [[nodiscard]] Matrix4x4 Transpose() const;
-    Matrix4x4 Inverse();
+    [[nodiscard]] Matrix4x4 transpose() const;
+    Matrix4x4 inverse();
 
-    Vector Transform(const Vector& v) const;
+    [[nodiscard]] Vector transform(const Vector& v) const;
 
 };
 

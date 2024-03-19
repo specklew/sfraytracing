@@ -10,10 +10,10 @@ class Plane {
 public:
     Plane(Vector point, Vector normal);
 
-    bool Intersect(Ray &ray, Vector &v);
+    bool intersect(Ray &ray, Vector &v);
 
-    const Vector &getPoint() const;
-    const Vector &getNormal() const;
+    [[nodiscard]] const Vector &getPoint() const;
+    [[nodiscard]] const Vector &getNormal() const;
 
 private:
     Vector Point_;

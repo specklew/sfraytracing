@@ -21,14 +21,14 @@ Sphere::Sphere(Vector center, float radius){
     Radius_ = radius;
 }
 
-bool Sphere::Hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector> *iPoints, float t_min, float t_max) {
+bool Sphere::hit(Ray &ray, std::vector<float> *t_points, std::vector<Vector> *iPoints, float t_min, float t_max) {
     Vector rayDirection = ray.getDirection();
-    rayDirection.Normalize();
+    rayDirection.normalize();
 
     Vector oc = ray.getOrigin() - Center_;
-    float a = rayDirection.DotProduct(rayDirection);
-    float b = oc.DotProduct(rayDirection);
-    float c = oc.DotProduct(oc) - Radius_ * Radius_;
+    float a = rayDirection.dotProduct(rayDirection);
+    float b = oc.dotProduct(rayDirection);
+    float c = oc.dotProduct(oc) - Radius_ * Radius_;
     float discriminant = b * b -  a * c;
 
     bool hit = false;

@@ -7,14 +7,14 @@ Plane::Plane(Vector point, Vector normal) {
     Normal_=normal;
 }
 
-bool Plane::Intersect(Ray &ray, Vector &v) {
+bool Plane::intersect(Ray &ray, Vector &v) {
     Vector rayDirection=ray.getDirection();
-    rayDirection.Normalize();
+    rayDirection.normalize();
 
-    float denominator = Normal_.DotProduct(rayDirection);
+    float denominator = Normal_.dotProduct(rayDirection);
     if (denominator != 0.0f) {
         Vector p = Point_ - ray.getOrigin();
-        float t = p.DotProduct(Normal_) / denominator;
+        float t = p.dotProduct(Normal_) / denominator;
         if (t >= 0) {
             v=ray.getOrigin() + rayDirection * t;
             return true;

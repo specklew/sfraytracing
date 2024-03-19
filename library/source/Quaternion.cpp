@@ -29,8 +29,8 @@ Quaternion Quaternion::operator-(const Quaternion &quaternion) const {
 }
 
 Quaternion Quaternion::operator*(const Quaternion &quaternion) const {
-    float s = scalar * quaternion.scalar - vector.DotProduct(quaternion.vector);
-    Vector v = vector * quaternion.scalar + quaternion.vector * scalar + vector.CrossProduct(quaternion.vector);
+    float s = scalar * quaternion.scalar - vector.dotProduct(quaternion.vector);
+    Vector v = vector * quaternion.scalar + quaternion.vector * scalar + vector.crossProduct(quaternion.vector);
     return {s, v};
 }
 
@@ -60,45 +60,45 @@ Quaternion Quaternion::operator*=(float f) {
     return *this;
 }
 
-float Quaternion::Norm() const {
+float Quaternion::norm() const {
     float s = scalar * scalar;
     float v = vector.x * vector.x + vector.y * vector.y + vector.z * vector.z;
     return std::sqrt(s + v);
 }
 
-Quaternion Quaternion::Normalize() {
-    float norm = this->Norm();
+Quaternion Quaternion::normalize() {
+    float norm = this->norm();
     if(norm == 0) return *this;
     *this *= 1/norm;
     return *this;
 }
 
-Quaternion Quaternion::Normalized() const {
-    float norm = this->Norm();
+Quaternion Quaternion::normalized() const {
+    float norm = this->norm();
     if(norm == 0) return *this;
     return *this * (1/norm);
 }
 
-Quaternion Quaternion::Conjugate() const {
+Quaternion Quaternion::conjugate() const {
     return {scalar, vector * -1};
 }
 
-Quaternion Quaternion::Inverse() const {
-    float absoluteValue = this->Norm();
+Quaternion Quaternion::inverse() const {
+    float absoluteValue = this->norm();
 
     if(absoluteValue == 0) return *this;
 
     absoluteValue *= absoluteValue;
     absoluteValue = 1/absoluteValue;
 
-    Quaternion conjugate = this->Conjugate();
+    Quaternion conjugate = this->conjugate();
 
     return conjugate * absoluteValue;
 }
 
 Quaternion Quaternion::convertToUnitNorm() {
     float angle = scalar;
-    vector.Normalize();
+    vector.normalize();
     float s = std::cos(angle * 0.5f);
     Vector v = vector * std::sin(angle * 0.5f);
     return {s, v};

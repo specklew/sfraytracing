@@ -36,7 +36,7 @@ Matrix4x4::Matrix4x4(const float *pF) {
     memcpy(entries, pF, sizeof(entries));
 }
 
-Matrix4x4 Matrix4x4::Identity() {
+Matrix4x4 Matrix4x4::identity() {
     return {1, 0, 0, 0,
             0, 1, 0, 0,
             0, 0, 1, 0,
@@ -136,7 +136,7 @@ Matrix4x4 Matrix4x4::operator*(float f) const {
     return result;
 }
 
-Matrix4x4 Matrix4x4::Transpose() const {
+Matrix4x4 Matrix4x4::transpose() const {
     Matrix4x4 result;
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
@@ -146,7 +146,7 @@ Matrix4x4 Matrix4x4::Transpose() const {
     return result;
 }
 
-Matrix4x4 Matrix4x4::Inverse() {
+Matrix4x4 Matrix4x4::inverse() {
     float t1 = entries[0] * entries[4];
     float t2 = entries[0] * entries[7];
     float t3 = entries[3] * entries[1];
@@ -185,7 +185,7 @@ Matrix4x4 Matrix4x4::Inverse() {
     return *this;
 }
 
-Vector Matrix4x4::Transform(const Vector &v) const {
+Vector Matrix4x4::transform(const Vector &v) const {
     return {entries[0] * v.x + entries[1] * v.y + entries[2] * v.z + entries[3],
             entries[4] * v.x + entries[5] * v.y + entries[6] * v.z + entries[7],
             entries[8] * v.x + entries[9] * v.y + entries[10] * v.z + entries[11]};
