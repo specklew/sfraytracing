@@ -4,20 +4,19 @@
 
 #include "Vector3.h"
 #include "Ray.h"
+#include "HitInfo.h"
+#include "Geometry.h"
 
 
-class Plane {
+class Plane : Geometry {
 public:
+
+    Vector3 point;
+    Vector3 normal;
+
     Plane(Vector3 point, Vector3 normal);
 
-    bool intersect(Ray &ray, Vector3 &v);
-
-    [[nodiscard]] const Vector3 &getPoint() const;
-    [[nodiscard]] const Vector3 &getNormal() const;
-
-private:
-    Vector3 Point_;
-    Vector3 Normal_;
+    [[nodiscard]] HitInfo hit(const Ray &ray) const override;
 };
 
 #endif //SFRAYTRACING_PLANE_H

@@ -1,28 +1,24 @@
-
-
 #include "../include/Plane.h"
 
 Plane::Plane(Vector3 point, Vector3 normal) {
-    Point_=point;
-    Normal_=normal;
+    this->point = point;
+    this->normal = normal;
 }
 
-bool Plane::intersect(Ray &ray, Vector3 &v) {
+HitInfo Plane::hit(const Ray &ray) const {
     Vector3 rayDirection=ray.getDirection();
     rayDirection.normalize();
 
-    float denominator = Normal_.dotProduct(rayDirection);
+    float denominator = normal.dotProduct(rayDirection);
+
     if (denominator != 0.0f) {
-        Vector3 p = Point_ - ray.getOrigin();
-        float t = p.dotProduct(Normal_) / denominator;
-        if (t >= 0) {
-            v=ray.getOrigin() + rayDirection * t;
-            return true;
+        Vector3 p = point - ray.getOrigin();
+
+        if (float t = p.dotProduct(normal) / denominator >= 0) {
+            Vector3 intersectionPoint = ray.getOrigin() + rayDirection * t;
+            return {true, intersectionPoint, normal, t};
         }
     }
-    return false;
+    return {};
 }
-
-const Vector3 &Plane::getPoint() const {return Point_;}
-const Vector3 &Plane::getNormal() const {return Normal_;}
 

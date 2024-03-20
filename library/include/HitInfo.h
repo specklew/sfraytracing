@@ -4,7 +4,7 @@
 #include "Vector3.h"
 
 struct HitInfo {
-    bool hit{};
+    bool intersected{};
     Vector3 hitPoint{};
     Vector3 hitNormal{};
     float distance{};
