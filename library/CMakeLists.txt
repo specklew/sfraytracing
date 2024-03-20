@@ -13,6 +13,10 @@ set(SOURCE_FILES
         include/Quaternion.h source/Quaternion.cpp
         include/Geometry.h
         include/HitInfo.h
+        include/Color.h
+        source/Color.cpp
+        include/Camera.h
+        source/Camera.cpp
 )
 
 add_library(Library ${SOURCE_FILES})
