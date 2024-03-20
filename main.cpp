@@ -39,28 +39,39 @@ int main() {
     float t_min=-1;
     float t_max=FLT_MAX;
 
-    S1.hit(r1, nullptr, &intersectionPoints1, t_min, t_max);
-    S1.hit(r2, nullptr, &intersectionPoints2, t_min, t_max);
-    S1.hit(r3, nullptr, &intersectionPoints3, t_min, t_max);
+    HitInfo hitInfo1 = S1.hit(r1);
+    HitInfo hitInfo2 = S1.hit(r2);
+    HitInfo hitInfo3 = S1.hit(r3);
 
 
-    std::cout << "For a Sphere 'S1' with a:"  << std::endl << " Center in: " + S1.getCenter().toString() << std::endl << " Radius of: " + std::to_string(S1.getRadius())<< std::endl;
-    std::cout << "And a Ray 'R1' with a: "  << std::endl << " Starting point in: " + r1.getOrigin().toString() << std::endl << " Direction: " + r1.getDirection().toString() << std::endl << "The intersection points are: " << std:: endl << " ";
-    S1.printIntersectionPoints(intersectionPoints1);
+    std::cout << "For a Sphere 'S1' with a:"  << std::endl << " Center in: " + S1.center.toString() << std::endl << " Radius of: " + std::to_string(S1.radius)<< std::endl;
+    std::cout << "And a Ray 'R1' with a: "  << std::endl
+    << " Starting point in: " + r1.origin.toString()<< std::endl
+    << " Direction: " + r1.direction.toString() << std::endl
+    << "The intersection points are: " << std:: endl
+    << hitInfo1.hitPoint.toString() << std::endl;
 
-    std::cout << std::endl << std::endl << "For the 'S1' Sphere and a Ray 'R2' with a: "  << std::endl << " Starting point in: " + r2.getOrigin().toString() << std::endl << " Direction: " + r2.getDirection().toString() << std::endl << "The intersection points are: " << std:: endl << " ";
-    S1.printIntersectionPoints(intersectionPoints2);
+    std::cout << std::endl << std::endl << "For the 'S1' Sphere and a Ray 'R2' with a: "  << std::endl
+    << " Starting point in: " + r2.origin.toString() << std::endl
+    << " Direction: " + r2.direction.toString() << std::endl
+    << "The intersection points are: " << std:: endl
+    << hitInfo2.hitPoint.toString() << std::endl;
 
-    std::cout << std::endl << std::endl << "For the 'S1' Sphere and a Ray 'R3' with a: "  << std::endl << " Starting point in: " + r3.getOrigin().toString() << std::endl << " Direction: " + r3.getDirection().toString() << std::endl << "The intersection points are: " << std:: endl << " ";
-    S1.printIntersectionPoints(intersectionPoints3);
+    std::cout << std::endl << std::endl << "For the 'S1' Sphere and a Ray 'R3' with a: "  << std::endl
+    << " Starting point in: " + r3.origin.toString() << std::endl
+    << " Direction: " + r3.direction.toString() << std::endl
+    << "The intersection points are: " << std:: endl
+    << hitInfo3.hitPoint.toString() << std::endl;
 
     Plane P1= {{0,0,0},{0,1,1}};
-    Vector3 planeIntersection;
-    bool P1hit = P1.intersect(r2, planeIntersection);
+    HitInfo P1hit = P1.hit(r2);
 
-    std::cout << std::endl << std::endl << "For the Ray 'R2' and a Plane 'P1' with a: "  << std::endl << " Point in: " + P1.getPoint().toString() << std::endl << " Normal Vector3 of: " + P1.getNormal().toString() << std::endl << "The intersection points are: " << std:: endl << " ";
-    if (P1hit) {
-        std::cout << planeIntersection.toString() << std::endl;
+    std::cout << std::endl << std::endl << "For the Ray 'R2' and a Plane 'P1' with a: "  << std::endl
+    << " Point in: " + P1.point.toString() << std::endl
+    << " Normal Vector3 of: " + P1.normal.toString() << std::endl
+    << "The intersection points are: " << std:: endl << " ";
+    if (P1hit.intersected) {
+        std::cout << P1hit.hitPoint.toString() << std::endl;
     } else {
         std::cout << "No intersection with plane P1 and R2." << std::endl;
     }
@@ -77,7 +88,7 @@ int main() {
 
     std::cout << "For triangle 'T1': " + t1.toString() << std::endl;
     std::cout << "A ray 'R1' " + r1.toString();
-    if(t1.hit(r1)){
+    if(t1.hit(r1).intersected){
         std::cout << " passes through the triangle 'T1'" << std::endl;
     } else {
         std::cout << " does not pass through the triangle 'T1'" << std::endl;
@@ -86,7 +97,7 @@ int main() {
     r2 = Ray(Vector3(2, -1, 0), Vector3(0, 1, 0), 3);
 
     std::cout << "A ray 'R2' " + r2.toString();
-    if(t1.hit(r2)){
+    if(t1.hit(r2).intersected){
         std::cout << " passes through the triangle 'T1'" << std::endl;
     } else {
         std::cout << " does not pass through the triangle 'T1'" << std::endl;

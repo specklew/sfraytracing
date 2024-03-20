@@ -17,36 +17,32 @@ Sphere::Sphere(Vector3 center, float radius){
 }
 
 HitInfo Sphere::hit(const Ray &ray) const {
-    Vector3 rayDirection = ray.getDirection();
+    Vector3 rayDirection = ray.direction;
     rayDirection.normalize();
 
-    Vector3 oc = ray.getOrigin() - center;
+    Vector3 oc = ray.origin - center;
     float a = rayDirection.dotProduct(rayDirection);
-    float b = oc.dotProduct(rayDirection);
+    float half_b = oc.dotProduct(rayDirection);
     float c = oc.dotProduct(oc) - radius * radius;
-    float discriminant = b * b - a * c;
+    float discriminant = half_b * half_b - a * c;
 
-    bool hit = false;
+    if (discriminant < 0) return {};
 
-    if (discriminant >= 0) {
+    float sqrtDiscriminant = std::sqrt(discriminant);
 
-        float t1 = (-b - std::sqrt(discriminant)) /  a;
-        float t2 = (-b + std::sqrt(discriminant)) /  a;
+    float root = (-half_b - sqrtDiscriminant) / a;
 
-        if (t1 >= 0) {
+    if (ray.distance < root) {
 
-            Vector3 hitPoint1 = ray.getOrigin() + rayDirection * t1;
-            hit = true;
+        root = (-half_b + sqrtDiscriminant) / a;
+        if (ray.distance < root) {
+            return {};
         }
-
-        if (t2 >= 0 && t1 != t2) {
-            Vector3 hitPoint2 = ray.getOrigin() + rayDirection * t2;
-
-            hit = true;
-        }
-
     }
-    return hit;
+
+    Vector3 hitPoint = ray.origin + rayDirection * root;
+
+    return {true, hitPoint, (hitPoint - center).normalize(), root};
 }
 
 std::string Sphere::toString() const {

@@ -32,15 +32,15 @@ HitInfo Triangle::hit(const Ray &ray) const {
     Vector3 ab = vertices[1] - vertices[0];
     Vector3 ac = vertices[2] - vertices[0];
     Vector3 normal = ab.crossProduct(ac);
-    float dot = normal.dotProduct(ray.getDirection());
+    float dot = normal.dotProduct(ray.direction);
 
     if(fabsf(dot) < std::numeric_limits<float>::epsilon()) return {};
 
-    float t = normal.dotProduct(vertices[0] - ray.getOrigin()) / dot;
+    float t = normal.dotProduct(vertices[0] - ray.origin) / dot;
 
     if(t < 0.0f) return {};
 
-    Vector3 intersection = ray.getOrigin() + ray.getDirection() * t;
+    Vector3 intersection = ray.origin + ray.direction * t;
 
     Vector3 ai = intersection - vertices[0];
     Vector3 bi = intersection - vertices[1];

@@ -11,15 +11,15 @@
 
 class Sphere : Geometry{
 public:
-    Vector3 center;
-    float radius;
+    Vector3 center{};
+    float radius{1};
 
     Sphere();
     Sphere(float r);
 
     Sphere(Vector3 center, float radius);
 
-    HitInfo hit(const Ray &ray) const override;
+    [[nodiscard]] HitInfo hit(const Ray &ray) const override;
 
 
     void printIntersectionPoints(std::vector<Vector3> &iPoints);
