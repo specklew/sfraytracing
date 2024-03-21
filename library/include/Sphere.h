@@ -22,8 +22,6 @@ public:
     [[nodiscard]] HitInfo hit(const Ray &ray) const override;
 
 
-    void printIntersectionPoints(std::vector<Vector3> &iPoints);
-
     [[nodiscard]] std::string toString() const;
 };
 

@@ -1,5 +1,5 @@
 #include <cmath>
-#include "../include/Triangle.h"
+#include "Triangle.h"
 
 Triangle::Triangle() = default;
 

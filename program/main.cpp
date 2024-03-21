@@ -2,15 +2,21 @@
 
 #include <cfloat>
 #include <cmath>
-#include "library/include/Vector3.h"
-#include "library/include/Ray.h"
-#include "library/include/Sphere.h"
-#include "library/include/Plane.h"
-#include "library/include/Triangle.h"
-#include "library/include/Matrix4x4.h"
-#include "library/include/Quaternion.h"
+#include <vector>
+#include "Vector3.h"
+#include "Sphere.h"
+#include "Ray.h"
+#include "Plane.h"
+#include "Triangle.h"
+#include "Matrix4x4.h"
+#include "Quaternion.h"
+#include "Camera.h"
 
 int main() {
+
+    Camera camera = Camera(Vector3(0, 0, 0), Vector3(0, 0, 1));
+    camera.fov = 60;
+    camera.Render(1600);
 
     std::cout << std::endl << "---- Assignments ----" << std::endl << std::endl;
 

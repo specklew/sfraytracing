@@ -1,7 +1,5 @@
-
-#include "../include/Sphere.h"
-#include "../include/Vector3.h"
 #include <cmath>
+#include "Sphere.h"
 
 
 Sphere::Sphere() = default;
@@ -24,40 +22,30 @@ HitInfo Sphere::hit(const Ray &ray) const {
     float a = rayDirection.dotProduct(rayDirection);
     float half_b = oc.dotProduct(rayDirection);
     float c = oc.dotProduct(oc) - radius * radius;
+
     float discriminant = half_b * half_b - a * c;
 
     if (discriminant < 0) return {};
 
     float sqrtDiscriminant = std::sqrt(discriminant);
 
-    float root = (-half_b - sqrtDiscriminant) / a;
+    float t = (-half_b - sqrtDiscriminant) / a;
 
-    if (ray.distance < root) {
+    if (t < 0 || ray.distance < t) {
 
-        root = (-half_b + sqrtDiscriminant) / a;
-        if (ray.distance < root) {
+        t = (-half_b + sqrtDiscriminant) / a;
+        if (t < 0 || ray.distance < t) {
             return {};
         }
     }
 
-    Vector3 hitPoint = ray.origin + rayDirection * root;
+    Vector3 hitPoint = ray.origin + rayDirection * t;
 
-    return {true, hitPoint, (hitPoint - center).normalize(), root};
+    return {true, hitPoint, (hitPoint - center).normalize(), t};
 }
 
 std::string Sphere::toString() const {
     return "Center: " + center.toString() + ", Radius: " + std::to_string(radius);
-}
-
-void Sphere::printIntersectionPoints(std::vector<Vector3> &iPoints) {
-    if (!iPoints.empty()){
-        for (Vector3 v : iPoints) {
-            std::cout << v.toString() << "   ";
-        }
-    }
-    else{
-        std::cout << "No intersections." << std::endl;
-    }
 }
 
 

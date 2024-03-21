@@ -5,13 +5,13 @@
 
 class Color {
 public:
-    unsigned char r{};
-    unsigned char g{};
-    unsigned char b{};
+    float r{};
+    float g{};
+    float b{};
 
     Color();
 
-    Color(unsigned char r, unsigned char g, unsigned char b);
+    Color(float r, float g, float b);
 
     Color(const Color &color);
 

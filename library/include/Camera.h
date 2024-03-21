@@ -16,6 +16,8 @@ public:
 
     Camera();
     Camera(const Vector3& position, const Vector3& direction);
+
+    void Render(int imageWidth);
 };
 
 #endif //SFRAYTRACING_CAMERA_H

@@ -1,6 +1,7 @@
 #include <cmath>
-#include "../include/Vector3.h"
-#include "../include/Quaternion.h"
+#include "Vector3.h"
+#include "Quaternion.h"
+
 
 Vector3::Vector3() = default;
 
