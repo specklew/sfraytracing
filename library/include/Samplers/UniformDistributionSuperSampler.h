@@ -6,10 +6,10 @@
 class UniformDistributionSuperSampler : public Sampler {
 public:
     UniformDistributionSuperSampler();
-    UniformDistributionSuperSampler(Vector3 center, int samplingResolution);
+    UniformDistributionSuperSampler(Vector3 center, Vector3 direction, int samplingResolution);
 
-    Color Sample(int x, int y) override;
-
+    Color Sample(std::vector<Ray> scanlines) override;
+    std::vector<Vector3> CalculateSamplePoints(int x, int y) override;
 };
 
 #endif //SF_RAYTRACING_UNIFORMDISTRIBUTIONSUPERSAMPLER_H

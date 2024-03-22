@@ -42,38 +42,13 @@ sf::Texture PerspectiveCamera::RenderFrame(int imageWidth) {
     sampler->pixelDeltaV = viewport_v / static_cast<float>(image_height);
 
     sampler->upperLeftViewportCorner = position - viewport_u / 2.0f - viewport_v / 2.0f + Vector3(0, 0, 1.0f);
-
-    //Vector3 first_pixel_pos = viewport_upper_left + (pixel_delta_u + pixel_delta_v) * 0.5f;
-
-    // Scene
-
-    Sphere sphere = Sphere(Vector3(0, 0, 2), 0.5f);
-
+    
     // Scanlines
 
     for(int j = 0; j < image_height; ++j){
         for(int i = 0; i < imageWidth; ++i){
 
-            Color pixel_color = sampler->Sample(i, j);
-
-/*            Vector3 pixel_center = first_pixel_pos + (pixel_delta_u * i) + (pixel_delta_v * j);
-            Vector3 ray_direction = pixel_center - position; // Faster than with normalization.
-
-            Ray ray = Ray(position, ray_direction);
-            Color pixel_color;
-
-            if(HitInfo info = sphere.hit(ray); info.intersected) {
-
-                pixel_color = Color(info.hitNormal.x + 1, info.hitNormal.y + 1, info.hitNormal.z + 1) * 0.5f;
-
-            } else {
-
-                // For sake of testing:
-                Vector3 unit_direction = ray.direction.normalized();
-                float t = 0.5f * (unit_direction.y + 1.0f);
-                pixel_color = Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;
-
-            }*/
+            Color pixel_color = samplePixel(i, j);
 
             pixels[(j * imageWidth + i) * 4 + 0] = pixel_color.r * 255;
             pixels[(j * imageWidth + i) * 4 + 1] = pixel_color.g * 255;

@@ -7,7 +7,7 @@
 class PerspectiveCamera : public Camera {
 public:
 
-    float fov{60};
+    float fov{110};
 
     PerspectiveCamera();
     PerspectiveCamera(const Vector3& position, const Vector3& direction);

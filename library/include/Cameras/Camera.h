@@ -28,6 +28,11 @@ public:
     virtual ~Camera();
 
     virtual sf::Texture RenderFrame(int imageWidth) = 0;
+
+protected:
+
+    virtual Color samplePixel(int i, int j);
+    [[nodiscard]] virtual Vector3 calculateRayDirection(const Vector3 &point) const;
 };
 
 

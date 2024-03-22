@@ -3,25 +3,32 @@
 
 #include "Color.h"
 #include "Vector3.h"
+#include "Ray.h"
+#include "vector"
+
 
 class Sampler{
 public:
     virtual ~Sampler();
     Sampler();
-    Sampler(Vector3 center, int samplingResolution);
+    Sampler(Vector3 center, Vector3 direction, int samplingResolution);
 
     Vector3 center;
+    Vector3 direction;
     Vector3 upperLeftViewportCorner;
     Vector3 pixelDeltaU;
     Vector3 pixelDeltaV;
 
+    bool isOrthographic{};
+
     [[nodiscard]] int GetMaximalSamplingResolution() const;
     void SetMaximalSamplingResolution(int maximalSamplingResolution);
 
-    virtual Color Sample(int x, int y) = 0;
+    virtual Color Sample(std::vector<Ray> rays) = 0;
+    virtual std::vector<Vector3> CalculateSamplePoints(int x, int y) = 0;
 
 protected:
-    int MaximalSamplingResolution_;
+    int SamplingResolution_;
     float InvertedSamplingResolution_;
     Color *ColorBuffer_;
 };
