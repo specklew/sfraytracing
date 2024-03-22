@@ -9,7 +9,7 @@
 #include <iostream>
 
 
-class Sphere : Geometry{
+class Sphere : public Geometry{
 public:
     Vector3 center{};
     float radius{1};

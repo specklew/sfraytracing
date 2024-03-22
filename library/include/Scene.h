@@ -8,17 +8,26 @@
 
 class Scene{
 public:
-    Scene();
-    ~Scene();
+    static Scene& getInstance(){
+        static Scene instance;
+        return instance;
+    }
+
+    Scene(Scene const&) = delete;
+    void operator=(Scene const&) = delete;
 
     Camera *camera{};
 
-    void AddObject(Geometry *object);
-    void RemoveObject(Geometry *object);
+    void addObject(Geometry *object);
+    void removeObject(Geometry *object);
+    std::vector<Geometry*> getObjects();
 
-    sf::Texture RenderScene() const;
+    [[nodiscard]] sf::Texture renderScene() const;
 
 private:
+    Scene();
+    ~Scene();
+
     std::vector<Geometry*> objects;
 };
 

@@ -9,22 +9,22 @@ Scene::Scene(){
             new UniformDistributionSuperSampler({0,0,0}, {0,0,1}, 4));
 };
 
-void Scene::AddObject(Geometry *object) {
+void Scene::addObject(Geometry *object) {
     objects.push_back(object);
 }
 
-void Scene::RemoveObject(Geometry *object) {
+void Scene::removeObject(Geometry *object) {
     objects.erase(std::remove(objects.begin(), objects.end(), object), objects.end());
 }
 
-sf::Texture Scene::RenderScene() const {
+sf::Texture Scene::renderScene() const {
     return camera->renderFrame(1600);
 }
 
 Scene::~Scene() {
-    for (auto object : objects) {
-        delete object;
-    }
-
     delete camera;
+}
+
+std::vector<Geometry*> Scene::getObjects() {
+    return objects;
 }

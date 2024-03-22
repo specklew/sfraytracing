@@ -1,37 +1,41 @@
 #include "Samplers/UniformDistributionSuperSampler.h"
 #include "HitInfo.h"
 #include "Sphere.h"
-#include "Cameras/Camera.h"
+#include "Scene.h"
 
 UniformDistributionSuperSampler::UniformDistributionSuperSampler() = default;
 
-UniformDistributionSuperSampler::UniformDistributionSuperSampler(Vector3 center, Vector3 direction, int samplingResolution) : Sampler(center, direction, samplingResolution) {}
+UniformDistributionSuperSampler::UniformDistributionSuperSampler(Vector3 center,
+                                                                 Vector3 direction,
+                                                                 int samplingResolution) :
+                                                                 Sampler(center, direction, samplingResolution) {}
 
 Color UniformDistributionSuperSampler::sample(std::vector<Ray> scanlines){
 
-    Sphere sphere = Sphere(Vector3(0, 0, 1), 0.5f);
-    Sphere sphere2 = Sphere(Vector3(2, 2, 1), 1.0f);
-
     for(int i = 0; i < scanlines.size(); ++i){
 
-            if(HitInfo info = sphere.hit(scanlines[i]); info.intersected) {
-                ColorBuffer_[i] =
-                        Color(info.hitNormal.x + 1, info.hitNormal.y + 1, info.hitNormal.z + 1) * 0.5f;
-            } else
-            if(HitInfo info1 = sphere2.hit(scanlines[i]); info1.intersected) {
+        // Background gradient:
+        Vector3 unit_direction = scanlines[i].direction.normalized();
+        float t = 0.5f * (unit_direction.y + 1.0f);
+        ColorBuffer_[i] =
+                Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;
 
-                ColorBuffer_[i] =
-                        Color(info1.hitNormal.x + 1, info1.hitNormal.y + 1, info1.hitNormal.z + 1) * 0.5f;
+        float min_distance = std::numeric_limits<float>::max();
 
-            } else {
-                // For sake of testing:
-                Vector3 unit_direction = scanlines[i].direction.normalized();
-                float t = 0.5f * (unit_direction.y + 1.0f);
-                ColorBuffer_[i] =
-                        Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;
+        for(auto object : Scene::getInstance().getObjects()){
+            if(HitInfo info = object->hit(scanlines[i]); info.intersected){
+                if(min_distance > info.distance) {
+                    min_distance = info.distance;
+
+                    ColorBuffer_[i] = Color(
+                            info.hitNormal.x + 1,
+                            info.hitNormal.y + 1,
+                            info.hitNormal.z + 1)
+                                      * 0.5f;
+                }
             }
-
         }
+    }
 
     return Color::getAverageColor(ColorBuffer_, SamplingResolution_ * SamplingResolution_);
 }

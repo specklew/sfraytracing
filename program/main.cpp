@@ -21,9 +21,13 @@ int main() {
 
     int image_width = 1600;
 
-    Scene scene = Scene();
+    Sphere s1 = Sphere({0, 0, 2}, 0.5f);
+    Sphere s2 = Sphere({1, 0, 2}, 1.0f);
 
-    sf::Texture rendered_image = scene.RenderScene();
+    Scene::getInstance().addObject(&s1);
+    Scene::getInstance().addObject(&s2);
+
+    sf::Texture rendered_image = Scene::getInstance().renderScene();
 
     sf::Sprite sprite(rendered_image);
 
