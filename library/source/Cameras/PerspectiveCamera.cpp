@@ -1,44 +1,33 @@
 #include <cmath>
-#include "Camera.h"
+#include <memory>
+#include "Cameras/PerspectiveCamera.h"
 #include "Ray.h"
 #include "Color.h"
 #include "Sphere.h"
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
+#include "SFML/Graphics.hpp"
 
-Camera::Camera() {
-    position = Vector3(0, 0, 0);
-    direction = Vector3(0, 0, 1);
-    up = Vector3(0, 1, 0);
-    fov = 60.0f;
-    aspectRatio = 16.0f / 9.0f;
-    nearPlane = 0.1f;
-    farPlane = 1000.0f;
+PerspectiveCamera::PerspectiveCamera() : Camera() {
 }
 
-Camera::Camera(const Vector3 &position, const Vector3 &direction) {
-    this->position = position;
-    this->direction = direction;
-    up = Vector3(0, 1, 0);
-    fov = 60;
-    aspectRatio = 16.0f / 9.0f;
-    nearPlane = 0.1f;
-    farPlane = 1000.0f;
+PerspectiveCamera::PerspectiveCamera(const Vector3 &position, const Vector3 &direction) : Camera(position, direction) {
 }
 
-void Camera::Render(int imageWidth) {
+PerspectiveCamera::PerspectiveCamera(const Vector3 &position, const Vector3 &direction, Sampler *sampler) : Camera(
+        position, direction, sampler) {
+}
+
+sf::Texture PerspectiveCamera::RenderFrame(int imageWidth) {
 
     int image_height = static_cast<int>(imageWidth / aspectRatio);
 
     // SFML Setup
-    auto* pixels = new sf::Uint8[imageWidth * image_height * 4];
+    auto *pixels = new sf::Uint8[imageWidth * image_height * 4];
 
-    sf::RenderWindow window(sf::VideoMode(imageWidth, image_height), "Ray Tracer");
     sf::Texture buffer;
     buffer.create(imageWidth, image_height);
     sf::Sprite sprite(buffer);
 
-    // Camera Setup
+    // PerspectiveCamera Setup
 
     float theta = fov * M_PI / 180.0f;
     float h = std::tan(theta / 2.0f);
@@ -49,11 +38,12 @@ void Camera::Render(int imageWidth) {
     Vector3 viewport_u = Vector3(viewport_width, 0,0);
     Vector3 viewport_v = Vector3(0, -viewport_height, 0);
 
-    Vector3 pixel_delta_u = viewport_u / static_cast<float>(imageWidth);
-    Vector3 pixel_delta_v = viewport_v / static_cast<float>(image_height);
+    sampler->pixelDeltaU = viewport_u / static_cast<float>(imageWidth);
+    sampler->pixelDeltaV = viewport_v / static_cast<float>(image_height);
 
-    Vector3 viewport_upper_left = position - viewport_u / 2.0f - viewport_v / 2.0f + Vector3(0, 0, 1.0f);
-    Vector3 first_pixel_pos = viewport_upper_left + (pixel_delta_u + pixel_delta_v) * 0.5f;
+    sampler->upperLeftViewportCorner = position - viewport_u / 2.0f - viewport_v / 2.0f + Vector3(0, 0, 1.0f);
+
+    //Vector3 first_pixel_pos = viewport_upper_left + (pixel_delta_u + pixel_delta_v) * 0.5f;
 
     // Scene
 
@@ -63,7 +53,10 @@ void Camera::Render(int imageWidth) {
 
     for(int j = 0; j < image_height; ++j){
         for(int i = 0; i < imageWidth; ++i){
-            Vector3 pixel_center = first_pixel_pos + (pixel_delta_u * i) + (pixel_delta_v * j);
+
+            Color pixel_color = sampler->Sample(i, j);
+
+/*            Vector3 pixel_center = first_pixel_pos + (pixel_delta_u * i) + (pixel_delta_v * j);
             Vector3 ray_direction = pixel_center - position; // Faster than with normalization.
 
             Ray ray = Ray(position, ray_direction);
@@ -80,8 +73,7 @@ void Camera::Render(int imageWidth) {
                 float t = 0.5f * (unit_direction.y + 1.0f);
                 pixel_color = Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;
 
-            }
-
+            }*/
 
             pixels[(j * imageWidth + i) * 4 + 0] = pixel_color.r * 255;
             pixels[(j * imageWidth + i) * 4 + 1] = pixel_color.g * 255;
@@ -92,21 +84,9 @@ void Camera::Render(int imageWidth) {
 
     buffer.update(pixels);
 
-    // Opening window
-
-    while(window.isOpen()){
-        sf::Event event{};
-        while(window.pollEvent(event)){
-            if(event.type == sf::Event::Closed){
-                window.close();
-            }
-        }
-        window.clear();
-        window.draw(sprite);
-        window.display();
-    }
-
     // Cleanup
 
-    delete(&pixels);
+    delete[] pixels;
+
+    return buffer;
 }

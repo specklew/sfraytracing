@@ -25,7 +25,14 @@ set(SOURCE_FILES
         include/Geometry.h
         include/HitInfo.h
         include/Color.h source/Color.cpp
-        include/Camera.h source/Camera.cpp
+        include/Cameras/PerspectiveCamera.h source/Cameras/PerspectiveCamera.cpp
+        include/Cameras/Camera.h source/Cameras/Camera.cpp
+        include/Cameras/OrtographicCamera.h
+        source/Cameras/OrtographicCamera.cpp
+        include/Samplers/Sampler.h
+        include/Samplers/UniformDistributionSuperSampler.h
+        source/Samplers/UniformDistributionSuperSampler.cpp
+        source/Samplers/Sampler.cpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})

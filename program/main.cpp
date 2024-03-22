@@ -10,14 +10,46 @@
 #include "Triangle.h"
 #include "Matrix4x4.h"
 #include "Quaternion.h"
-#include "Camera.h"
+#include "Cameras/PerspectiveCamera.h"
+#include "Samplers/UniformDistributionSuperSampler.h"
+#include <SFML/Graphics.hpp>
+
+void assignment1();
 
 int main() {
 
-    Camera camera = Camera(Vector3(0, 0, 0), Vector3(0, 0, 1));
-    camera.fov = 60;
-    camera.Render(1600);
+    int image_width = 1600;
 
+    Sampler *sampler = new UniformDistributionSuperSampler(Vector3(0,0,0), 8);
+
+    PerspectiveCamera camera = PerspectiveCamera(Vector3(0, 0, 0), Vector3(0, 0, 1), sampler);
+    sf::Texture rendered_image = camera.RenderFrame(image_width);
+
+    sf::Sprite sprite(rendered_image);
+
+
+    int image_height = static_cast<int>(image_width / camera.aspectRatio);
+
+    sf::RenderWindow window(sf::VideoMode(image_width, image_height), "Ray Tracer");
+
+    while(window.isOpen()){
+        sf::Event event{};
+        while(window.pollEvent(event)){
+            if(event.type == sf::Event::Closed){
+                window.close();
+            }
+        }
+        window.clear();
+        window.draw(sprite);
+        window.display();
+    }
+
+    //assignment1();
+
+    return 0;
+}
+
+void assignment1() {
     std::cout << std::endl << "---- Assignments ----" << std::endl << std::endl;
 
     Vector3 v1 = {0, 3, 0};
@@ -149,5 +181,4 @@ int main() {
     std::cout << "Quaternion " << q1.toString() << std::endl
     << "subtracted by quaternion " << q2.toString() << std::endl
     << "is " << (q1 - q2).toString() << std::endl;
-    return 0;
 }
