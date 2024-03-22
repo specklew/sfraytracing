@@ -25,7 +25,7 @@ public:
     Camera(const Vector3& position, const Vector3& direction);
     Camera(const Vector3& position, const Vector3& direction, Sampler *sampler);
 
-    ~Camera();
+    virtual ~Camera();
 
     virtual sf::Texture RenderFrame(int imageWidth) = 0;
 };

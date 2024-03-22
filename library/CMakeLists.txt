@@ -33,6 +33,8 @@ set(SOURCE_FILES
         include/Samplers/UniformDistributionSuperSampler.h
         source/Samplers/UniformDistributionSuperSampler.cpp
         source/Samplers/Sampler.cpp
+        include/Scene.h
+        source/Scene.cpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})

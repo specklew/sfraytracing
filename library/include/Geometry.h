@@ -6,6 +6,8 @@
 
 class Geometry {
 public:
+    virtual ~Geometry() = default;
+
     [[nodiscard]] virtual HitInfo hit(const Ray &ray) const = 0;
 };
 
