@@ -32,7 +32,7 @@ public:
 protected:
 
     virtual Color samplePixel(int i, int j);
-    [[nodiscard]] virtual Vector3 calculateRayDirection(const Vector3 &point) const;
+    [[nodiscard]] virtual Ray calculateRay(const Vector3 &point) const;
 };
 
 

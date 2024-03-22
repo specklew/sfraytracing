@@ -23,9 +23,11 @@ int main() {
 
     Sphere s1 = Sphere({0, 0, 2}, 0.5f);
     Sphere s2 = Sphere({1, 0, 2}, 1.0f);
+    Sphere s3 = Sphere({-2, 0, 2}, 1.0f);
 
     Scene::getInstance().addObject(&s1);
     Scene::getInstance().addObject(&s2);
+    Scene::getInstance().addObject(&s3);
 
     sf::Texture rendered_image = Scene::getInstance().renderScene();
 

@@ -37,15 +37,14 @@ Color Camera::samplePixel(int i, int j) {
     std::vector<Ray> scanLines;
     std::vector<Vector3> sampling_points = sampler->calculateSamplePoints(i, j);
     for(auto point : sampling_points){
-        Vector3 rayDirection = calculateRayDirection(point);
-        scanLines.emplace_back(position, rayDirection);
+        scanLines.emplace_back(calculateRay(point));
     }
 
     Color pixel_color = sampler->sample(scanLines);
     return pixel_color;
 }
 
-Vector3 Camera::calculateRayDirection(const Vector3 &point) const {
-    return point - position;
+Ray Camera::calculateRay(const Vector3 &point) const {
+    return {position, point - position};
 }
 

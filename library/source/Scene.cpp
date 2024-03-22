@@ -1,9 +1,10 @@
 #include "Scene.h"
 #include "Cameras/PerspectiveCamera.h"
 #include "Samplers/UniformDistributionSuperSampler.h"
+#include "Cameras/OrthographicCamera.h"
 
 Scene::Scene(){
-    camera = new PerspectiveCamera(
+    camera = new OrthographicCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, 1),
             new UniformDistributionSuperSampler({0,0,0}, {0,0,1}, 4));
