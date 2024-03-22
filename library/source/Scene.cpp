@@ -6,7 +6,7 @@ Scene::Scene(){
     camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, 1),
-            new UniformDistributionSuperSampler(Vector3(0,0,0), 16));
+            new UniformDistributionSuperSampler(Vector3(0,0,0), 4));
 };
 
 void Scene::AddObject(Geometry *object) {

@@ -27,8 +27,8 @@ set(SOURCE_FILES
         include/Color.h source/Color.cpp
         include/Cameras/PerspectiveCamera.h source/Cameras/PerspectiveCamera.cpp
         include/Cameras/Camera.h source/Cameras/Camera.cpp
-        include/Cameras/OrtographicCamera.h
-        source/Cameras/OrtographicCamera.cpp
+        include/Cameras/OrthographicCamera.h
+        source/Cameras/OrthographicCamera.cpp
         include/Samplers/Sampler.h
         include/Samplers/UniformDistributionSuperSampler.h
         source/Samplers/UniformDistributionSuperSampler.cpp
