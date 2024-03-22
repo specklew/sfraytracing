@@ -71,7 +71,7 @@ std::string Color::toString() const {
     return "Color(" + std::to_string(r) + ", " + std::to_string(g) + ", " + std::to_string(b) + ")";
 }
 
-Color Color::GetAverageColor(const Color *colors, int size) {
+Color Color::getAverageColor(const Color *colors, int size) {
 
     float r = 0;
     float g = 0;

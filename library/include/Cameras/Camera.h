@@ -27,7 +27,7 @@ public:
 
     virtual ~Camera();
 
-    virtual sf::Texture RenderFrame(int imageWidth) = 0;
+    virtual sf::Texture renderFrame(int imageWidth) = 0;
 
 protected:
 

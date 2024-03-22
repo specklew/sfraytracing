@@ -39,7 +39,7 @@ public:
 
     [[nodiscard]] bool operator!=(const Color &color) const;
 
-    static Color GetAverageColor(const Color *colors, int size);
+    static Color getAverageColor(const Color *colors, int size);
 
     [[nodiscard]] std::string toString() const;
 

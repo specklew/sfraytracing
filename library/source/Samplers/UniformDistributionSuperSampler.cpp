@@ -7,7 +7,7 @@ UniformDistributionSuperSampler::UniformDistributionSuperSampler() = default;
 
 UniformDistributionSuperSampler::UniformDistributionSuperSampler(Vector3 center, Vector3 direction, int samplingResolution) : Sampler(center, direction, samplingResolution) {}
 
-Color UniformDistributionSuperSampler::Sample(std::vector<Ray> scanlines){
+Color UniformDistributionSuperSampler::sample(std::vector<Ray> scanlines){
 
     Sphere sphere = Sphere(Vector3(0, 0, 1), 0.5f);
     Sphere sphere2 = Sphere(Vector3(2, 2, 1), 1.0f);
@@ -33,10 +33,10 @@ Color UniformDistributionSuperSampler::Sample(std::vector<Ray> scanlines){
 
         }
 
-    return Color::GetAverageColor(ColorBuffer_, SamplingResolution_ * SamplingResolution_);
+    return Color::getAverageColor(ColorBuffer_, SamplingResolution_ * SamplingResolution_);
 }
 
-std::vector<Vector3> UniformDistributionSuperSampler::CalculateSamplePoints(int x, int y) {
+std::vector<Vector3> UniformDistributionSuperSampler::calculateSamplePoints(int x, int y) {
 
     std::vector<Vector3> points;
 

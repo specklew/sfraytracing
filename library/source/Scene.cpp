@@ -18,7 +18,7 @@ void Scene::RemoveObject(Geometry *object) {
 }
 
 sf::Texture Scene::RenderScene() const {
-    return camera->RenderFrame(1600);
+    return camera->renderFrame(1600);
 }
 
 Scene::~Scene() {

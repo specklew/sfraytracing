@@ -9,7 +9,7 @@ public:
     OrthographicCamera(const Vector3& position, const Vector3& direction);
     OrthographicCamera(const Vector3& position, const Vector3& direction, Sampler *sampler);
 
-    sf::Texture RenderFrame(int imageWidth) override;
+    sf::Texture renderFrame(int imageWidth) override;
 };
 
 #endif //SF_RAYTRACING_ORTHOGRAPHICCAMERA_H

@@ -7,13 +7,13 @@
 class PerspectiveCamera : public Camera {
 public:
 
-    float fov{110};
+    float fov{100};
 
     PerspectiveCamera();
     PerspectiveCamera(const Vector3& position, const Vector3& direction);
     PerspectiveCamera(const Vector3& position, const Vector3& direction, Sampler *sampler);
 
-    sf::Texture RenderFrame(int imageWidth) override;
+    sf::Texture renderFrame(int imageWidth) override;
 };
 
 #endif //SFRAYTRACING_CAMERA_H

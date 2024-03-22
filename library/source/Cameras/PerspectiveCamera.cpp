@@ -16,7 +16,7 @@ PerspectiveCamera::PerspectiveCamera(const Vector3 &position, const Vector3 &dir
         position, direction, sampler) {
 }
 
-sf::Texture PerspectiveCamera::RenderFrame(int imageWidth) {
+sf::Texture PerspectiveCamera::renderFrame(int imageWidth) {
 
     int image_height = static_cast<int>(imageWidth / aspectRatio);
 
@@ -42,7 +42,7 @@ sf::Texture PerspectiveCamera::RenderFrame(int imageWidth) {
     sampler->pixelDeltaV = viewport_v / static_cast<float>(image_height);
 
     sampler->upperLeftViewportCorner = position - viewport_u / 2.0f - viewport_v / 2.0f + Vector3(0, 0, 1.0f);
-    
+
     // Scanlines
 
     for(int j = 0; j < image_height; ++j){
