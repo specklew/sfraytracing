@@ -1,7 +1,3 @@
-//
-// Created by macie on 21/03/2024.
-//
-
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "Sphere.h"
@@ -27,6 +23,7 @@ Camera::Camera(const Vector3 &position, const Vector3 &direction, Sampler *sampl
     aspectRatio = 16.0f / 9.0f;
     this->sampler = sampler;
     this->sampler->center = position;
+    this->sampler->camera = this;
 }
 
 Camera::~Camera() {

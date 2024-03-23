@@ -11,7 +11,6 @@
 #include "Matrix4x4.h"
 #include "Quaternion.h"
 #include "Cameras/PerspectiveCamera.h"
-#include "Samplers/UniformDistributionSuperSampler.h"
 #include "Scene.h"
 #include <SFML/Graphics.hpp>
 
@@ -21,15 +20,17 @@ int main() {
 
     int image_width = 1600;
 
+    Scene scene = Scene();
+
     Sphere s1 = Sphere({0, 0, 2}, 0.5f);
     Sphere s2 = Sphere({1, 0, 2}, 1.0f);
     Sphere s3 = Sphere({-2, 0, 2}, 1.0f);
 
-    Scene::getInstance().addObject(&s1);
-    Scene::getInstance().addObject(&s2);
-    Scene::getInstance().addObject(&s3);
+    scene.addObject(&s1);
+    scene.addObject(&s2);
+    scene.addObject(&s3);
 
-    sf::Texture rendered_image = Scene::getInstance().renderScene();
+    sf::Texture rendered_image = scene.renderScene();
 
     sf::Sprite sprite(rendered_image);
 

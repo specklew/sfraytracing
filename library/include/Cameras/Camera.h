@@ -10,6 +10,8 @@
 #include "SFML/Graphics/Sprite.hpp"
 #include "Samplers/Sampler.h"
 
+class Scene; // Forward declaration
+
 class Camera {
 
 public:
@@ -20,6 +22,7 @@ public:
     float aspectRatio;
 
     Sampler* sampler;
+    Scene* scene;
 
     Camera();
     Camera(const Vector3& position, const Vector3& direction);

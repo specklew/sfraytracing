@@ -22,7 +22,7 @@ Color UniformDistributionSuperSampler::sample(std::vector<Ray> scanlines){
 
         float min_distance = std::numeric_limits<float>::max();
 
-        for(auto object : Scene::getInstance().getObjects()){
+        for(auto object : camera->scene->getObjects()){
             if(HitInfo info = object->hit(scanlines[i]); info.intersected){
                 if(min_distance > info.distance) {
                     min_distance = info.distance;

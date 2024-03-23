@@ -8,6 +8,8 @@ Scene::Scene(){
             Vector3(0, 0, 0),
             Vector3(0, 0, 1),
             new UniformDistributionSuperSampler({0,0,0}, {0,0,1}, 4));
+
+    camera->scene = this;
 };
 
 void Scene::addObject(Geometry *object) {

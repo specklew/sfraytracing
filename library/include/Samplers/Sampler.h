@@ -6,6 +6,7 @@
 #include "Ray.h"
 #include "vector"
 
+class Camera;
 
 class Sampler{
 public:
@@ -19,7 +20,7 @@ public:
     Vector3 pixelDeltaU;
     Vector3 pixelDeltaV;
 
-    bool isOrthographic{};
+    Camera* camera;
 
     [[nodiscard]] int GetMaximalSamplingResolution() const;
     void SetMaximalSamplingResolution(int maximalSamplingResolution);
