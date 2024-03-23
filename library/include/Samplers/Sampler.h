@@ -25,8 +25,7 @@ public:
     [[nodiscard]] int GetMaximalSamplingResolution() const;
     void SetMaximalSamplingResolution(int maximalSamplingResolution);
 
-    virtual Color sample(std::vector<Ray> rays) = 0;
-    virtual std::vector<Vector3> calculateSamplePoints(int x, int y) = 0;
+    virtual Color samplePixel(int x, int y) = 0;
 
 protected:
     int SamplingResolution_;

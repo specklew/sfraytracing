@@ -3,14 +3,19 @@
 #include "Samplers/UniformDistributionSuperSampler.h"
 #include "Cameras/OrthographicCamera.h"
 
-Scene::Scene(){
-    camera = new OrthographicCamera(
-            Vector3(0, 0, 0),
-            Vector3(0, 0, 1),
-            new UniformDistributionSuperSampler({0,0,0}, {0,0,1}, 4));
+Scene::Scene() : Scene(
+        new PerspectiveCamera(
+        Vector3(0, 0, 0),
+        Vector3(0, 0, 1),
+        new UniformDistributionSuperSampler(
+                {0,0,0},
+                {0,0,1},
+                4))){};
 
+Scene::Scene(Camera *camera) {
+    this->camera = camera;
     camera->scene = this;
-};
+}
 
 void Scene::addObject(Geometry *object) {
     objects.push_back(object);

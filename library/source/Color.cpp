@@ -73,6 +73,8 @@ std::string Color::toString() const {
 
 Color Color::getAverageColor(const Color *colors, int size) {
 
+    float invSize = 1.0f / size;
+
     float r = 0;
     float g = 0;
     float b = 0;
@@ -84,9 +86,9 @@ Color Color::getAverageColor(const Color *colors, int size) {
         b += color.b;
     }
 
-    r /= size;
-    g /= size;
-    b /= size;
+    r *= invSize;
+    g *= invSize;
+    b *= invSize;
 
     return {r, g, b};
 }

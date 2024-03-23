@@ -33,7 +33,7 @@ sf::Texture OrthographicCamera::renderFrame(int imageWidth) {
     for(int j = 0; j < image_height; ++j){
         for(int i = 0; i < imageWidth; ++i){
 
-            Color pixel_color = samplePixel(i, j);
+            Color pixel_color = sampler->samplePixel(i, j);
 
             pixels[(j * imageWidth + i) * 4 + 0] = pixel_color.r * 255;
             pixels[(j * imageWidth + i) * 4 + 1] = pixel_color.g * 255;

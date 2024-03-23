@@ -22,7 +22,7 @@ public:
     float aspectRatio;
 
     Sampler* sampler;
-    Scene* scene;
+    Scene* scene{};
 
     Camera();
     Camera(const Vector3& position, const Vector3& direction);
@@ -32,9 +32,6 @@ public:
 
     virtual sf::Texture renderFrame(int imageWidth) = 0;
 
-protected:
-
-    virtual Color samplePixel(int i, int j);
     [[nodiscard]] virtual Ray calculateRay(const Vector3 &point) const;
 };
 

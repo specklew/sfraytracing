@@ -12,6 +12,7 @@
 #include "Quaternion.h"
 #include "Cameras/PerspectiveCamera.h"
 #include "Scene.h"
+#include "Samplers/UniformDistributionSuperSampler.h"
 #include <SFML/Graphics.hpp>
 
 void assignment1();
@@ -20,7 +21,17 @@ int main() {
 
     int image_width = 1600;
 
-    Scene scene = Scene();
+    //Camera setup
+    Camera* camera = new PerspectiveCamera(
+            Vector3(0, 0, 0),
+            Vector3(0, 0, 1),
+            new UniformDistributionSuperSampler(
+                    {0,0,0},
+                    {0,0,1},
+                    2));
+
+    // Scene setup
+    Scene scene = Scene(camera);
 
     Sphere s1 = Sphere({0, 0, 2}, 0.5f);
     Sphere s2 = Sphere({1, 0, 2}, 1.0f);
