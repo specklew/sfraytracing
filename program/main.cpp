@@ -13,6 +13,7 @@
 #include "Cameras/PerspectiveCamera.h"
 #include "Scene.h"
 #include "Samplers/UniformDistributionSuperSampler.h"
+#include "Samplers/AdaptiveSuperSampler.h"
 #include <SFML/Graphics.hpp>
 
 void assignment1();
@@ -25,10 +26,10 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, 1),
-            new UniformDistributionSuperSampler(
+            new AdaptiveSuperSampler(
                     {0,0,0},
                     {0,0,1},
-                    2));
+                    4));
 
     // Scene setup
     Scene scene = Scene(camera);

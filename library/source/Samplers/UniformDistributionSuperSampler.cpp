@@ -1,6 +1,5 @@
 #include "Samplers/UniformDistributionSuperSampler.h"
 #include "HitInfo.h"
-#include "Sphere.h"
 #include "Scene.h"
 
 UniformDistributionSuperSampler::UniformDistributionSuperSampler() = default;
@@ -11,8 +10,6 @@ UniformDistributionSuperSampler::UniformDistributionSuperSampler(Vector3 center,
                                                                  Sampler(center, direction, samplingResolution) {}
 
 Color UniformDistributionSuperSampler::samplePixel(int x, int y) {
-
-    std::vector<Vector3> points;
 
     Vector3 pixel_offset = upperLeftViewportCorner
                            + pixelDeltaU * (x + InvertedSamplingResolution_ * 0.5f)

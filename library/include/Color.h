@@ -41,6 +41,8 @@ public:
 
     static Color getAverageColor(const Color *colors, int size);
 
+    static bool areAllColorsEqual(const Color *colors, int size);
+
     [[nodiscard]] std::string toString() const;
 
 };

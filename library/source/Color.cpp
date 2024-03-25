@@ -93,3 +93,12 @@ Color Color::getAverageColor(const Color *colors, int size) {
     return {r, g, b};
 }
 
+bool Color::areAllColorsEqual(const Color *colors, int size) {
+    for(int i = 1; i < size; ++i){
+        if(colors[i] != colors[0]){
+            return false;
+        }
+    }
+    return true;
+}
+

@@ -24,6 +24,8 @@ public:
     Vector3 operator*=(float scalar);
     Vector3 operator/=(float scalar);
 
+    Vector3 operator-();
+
     [[nodiscard]] float dotProduct(const Vector3& other) const;
     [[nodiscard]] Vector3 crossProduct(const Vector3& other) const;
 

@@ -9,7 +9,8 @@
 class Scene{
 public:
     Scene();
-    Scene(Camera* camera);
+    explicit Scene(Camera* camera);
+
     ~Scene();
 
     Camera *camera{};
