@@ -1,3 +1,4 @@
+#include <cmath>
 #include <memory>
 #include "Samplers/AdaptiveSuperSampler.h"
 #include "HitInfo.h"
@@ -6,151 +7,109 @@
 AdaptiveSuperSampler::AdaptiveSuperSampler() : Sampler({}, {}, 4) {};
 
 
-AdaptiveSuperSampler::AdaptiveSuperSampler(Vector3 center, Vector3 direction, int samplingResolution) : Sampler(center,
-                                                                                                                direction,
-                                                                                                                4^samplingResolution) {}
+AdaptiveSuperSampler::AdaptiveSuperSampler(Vector3 center, Vector3 direction, int samplingResolution) :
+Sampler(center, direction,samplingResolution) {}
 
 Color AdaptiveSuperSampler::samplePixel(int x, int y) {
 
-    auto center = std::make_shared<Vector3>(upperLeftViewportCorner + pixelDeltaU * (x + 0.5f)+ pixelDeltaV * (y + 0.5f));
-
-    auto center_col = std::make_shared<Color>(sampleRay(camera->calculateRay(*center)));
-
-    int depth = 1;
+    int depth = 0;
     int colors_accumulated = 0;
+    Color colors[2^SamplingResolution_];
 
-    std::vector<std::pair<std::shared_ptr<Vector3>, std::shared_ptr<Color>>*> sections;
+    Vector3 upper_left = upperLeftViewportCorner +
+            pixelDeltaU * x +
+            pixelDeltaV * y;
 
-    auto *first_section = new std::pair<std::shared_ptr<Vector3>, std::shared_ptr<Color>>[5];
+    Vector3 lower_right = upperLeftViewportCorner +
+            pixelDeltaU * (x + 1) +
+            pixelDeltaV * (y * 1);
 
-    auto p1 = std::make_shared<Vector3>();
-    auto p2 = std::make_shared<Vector3>();
-    auto p3 = std::make_shared<Vector3>();
-    auto p4 = std::make_shared<Vector3>();
+    Vector3 center = upperLeftViewportCorner +
+            pixelDeltaU * (x + 0.5f) +
+            pixelDeltaV * (y + 0.5f);
 
-    *p1 = upperLeftViewportCorner + pixelDeltaU * x + pixelDeltaV * y;
-    *p2 = upperLeftViewportCorner + pixelDeltaU * (x + 1) + pixelDeltaV;
-    *p3 = upperLeftViewportCorner + pixelDeltaU * x + pixelDeltaV * (y + 1);
-    *p4 = upperLeftViewportCorner + pixelDeltaU * (x + 1) + pixelDeltaV * (y + 1);
+    std::vector<std::shared_ptr<std::pair<Vector3, Color>>> sampled;
 
-    first_section[0] = {center, center_col};
-    first_section[1] = {p1, nullptr};
-    first_section[2] = {p2, nullptr};
-    first_section[3] = {p3, nullptr};
-    first_section[4] = {p4, nullptr};
+    std::shared_ptr<std::pair<Vector3, Color>> pc = std::make_shared<std::pair<Vector3, Color>>();
+    std::shared_ptr<std::pair<Vector3, Color>> p1 = std::make_shared<std::pair<Vector3, Color>>();
+    std::shared_ptr<std::pair<Vector3, Color>> p2 = std::make_shared<std::pair<Vector3, Color>>();
+    std::shared_ptr<std::pair<Vector3, Color>> p3 = std::make_shared<std::pair<Vector3, Color>>();
+    std::shared_ptr<std::pair<Vector3, Color>> p4 = std::make_shared<std::pair<Vector3, Color>>();
 
-    sections.push_back(first_section);
+    pc->first = center;
+    p1->first = upper_left;
+    p2->first = upper_left + pixelDeltaU;
+    p3->first = upper_left + pixelDeltaV;
+    p4->first = lower_right;
 
-    while(depth < SamplingResolution_ && !sections.empty()){
+    sampled.push_back(pc);
+    sampled.push_back(p1);
+    sampled.push_back(p2);
+    sampled.push_back(p3);
+    sampled.push_back(p4);
 
-        for(auto section : sections){
+    while(depth < SamplingResolution_ && !sampled.empty()) {
 
-            for(int i = 0; i < 5; ++i){
-                if(section[i].second == nullptr){
-                    auto color = std::make_shared<Color>();
-                    *color = sampleRay(camera->calculateRay(*section[i].first));
-                    section[i].second = color;
-                }
+        for (auto sample: sampled) {
+            if (sample->second != Color(-1, -1, -1)) continue;
+            sample->second = sampleIntersection(sample->first);
+        }
 
-                if(i == 0){
+        auto it = sampled.begin();
+        while (it != sampled.end()) {
+        }
+/*
+        for(auto section : sampled){
+
+            for(int i = 0; i < 4; ++i){
+                if(section[0].second == section[i + 1].second){
+                    colors[colors_accumulated++] = section[0].second;
                     continue;
                 }
 
-                if(*section[0].second != *section[i].second){
+                std::pair<Vector3, Color> new_section[5];
 
-                    float dX = section[i].first->x - section[0].first->x;
-                    float dY = section[i].first->y - section[0].first->y;
+                auto new_center = std::pair<Vector3, Color>();
+                auto new_p1 = std::pair<Vector3, Color>();
+                auto new_p2 = std::pair<Vector3, Color>();
 
-                    Vector3 deltaX = Vector3(dX, 0, 0);
-                    Vector3 deltaY = Vector3(0, dY, 0);
+                Vector3 delta = section[i + 1].first - section[0].first;
 
-                    auto new_center = std::make_shared<Vector3>(*section[0].first - (deltaX + deltaY) * 0.5);
+                new_center.first = section[0].first + delta  * 0.5f;
+                new_p1.first = section[0].first + Vector3(delta.x, 0, 0);
+                new_p2.first = section[0].first + Vector3(0, delta.y, 0);
 
-                    auto *new_section = new std::pair<std::shared_ptr<Vector3>, std::shared_ptr<Color>>[5];
+                new_section[0] = new_center;
+                new_section[1] = section[0];
+                new_section[2] = section[i+1];
+                new_section[3] = new_p1;
+                new_section[4] = new_p2;
 
-                    auto new_p1 = std::make_shared<Vector3>(*section[0].first - deltaY);
-                    auto new_p4 = std::make_shared<Vector3>(*section[0].first - deltaX);
-
-                    new_section[0] = {new_center, nullptr};
-                    new_section[1] = {new_p1, nullptr};
-                    new_section[2] = {section[i].first, section[i].second};
-                    new_section[3] = {section[0].first, section[0].second};
-                    new_section[4] = {new_p4, nullptr};
-
-                    sections.push_back(new_section);
-                } else {
-                    ColorBuffer_[colors_accumulated++] = *section[0].second;
-                }
+                sampled.push_back(new_section);
             }
 
-            sections.erase(std::remove(sections.begin(), sections.end(), section), sections.end());
+            sampled.erase(std::remove(sampled.begin(), sampled.end(), section), sampled.end());
             delete[] section;
         }
 
         depth++;
     }
 
-    for(auto section : sections){
-        for(int i = 0; i < 5; ++i){
-            if(section[i].second != nullptr){
-                ColorBuffer_[colors_accumulated++] = *section[i].second;
-                sections.erase(std::remove(sections.begin(), sections.end(), section), sections.end());
-                break;
-            }
-        }
-        delete[] section;
+    for(auto section : sampled){
+        colors[colors_accumulated++] = section[1].second;
+    }*/
     }
 
-
-    return Color::getAverageColor(ColorBuffer_, colors_accumulated);
+    return Color::getAverageColor(colors, colors_accumulated);
 }
 
-Color AdaptiveSuperSampler::sampleSection(Vector3 p1, Vector3 p2, Vector3 deltaX, Vector3 deltaY, int depth) {
-    Vector3 points[4];
+Color AdaptiveSuperSampler::sampleIntersection(const Vector3& intersection) {
+    Color color;
+    Ray ray = camera->calculateRay(intersection);
 
-    points[0] = p1;
-    points[1] = p1 + deltaX;
-    points[2] = p2;
-    points[3] = p1 + deltaY;
-
-    Vector3 center = p1 + ((deltaX + deltaY) * 0.5);
-    Ray ray = camera->calculateRay(center);
-
-    Color colors[5];
-    colors[0] = sampleRay(ray);
-
-    if(depth >= SamplingResolution_){
-        return colors[0];
-    }
-
-    for(int i = 0; i < 4; ++i){
-        ray = camera->calculateRay(points[i]);
-        Color c = sampleRay(ray);
-
-        if(colors[0] != c){
-            Vector3 new_deltaX = deltaX * 0.5;
-            Vector3 new_deltaY = deltaY * 0.5;
-
-            if(Vector3 cp = points[i] - center; (cp.x > 0 && cp.y > 0) || (cp.x < 0 && cp.y < 0)){
-                new_deltaX = -new_deltaX;
-            }
-
-            if(center.x > points[i].x){
-                colors[i + 1] = sampleSection(center, points[i], new_deltaX, new_deltaY, depth + 1);
-            }else{
-                colors[i + 1] = sampleSection(points[i], center, new_deltaX, new_deltaY, depth + 1);
-            }
-
-        }
-    }
-
-    return Color::getAverageColor(colors, 5);
-}
-
-Color AdaptiveSuperSampler::sampleRay(const Ray &ray) {
     Vector3 unit_direction = ray.direction.normalized();
     float t = 0.5f * (unit_direction.y + 1.0f);
-    Color c = Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;
+    color = Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;
 
     float min_distance = std::numeric_limits<float>::max();
 
@@ -159,13 +118,14 @@ Color AdaptiveSuperSampler::sampleRay(const Ray &ray) {
             if(min_distance > info.distance) {
                 min_distance = info.distance;
 
-                c = Color(
+                color = Color(
                         info.hitNormal.x + 1,
                         info.hitNormal.y + 1,
                         info.hitNormal.z + 1)
-                    * 0.5f;
+                                             * 0.5f;
             }
         }
     }
-    return c;
+
+    return color;
 }

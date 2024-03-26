@@ -26,10 +26,10 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, 1),
-            new AdaptiveSuperSampler(
+            new UniformDistributionSuperSampler(
                     {0,0,0},
                     {0,0,1},
-                    4));
+                    2));
 
     // Scene setup
     Scene scene = Scene(camera);

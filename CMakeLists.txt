@@ -5,6 +5,6 @@ project(sf-raytracing)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE TRUE)
-
+set(CMAKE_CXX_STANDARD 20)
 add_subdirectory(library)
 add_subdirectory(program)

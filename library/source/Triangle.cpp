@@ -3,7 +3,7 @@
 
 Triangle::Triangle() = default;
 
-Triangle::Triangle(Vector3 &vertex1, Vector3 &vertex2, Vector3 &vertex3) {
+Triangle::Triangle(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3) {
     vertices[0] = vertex1;
     vertices[1] = vertex2;
     vertices[2] = vertex3;
@@ -17,8 +17,8 @@ Triangle::Triangle(Vector3 &vertex1, Vector3 &vertex2, Vector3 &vertex3) {
     normals[2] = normal;
 }
 
-Triangle::Triangle(Vector3 &vertex1, Vector3 &vertex2, Vector3 &vertex3,
-                   Vector3 &normal1, Vector3 &normal2, Vector3 &normal3) {
+Triangle::Triangle(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3,
+                   Vector3 normal1, Vector3 normal2, Vector3 normal3) {
     vertices[0] = vertex1;
     vertices[1] = vertex2;
     vertices[2] = vertex3;
