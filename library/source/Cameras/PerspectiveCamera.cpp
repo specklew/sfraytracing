@@ -35,13 +35,13 @@ sf::Texture PerspectiveCamera::renderFrame(int imageWidth) {
     float viewport_height = 2.0 * h;
     float viewport_width = viewport_height * (static_cast<float>(imageWidth) / image_height);
 
-    Vector3 viewport_u = Vector3(viewport_width, 0,0);
-    Vector3 viewport_v = Vector3(0, -viewport_height, 0);
+    Vector3 viewport_u = Vector3(direction.z, 0,-direction.x).normalized() * viewport_width;
+    Vector3 viewport_v = viewport_u.crossProduct(direction).normalized() * viewport_height;
 
     sampler->pixelDeltaU = viewport_u / static_cast<float>(imageWidth);
     sampler->pixelDeltaV = viewport_v / static_cast<float>(image_height);
 
-    sampler->upperLeftViewportCorner = position - viewport_u / 2.0f - viewport_v / 2.0f + Vector3(0, 0, 1.0f);
+    sampler->upperLeftViewportCorner = position - viewport_u / 2.0f - viewport_v / 2.0f + direction;
 
     // Scanlines
 

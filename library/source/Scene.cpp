@@ -7,10 +7,7 @@ Scene::Scene() : Scene(
         new PerspectiveCamera(
         Vector3(0, 0, 0),
         Vector3(0, 0, 1),
-        new UniformDistributionSuperSampler(
-                {0,0,0},
-                {0,0,1},
-                4))){};
+        new UniformDistributionSuperSampler(4))){};
 
 Scene::Scene(Camera *camera) {
     this->camera = camera;
@@ -25,8 +22,8 @@ void Scene::removeObject(Geometry *object) {
     objects.erase(std::remove(objects.begin(), objects.end(), object), objects.end());
 }
 
-sf::Texture Scene::renderScene() const {
-    return camera->renderFrame(1600);
+sf::Texture Scene::renderScene(int imageWidth) const {
+    return camera->renderFrame(imageWidth);
 }
 
 Scene::~Scene() {

@@ -6,7 +6,7 @@
 class UniformDistributionSuperSampler : public Sampler {
 public:
     UniformDistributionSuperSampler();
-    UniformDistributionSuperSampler(Vector3 center, Vector3 direction, int samplingResolution);
+    explicit UniformDistributionSuperSampler(int samplingResolution);
 
     Color samplePixel(int x, int y) override;
 };

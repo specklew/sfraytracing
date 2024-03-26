@@ -26,10 +26,7 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, 1),
-            new UniformDistributionSuperSampler(
-                    {0,0,0},
-                    {0,0,1},
-                    2));
+            new UniformDistributionSuperSampler(1));
 
     // Scene setup
     Scene scene = Scene(camera);
@@ -37,19 +34,18 @@ int main() {
     Sphere s1 = Sphere({0, 0, 2}, 0.5f);
     Sphere s2 = Sphere({1, 0, 2}, 1.0f);
     Sphere s3 = Sphere({-2, 0, 2}, 1.0f);
+    Triangle t1 = Triangle({0, 0, 2}, {1, 0, 2}, {0, 1, 2});
 
     scene.addObject(&s1);
     scene.addObject(&s2);
     scene.addObject(&s3);
+    scene.addObject(&t1);
 
-    sf::Texture rendered_image = scene.renderScene();
+    sf::Texture rendered_image = scene.renderScene(image_width);
 
     sf::Sprite sprite(rendered_image);
 
-
-    int image_height = static_cast<int>(image_width * 9 / 16);
-
-    sf::RenderWindow window(sf::VideoMode(image_width, image_height), "Ray Tracer");
+    sf::RenderWindow window(sf::VideoMode(sprite.getTextureRect().width, sprite.getTextureRect().height), "Ray Tracer");
 
     while(window.isOpen()){
         sf::Event event{};

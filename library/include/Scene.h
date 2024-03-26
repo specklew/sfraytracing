@@ -19,7 +19,7 @@ public:
     void removeObject(Geometry *object);
     std::vector<Geometry*> getObjects();
 
-    [[nodiscard]] sf::Texture renderScene() const;
+    [[nodiscard]] sf::Texture renderScene(int width) const;
 
 private:
     std::vector<Geometry*> objects;

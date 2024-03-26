@@ -4,10 +4,8 @@
 
 UniformDistributionSuperSampler::UniformDistributionSuperSampler() = default;
 
-UniformDistributionSuperSampler::UniformDistributionSuperSampler(Vector3 center,
-                                                                 Vector3 direction,
-                                                                 int samplingResolution) :
-                                                                 Sampler(center, direction, samplingResolution) {}
+UniformDistributionSuperSampler::UniformDistributionSuperSampler(int samplingResolution) :
+                                                                 Sampler(Vector3(), Vector3(), samplingResolution) {}
 
 Color UniformDistributionSuperSampler::samplePixel(int x, int y) {
 

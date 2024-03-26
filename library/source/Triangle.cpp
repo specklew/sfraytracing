@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cfloat>
 #include "Triangle.h"
 
 Triangle::Triangle() = default;
@@ -31,30 +32,25 @@ Triangle::Triangle(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3,
 HitInfo Triangle::hit(const Ray &ray) const {
     Vector3 ab = vertices[1] - vertices[0];
     Vector3 ac = vertices[2] - vertices[0];
-    Vector3 normal = ab.crossProduct(ac);
-    float dot = normal.dotProduct(ray.direction);
+    Vector3 ray_cross_ac = ray.direction.crossProduct(ac);
+    float det = ab.dotProduct(ray_cross_ac);
 
-    if(fabsf(dot) < std::numeric_limits<float>::epsilon()) return {};
+    if(det > -FLT_EPSILON && det < FLT_EPSILON) return {};
 
-    float t = normal.dotProduct(vertices[0] - ray.origin) / dot;
+    float inv_det  = 1.0f / det;
+    Vector3 s = ray.origin - vertices[0];
+    float u = s.dotProduct(ray_cross_ac) * inv_det;
 
-    if(t < 0.0f) return {};
+    if(u < 0 || u > 1) return {};
 
-    Vector3 intersection = ray.origin + ray.direction * t;
+    Vector3 s_cross_ab = s.crossProduct(ab);
+    float v = ray.direction.dotProduct(s_cross_ab) * inv_det;
 
-    Vector3 ai = intersection - vertices[0];
-    Vector3 bi = intersection - vertices[1];
-    Vector3 ci = intersection - vertices[2];
+    if(v < 0 || u + v > 1) return {};
 
-    Vector3 bc = vertices[2] - vertices[1];
+    float t = ac.dotProduct(s_cross_ab) * inv_det;
 
-    Vector3 v1 = ab.crossProduct(ai);
-    Vector3 v2 = ac.crossProduct(bi);
-    Vector3 v3 = bc.crossProduct(ci);
-
-    if(v1.dotProduct(normal) >= 0.0f
-       && v2.dotProduct(normal) >= 0.0f
-       && v3.dotProduct(normal) >= 0.0f) return {true, intersection, normal};
+    if(t > FLT_EPSILON) return {true, ray.origin + ray.direction * t, normals[0], t};
 
     return {};
 }
