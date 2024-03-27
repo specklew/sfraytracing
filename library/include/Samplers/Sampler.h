@@ -12,7 +12,7 @@ class Sampler{
 public:
     virtual ~Sampler();
     Sampler();
-    Sampler(Vector3 center, Vector3 direction, int samplingResolution);
+    Sampler(int samplingResolution);
 
     Vector3 center;
     Vector3 direction;

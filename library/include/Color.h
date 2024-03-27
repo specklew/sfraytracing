@@ -5,15 +5,17 @@
 
 class Color {
 public:
+    static const Color Null;
+
     float r{};
     float g{};
     float b{};
 
     Color();
 
-    Color(float r, float g, float b);
-
     Color(const Color &color);
+
+    Color(float r, float g, float b);
 
     [[nodiscard]] Color operator+(const Color &color) const;
 

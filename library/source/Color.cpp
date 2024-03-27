@@ -1,17 +1,15 @@
 #include "Color.h"
 
-Color::Color() = default;
+const Color Color::Null = {-1, -1, -1};
+
+Color::Color() : Color(Null){}
+
+Color::Color(const Color& color) : Color(color.r, color.g, color.b){}
 
 Color::Color(float r, float g, float b) {
     this->r = r;
     this->g = g;
     this->b = b;
-}
-
-Color::Color(const Color& color){
-    this->r = color.r;
-    this->g = color.g;
-    this->b = color.b;
 }
 
 Color Color::operator+(const Color &color) const {

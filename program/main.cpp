@@ -15,10 +15,41 @@
 #include "Samplers/UniformDistributionSuperSampler.h"
 #include "Samplers/AdaptiveSuperSampler.h"
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 void assignment1();
 
 int main() {
+
+    std::vector<std::shared_ptr<int>> v;
+    for(int i = 0; i < 6; i++){
+        v.push_back(std::make_shared<int>(i));
+    }
+
+    auto it = v.begin();
+
+    do {
+        std::cout << **it << std::endl;
+        std::cout << **(it+1) << std::endl;
+        std::cout << "----" << std::endl;
+
+        if(**it == 2){
+            std::cout << "Found 2 - Adding" << std::endl;
+            for(int i = 0; i < 3; i++){
+                std::cout << "Pushing back " << **(it+i) << std::endl;
+                // Illegal - cannot push back while iterating using iterator - use indexes.
+                v.push_back(*(it+i));
+            }
+        }
+
+    } while((it += 2) != v.end());
+
+/*    for(const auto& ptr : v){
+        std::cout << *ptr << std::endl;
+    }*/
+
+    return 0;
+
 
     int image_width = 1600;
 
@@ -26,7 +57,7 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, 1),
-            new UniformDistributionSuperSampler(1));
+            new AdaptiveSuperSampler(1));
 
     // Scene setup
     Scene scene = Scene(camera);

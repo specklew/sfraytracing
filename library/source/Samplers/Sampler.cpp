@@ -1,19 +1,10 @@
 #include "Samplers/Sampler.h"
 
-Sampler::Sampler() {
-    center = Vector3(0.0f, 0.0f, 0.0f);
-    direction = Vector3(0.0f,0.0f,0.0f);
-    upperLeftViewportCorner = Vector3(0.0f, 0.0f, 0.0f);
-    pixelDeltaU = Vector3(0.0f, 0.0f, 0.0f);
-    pixelDeltaV = Vector3(0.0f, 0.0f, 0.0f);
-    SamplingResolution_ = 1;
-    InvertedSamplingResolution_ = static_cast<float>(1.0f / SamplingResolution_);
-    ColorBuffer_ = new Color[SamplingResolution_ * SamplingResolution_];
-}
+Sampler::Sampler() : Sampler(1) {}
 
-Sampler::Sampler(Vector3 center, Vector3 direction, int samplingResolution) {
-    this->center = center;
-    this->direction = direction;
+Sampler::Sampler(int samplingResolution) {
+    center = {};
+    direction = {};
     upperLeftViewportCorner = Vector3(0.0f, 0.0f, 0.0f);
     pixelDeltaU = Vector3(0.0f, 0.0f, 0.0f);
     pixelDeltaV = Vector3(0.0f, 0.0f, 0.0f);
