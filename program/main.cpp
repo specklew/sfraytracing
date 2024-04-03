@@ -15,41 +15,16 @@
 #include "Samplers/UniformDistributionSuperSampler.h"
 #include "Samplers/AdaptiveSuperSampler.h"
 #include <SFML/Graphics.hpp>
-#include <memory>
+#include <chrono>
+
+using namespace std::chrono;
+using namespace std;
 
 void assignment1();
 
 int main() {
 
-    std::vector<std::shared_ptr<int>> v;
-    for(int i = 0; i < 6; i++){
-        v.push_back(std::make_shared<int>(i));
-    }
-
-    auto it = v.begin();
-
-    do {
-        std::cout << **it << std::endl;
-        std::cout << **(it+1) << std::endl;
-        std::cout << "----" << std::endl;
-
-        if(**it == 2){
-            std::cout << "Found 2 - Adding" << std::endl;
-            for(int i = 0; i < 3; i++){
-                std::cout << "Pushing back " << **(it+i) << std::endl;
-                // Illegal - cannot push back while iterating using iterator - use indexes.
-                v.push_back(*(it+i));
-            }
-        }
-
-    } while((it += 2) != v.end());
-
-/*    for(const auto& ptr : v){
-        std::cout << *ptr << std::endl;
-    }*/
-
-    return 0;
-
+    auto start = high_resolution_clock::now();
 
     int image_width = 1600;
 
@@ -57,7 +32,7 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, 1),
-            new AdaptiveSuperSampler(1));
+            new UniformDistributionSuperSampler(16));
 
     // Scene setup
     Scene scene = Scene(camera);
@@ -73,10 +48,23 @@ int main() {
     scene.addObject(&t1);
 
     sf::Texture rendered_image = scene.renderScene(image_width);
+    rendered_image.setSmooth(false);
 
     sf::Sprite sprite(rendered_image);
+    sprite.setOrigin(sprite.getGlobalBounds().width * 0.5f, sprite.getGlobalBounds().height * 0.5f);
+    sprite.setPosition(sprite.getGlobalBounds().width * 0.5f, sprite.getGlobalBounds().height * 0.5f);
 
     sf::RenderWindow window(sf::VideoMode(sprite.getTextureRect().width, sprite.getTextureRect().height), "Ray Tracer");
+
+    auto stop = std::chrono::high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds >(stop - start);
+
+    cout << "Frame rendered in: " << duration << ".";
+
+    float zoom = 1.0f;
+    float pos_x = sprite.getPosition().x;
+    float pos_y = sprite.getPosition().y;
+    sf::View view = window.getDefaultView();
 
     while(window.isOpen()){
         sf::Event event{};
@@ -85,6 +73,34 @@ int main() {
                 window.close();
             }
         }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::NumpadPlus)){
+            zoom += 0.001f;
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::NumpadMinus)) {
+            zoom -= 0.001f;
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left)){
+            pos_x -= 1 / (zoom * zoom);
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right)){
+            pos_x += 1 / (zoom * zoom);
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up)){
+            pos_y -= 1 / (zoom * zoom);
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down)){
+            pos_y += 1 / (zoom * zoom);
+        }
+
+        sprite.setScale(zoom * zoom, zoom * zoom);
+        sprite.setOrigin(pos_x, pos_y);
+
         window.clear();
         window.draw(sprite);
         window.display();

@@ -1,8 +1,11 @@
 #include <cmath>
 #include <memory>
+#include <unordered_map>
 #include "Samplers/AdaptiveSuperSampler.h"
 #include "HitInfo.h"
 #include "Scene.h"
+
+using namespace std;
 
 AdaptiveSuperSampler::AdaptiveSuperSampler() : Sampler(4) {};
 
@@ -11,8 +14,16 @@ AdaptiveSuperSampler::AdaptiveSuperSampler(int samplingResolution) : Sampler(sam
 
 Color AdaptiveSuperSampler::samplePixel(int x, int y) {
 
-    int depth = 0;
+    Vector3 upper_left = upperLeftViewportCorner +
+                         pixelDeltaU * x +
+                         pixelDeltaV * y;
+
+    return sampleRegion(upper_left, pixelDeltaU, pixelDeltaV, 1);
+}
+    /*
     int colors_accumulated = 0;
+    int samples_to_iterate = 0;
+    int new_samples_to_iterate = 0;
     Color colors[2 ^ SamplingResolution_];
 
     Vector3 upper_left = upperLeftViewportCorner +
@@ -27,83 +38,62 @@ Color AdaptiveSuperSampler::samplePixel(int x, int y) {
                            pixelDeltaU * (x + 0.5f) +
                            pixelDeltaV * (y + 0.5f);
 
-    std::vector<std::shared_ptr<std::pair<Vector3, Color>>> sampled;
+    // MAX NUMBER WITH CACHING - TODO: IMPLEMENT CACHING
+    int max_num_of_samples = pow(4, SamplingResolution_ - 1) + pow(pow(2, SamplingResolution_ - 1) + 1 , 2);
 
-    std::shared_ptr<std::pair<Vector3, Color>> pc = std::make_shared<std::pair<Vector3, Color>>();
-    std::shared_ptr<std::pair<Vector3, Color>> p1 = std::make_shared<std::pair<Vector3, Color>>();
-    std::shared_ptr<std::pair<Vector3, Color>> p2 = std::make_shared<std::pair<Vector3, Color>>();
-    std::shared_ptr<std::pair<Vector3, Color>> p3 = std::make_shared<std::pair<Vector3, Color>>();
-    std::shared_ptr<std::pair<Vector3, Color>> p4 = std::make_shared<std::pair<Vector3, Color>>();
+    unordered_map<Vector3, Color> points_colors = {};
+    points_colors.reserve(max_num_of_samples);
 
-    pc->first = first_center;
-    p1->first = upper_left;
-    p2->first = upper_left + pixelDeltaU;
-    p3->first = upper_left + pixelDeltaV;
-    p4->first = lower_right;
+    Vector3 points[max_num_of_samples * 2];
+    Vector3 new_points[max_num_of_samples * 2];
 
-    sampled.push_back(pc);
-    sampled.push_back(p1);
-    sampled.push_back(p2);
-    sampled.push_back(p3);
-    sampled.push_back(p4);
+    points[0] = first_center;
+    points[1] = upper_left;
+    points[3] = upper_left + pixelDeltaU;
+    points[2] = upper_left + pixelDeltaV;
+    points[4] = lower_right;
 
-    while (depth < SamplingResolution_ && !sampled.empty()) {
+    samples_to_iterate = 5;
 
-        auto it = sampled.begin();
+    for(int depth = 1; depth <= SamplingResolution_; ++depth){
 
-        do {
-            if ((*it)->second != Color::Null) continue;
-            (*it)->second = sampleIntersection((*it)->first);
-        } while (++it != sampled.end());
+        // Find colors for each new point to sample.
+        for(auto point : points){
+            if(points_colors[point] != Color::Null) continue;
+            points_colors[point] = sampleIntersection(point);
+        }
 
-        it = sampled.begin();
+        for(int i = 0; i < samples_to_iterate * 0.2; ++i){
+            for(int j = i + 1; j < i + 5; ++j){
 
-        do {
-            std::shared_ptr<std::pair<Vector3, Color>> center = *it;
-
-            for (int i = 1; i < 5; ++i) {
-                std::shared_ptr<std::pair<Vector3, Color>> &current_point = *(it + i);
-
-                if (current_point->second == center->second) {
-                    colors[colors_accumulated++] = center->second;
+                if(points_colors[points[i]] == points_colors[points[j]] || depth == SamplingResolution_){
+                    colors[colors_accumulated++] = points_colors[points[i]] * pow(4, SamplingResolution_ - depth);
                     continue;
                 }
 
-                auto new_p1 = center;
-                auto new_p2 = current_point;
+                Vector3 delta = points[j] - points[i];
 
-                auto new_center = std::make_shared<std::pair<Vector3, Color>>();
-                auto new_p3 = std::make_shared<std::pair<Vector3, Color>>();
-                auto new_p4 = std::make_shared<std::pair<Vector3, Color>>();
+                new_points[new_samples_to_iterate] = points[i] + delta * 0.5f;
+                new_points[new_samples_to_iterate + 1] = points[i];
+                new_points[new_samples_to_iterate + 2] = points[i + 1];
+                new_points[new_samples_to_iterate + 3] = points[i] + Vector3(delta.x, 0, 0);
+                new_points[new_samples_to_iterate + 4] = points[i] + Vector3(0, delta.y, 0);
 
-                Vector3 delta = new_p2->first - new_p1->first;
-
-                new_center->first = new_p1->first + delta * 0.5f;
-                new_p3->first = new_p1->first + Vector3(delta.x, 0, 0);
-                new_p4->first = new_p1->first + Vector3(0, delta.y, 0);
-
-                sampled.push_back(new_center);
-                sampled.push_back(new_p1);
-                sampled.push_back(new_p2);
-                sampled.push_back(new_p3);
-                sampled.push_back(new_p4);
+                new_samples_to_iterate += 5;
 
             }
+        }
 
-            sampled.erase(it, it + 5);
-        } while ((it += 5) != sampled.end());
+        for(int i = 0; i < new_samples_to_iterate; ++i){
+            points[i] = new_points[i];
+        }
 
-        depth++;
+        samples_to_iterate = new_samples_to_iterate;
+        new_samples_to_iterate = 0;
     }
 
-    auto it = sampled.begin();
-    while(it != sampled.end()){
-        colors[colors_accumulated++] = (*(it+1))->second;
-        it+=5;
-    }
-
-    return Color::getAverageColor(colors, colors_accumulated);
-}
+    return Color::getAverageColor(colors, pow(4, SamplingResolution_));
+}*/
 
 /*
         for(auto section : sampled){
@@ -171,4 +161,30 @@ Color AdaptiveSuperSampler::sampleIntersection(const Vector3& intersection) {
     }
 
     return color;
+}
+
+Color AdaptiveSuperSampler::sampleRegion(Vector3 regionLocation, Vector3 deltaX, Vector3 deltaY, int depth) {
+    Color center;
+    Color colors[4];
+
+    Vector3 half_delta_x = deltaX * 0.5f;
+    Vector3 half_delta_y = deltaY * 0.5f;
+
+    center = sampleIntersection(regionLocation + half_delta_x + half_delta_y);
+    colors[0] = sampleIntersection(regionLocation);
+    colors[1] = sampleIntersection(regionLocation + deltaX);
+    colors[2] = sampleIntersection(regionLocation + deltaY);
+    colors[3] = sampleIntersection(regionLocation + deltaX + deltaY);
+
+    if(depth >= SamplingResolution_){
+        return Color::getAverageColor(colors, 4);
+    }
+
+    if(center != colors[0]) colors[0] = sampleRegion(regionLocation, deltaX * 0.5f, deltaY * 0.5f, depth + 1);
+    if(center != colors[1]) colors[1] = sampleRegion(regionLocation + deltaX, deltaX * 0.5f, deltaY * 0.5f, depth + 1);
+    if(center != colors[2]) colors[2] = sampleRegion(regionLocation + deltaY, deltaX * 0.5f, deltaY * 0.5f, depth + 1);
+    if(center != colors[3]) colors[3] = sampleRegion(regionLocation + deltaX +deltaY, deltaX * 0.5f, deltaY * 0.5f, depth + 1);
+
+    return Color::getAverageColor(colors, 4);
+
 }

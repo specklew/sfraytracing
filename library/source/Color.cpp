@@ -1,3 +1,5 @@
+#include <cmath>
+#include <cfloat>
 #include "Color.h"
 
 const Color Color::Null = {-1, -1, -1};
@@ -57,8 +59,10 @@ Color &Color::operator/=(float scalar) {
     return *this;
 }
 
-bool Color::operator==(const Color &color) const {
-    return r == color.r && g == color.g && b == color.b;
+bool Color::operator==(const Color &other) const {
+    return std::fabs(r - other.r) <= 0.003 &&
+            std::fabs(g - other.r) <= 0.003 &&
+            std::fabs(b - other.b) <= 0.003;
 }
 
 bool Color::operator!=(const Color &color) const {

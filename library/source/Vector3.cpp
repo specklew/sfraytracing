@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cfloat>
 #include "Vector3.h"
 #include "Quaternion.h"
 
@@ -64,6 +65,12 @@ Vector3 Vector3::operator/=(float scalar) {
     y /= scalar;
     z /= scalar;
     return *this;
+}
+
+bool Vector3::operator==(const Vector3 &other) const {
+    return std::fabs(x - other.x) <= FLT_EPSILON &&
+            std::fabs(y - other.y) <= FLT_EPSILON &&
+            std::fabs(z - other.z) <= FLT_EPSILON;
 }
 
 Vector3 Vector3::operator-() {

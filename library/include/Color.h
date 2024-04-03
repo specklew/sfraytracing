@@ -37,7 +37,7 @@ public:
 
     Color &operator/=(float scalar);
 
-    [[nodiscard]] bool operator==(const Color &color) const;
+    [[nodiscard]] bool operator==(const Color &other) const;
 
     [[nodiscard]] bool operator!=(const Color &color) const;
 

@@ -24,6 +24,8 @@ public:
     Vector3 operator*=(float scalar);
     Vector3 operator/=(float scalar);
 
+    bool operator==(const Vector3& other) const;
+
     Vector3 operator-();
 
     [[nodiscard]] float dotProduct(const Vector3& other) const;
@@ -38,6 +40,23 @@ public:
     Vector3 rotateAroundAngleAndAxis(float angle, Vector3& axis) const;
 
     [[nodiscard]] std::string toString() const;
+};
+
+template<>
+struct std::hash<Vector3>{
+    std::size_t operator()(const Vector3& vector) const{
+        using std::size_t;
+        using std::hash;
+
+        // Compute individual hash values for first, second and third
+        // http://stackoverflow.com/a/1646913/126995
+        std::size_t res = 17;
+        res = res * 31 + std::hash<float>{}(vector.x);
+        res = res * 31 + std::hash<float>{}(vector.y);
+        res = res * 31 + std::hash<float>{}(vector.z);
+
+        return res;
+    }
 };
 
 #endif //SFRAYTRACING_VECTOR3_H
