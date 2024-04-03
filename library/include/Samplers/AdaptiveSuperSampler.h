@@ -12,7 +12,7 @@ public:
 private:
 
     Color sampleRegion(Vector3 regionLocation, Vector3 deltaX, Vector3 deltaY, int depth);
-    Color sampleIntersection(const Vector3& intersection);
+
 };
 
 #endif //SF_RAYTRACING_ADAPTIVESUPERSAMPLER_H

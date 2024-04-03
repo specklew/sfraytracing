@@ -31,10 +31,10 @@ HitInfo Sphere::hit(const Ray &ray) const {
 
     float t = (-half_b - sqrtDiscriminant) / a;
 
-    if (t < 0 || ray.distance < t) {
+    if (t < ray.minimalDistance || ray.distance < t) {
 
         t = (-half_b + sqrtDiscriminant) / a;
-        if (t < 0 || ray.distance < t) {
+        if (t < ray.minimalDistance || ray.distance < t) {
             return {};
         }
     }

@@ -50,7 +50,7 @@ HitInfo Triangle::hit(const Ray &ray) const {
 
     float t = ac.dotProduct(s_cross_ab) * inv_det;
 
-    if(t > FLT_EPSILON) return {true, ray.origin + ray.direction * t, normals[0], t};
+    if(t > ray.minimalDistance) return {true, ray.origin + ray.direction * t, normals[0], t};
 
     return {};
 }

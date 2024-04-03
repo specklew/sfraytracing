@@ -33,3 +33,19 @@ Scene::~Scene() {
 std::vector<Geometry*> Scene::getObjects() {
     return objects;
 }
+
+HitInfo Scene::hit(const Ray &ray) const {
+    HitInfo result;
+    float min_distance = std::numeric_limits<float>::max();
+
+    for(auto object : objects){
+        if(HitInfo info = object->hit(ray); info.intersected){
+            if(min_distance > info.distance) {
+                min_distance = info.distance;
+                result = info;
+            }
+        }
+    }
+
+    return result;
+}

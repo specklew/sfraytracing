@@ -19,6 +19,8 @@ public:
     void removeObject(Geometry *object);
     std::vector<Geometry*> getObjects();
 
+    HitInfo hit(const Ray& ray) const;
+
     [[nodiscard]] sf::Texture renderScene(int width) const;
 
 private:

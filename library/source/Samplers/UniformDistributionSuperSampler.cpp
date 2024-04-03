@@ -1,6 +1,4 @@
 #include "Samplers/UniformDistributionSuperSampler.h"
-#include "HitInfo.h"
-#include "Scene.h"
 
 UniformDistributionSuperSampler::UniformDistributionSuperSampler() = default;
 
@@ -21,28 +19,7 @@ Color UniformDistributionSuperSampler::samplePixel(int x, int y) {
                                                 + pixelDeltaU * (InvertedSamplingResolution_ * i)
                                                 + pixelDeltaV * (InvertedSamplingResolution_ * j);
 
-            Ray ray = camera->calculateRay(pixel_sample_intersection);
-
-            Vector3 unit_direction = ray.direction.normalized();
-            float t = 0.5f * (unit_direction.y + 1.0f);
-            ColorBuffer_[sample_index] =
-                    Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;
-
-            float min_distance = std::numeric_limits<float>::max();
-
-            for(auto object : camera->scene->getObjects()){
-                if(HitInfo info = object->hit(ray); info.intersected){
-                    if(min_distance > info.distance) {
-                        min_distance = info.distance;
-
-                        ColorBuffer_[sample_index] = Color(
-                                info.hitNormal.x + 1,
-                                info.hitNormal.y + 1,
-                                info.hitNormal.z + 1)
-                                          * 0.5f;
-                    }
-                }
-            }
+            ColorBuffer_[sample_index] = samplePoint(pixel_sample_intersection);
         }
     }
 

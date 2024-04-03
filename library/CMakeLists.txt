@@ -37,6 +37,8 @@ set(SOURCE_FILES
         source/Scene.cpp
         include/Samplers/AdaptiveSuperSampler.h
         source/Samplers/AdaptiveSuperSampler.cpp
+        include/Helpers/MathHelper.h
+        source/Helpers/MathHelper.cpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})

@@ -1,4 +1,6 @@
 #include "Samplers/Sampler.h"
+#include "HitInfo.h"
+#include "Scene.h"
 
 Sampler::Sampler() : Sampler(1) {}
 
@@ -15,6 +17,12 @@ Sampler::Sampler(int samplingResolution) {
 
 Sampler::~Sampler() {
     delete[] ColorBuffer_;
+}
+
+Color Sampler::samplePoint(const Vector3& point) {
+
+    Ray ray = camera->calculateRay(point);
+    return camera->rayColor(ray);
 }
 
 int Sampler::GetMaximalSamplingResolution() const {

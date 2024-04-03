@@ -32,20 +32,19 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, 1),
-            new UniformDistributionSuperSampler(16));
+            new UniformDistributionSuperSampler(8));
 
     // Scene setup
     Scene scene = Scene(camera);
 
-    Sphere s1 = Sphere({0, 0, 2}, 0.5f);
-    Sphere s2 = Sphere({1, 0, 2}, 1.0f);
-    Sphere s3 = Sphere({-2, 0, 2}, 1.0f);
-    Triangle t1 = Triangle({0, 0, 2}, {1, 0, 2}, {0, 1, 2});
+    Sphere s1 = Sphere({0, 0, 1}, 0.5f);
+    Triangle t1 = Triangle({0, -0.5, 2.5}, {1, -0.5, 2}, {0, 1, 2});
+
+    Sphere ground = Sphere({0, -100.5, 1}, 100.0f);
 
     scene.addObject(&s1);
-    scene.addObject(&s2);
-    scene.addObject(&s3);
-    scene.addObject(&t1);
+    //scene.addObject(&t1);
+    scene.addObject(&ground);
 
     sf::Texture rendered_image = scene.renderScene(image_width);
     rendered_image.setSmooth(false);
@@ -75,27 +74,27 @@ int main() {
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::NumpadPlus)){
-            zoom += 0.001f;
+            zoom += 0.0001f;
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::NumpadMinus)) {
-            zoom -= 0.001f;
+            zoom -= 0.0001f;
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Left)){
-            pos_x -= 1 / (zoom * zoom);
+            pos_x -= 0.1f / (zoom * zoom);
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Right)){
-            pos_x += 1 / (zoom * zoom);
+            pos_x += 0.1f / (zoom * zoom);
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Up)){
-            pos_y -= 1 / (zoom * zoom);
+            pos_y -= 0.1f / (zoom * zoom);
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scan::Down)){
-            pos_y += 1 / (zoom * zoom);
+            pos_y += 0.1f / (zoom * zoom);
         }
 
         sprite.setScale(zoom * zoom, zoom * zoom);

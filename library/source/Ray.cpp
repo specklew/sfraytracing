@@ -7,10 +7,11 @@ Ray::Ray(Vector3 origin, Vector3 direction) {
     this->direction = direction;
 }
 
-Ray::Ray(Vector3 origin, Vector3 direction, float distance) {
+Ray::Ray(Vector3 origin, Vector3 direction, float distance, float minimalDistance) {
     this->origin = origin;
     this->direction = direction;
     this->distance = distance;
+    this->minimalDistance = minimalDistance;
     this->destination = origin + direction * distance;
 }
 

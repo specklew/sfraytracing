@@ -33,6 +33,7 @@ public:
     virtual sf::Texture renderFrame(int imageWidth) = 0;
 
     [[nodiscard]] virtual Ray calculateRay(const Vector3 &point) const;
+    [[nodiscard]] Color rayColor(const Ray& ray, int depth = 10) const;
 };
 
 

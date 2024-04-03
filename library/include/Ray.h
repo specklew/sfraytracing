@@ -11,10 +11,11 @@ public:
     Vector3 direction{};
     Vector3 destination{};
     float distance{std::numeric_limits<float>::max()};
+    float minimalDistance{0.0f};
 
     Ray();
     Ray(Vector3 origin, Vector3 direction);
-    Ray(Vector3 origin, Vector3 direction, float distance);
+    Ray(Vector3 origin, Vector3 direction, float distance, float minimalDistance = 0);
 
     [[nodiscard]] std::string toString() const;
 

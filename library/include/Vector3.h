@@ -14,6 +14,12 @@ public:
     Vector3(float x, float y, float z);
     Vector3(const Vector3& p1, const Vector3& p2);
 
+    static Vector3 random();
+    static Vector3 random(float min, float max);
+    static Vector3 randomInUnitSphere();
+    static Vector3 randomUnitVector();
+    static Vector3 randomOnHemisphere(const Vector3& normal);
+
     Vector3 operator+(const Vector3& other) const;
     Vector3 operator-(const Vector3& other) const;
     Vector3 operator*(const float& scalar) const;
@@ -35,6 +41,7 @@ public:
     [[nodiscard]] Vector3 normalized() const;
 
     [[nodiscard]] float length() const;
+    [[nodiscard]] float lengthSquared() const;
     [[nodiscard]] float angle(Vector3 other) const;
 
     Vector3 rotateAroundAngleAndAxis(float angle, Vector3& axis) const;

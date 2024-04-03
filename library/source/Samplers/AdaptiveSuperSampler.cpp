@@ -1,9 +1,4 @@
-#include <cmath>
-#include <memory>
-#include <unordered_map>
 #include "Samplers/AdaptiveSuperSampler.h"
-#include "HitInfo.h"
-#include "Scene.h"
 
 using namespace std;
 
@@ -20,33 +15,6 @@ Color AdaptiveSuperSampler::samplePixel(int x, int y) {
     return sampleRegion(upper_left, pixelDeltaU, pixelDeltaV, 1);
 }
 
-Color AdaptiveSuperSampler::sampleIntersection(const Vector3& intersection) {
-    Color color;
-    Ray ray = camera->calculateRay(intersection);
-
-    Vector3 unit_direction = ray.direction.normalized();
-    float t = 0.5f * (unit_direction.y + 1.0f);
-    color = Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;
-
-    float min_distance = std::numeric_limits<float>::max();
-
-    for(auto object : camera->scene->getObjects()){
-        if(HitInfo info = object->hit(ray); info.intersected){
-            if(min_distance > info.distance) {
-                min_distance = info.distance;
-
-                color = Color(
-                        info.hitNormal.x + 1,
-                        info.hitNormal.y + 1,
-                        info.hitNormal.z + 1)
-                                             * 0.5f;
-            }
-        }
-    }
-
-    return color;
-}
-
 Color AdaptiveSuperSampler::sampleRegion(Vector3 regionLocation, Vector3 deltaX, Vector3 deltaY, int depth) {
     Color center;
     Color colors[4];
@@ -54,11 +22,11 @@ Color AdaptiveSuperSampler::sampleRegion(Vector3 regionLocation, Vector3 deltaX,
     Vector3 half_delta_x = deltaX * 0.5f;
     Vector3 half_delta_y = deltaY * 0.5f;
 
-    center = sampleIntersection(regionLocation + half_delta_x + half_delta_y);
-    colors[0] = sampleIntersection(regionLocation);
-    colors[1] = sampleIntersection(regionLocation + deltaX);
-    colors[2] = sampleIntersection(regionLocation + deltaY);
-    colors[3] = sampleIntersection(regionLocation + deltaX + deltaY);
+    center = samplePoint(regionLocation + half_delta_x + half_delta_y);
+    colors[0] = samplePoint(regionLocation);
+    colors[1] = samplePoint(regionLocation + deltaX);
+    colors[2] = samplePoint(regionLocation + deltaY);
+    colors[3] = samplePoint(regionLocation + deltaX + deltaY);
 
     if(depth >= SamplingResolution_){
         return Color::getAverageColor(colors, 4);

@@ -2,6 +2,7 @@
 #include <cfloat>
 #include "Vector3.h"
 #include "Quaternion.h"
+#include "Helpers/MathHelper.h"
 
 
 Vector3::Vector3() = default;
@@ -16,6 +17,36 @@ Vector3::Vector3(const Vector3& p1, const Vector3& p2) {
     x = p2.x - p1.x;
     y = p2.y - p1.y;
     z = p2.z - p1.z;
+}
+
+Vector3 Vector3::random() {
+    return {MathHelper::randomFloat(), MathHelper::randomFloat(), MathHelper::randomFloat()};
+}
+
+Vector3 Vector3::random(float min, float max) {
+    return {MathHelper::randomFloat(min, max), MathHelper::randomFloat(min, max), MathHelper::randomFloat(min, max)};
+}
+
+Vector3 Vector3::randomInUnitSphere() {
+    while(true){
+        auto p = Vector3::random();
+        if(p.lengthSquared() < 1){
+            return p;
+        }
+    }
+}
+
+Vector3 Vector3::randomUnitVector() {
+    return randomInUnitSphere().normalized();
+}
+
+Vector3 Vector3::randomOnHemisphere(const Vector3 &normal) {
+    Vector3 unit_sphere_vector = randomUnitVector();
+    if(unit_sphere_vector.dotProduct(normal) > 0.0){
+        return unit_sphere_vector;
+    } else {
+        return -unit_sphere_vector;
+    }
 }
 
 //Operators overloads
@@ -106,7 +137,11 @@ Vector3 Vector3::normalized() const {
 }
 
 float Vector3::length() const {
-    return std::sqrt(x * x + y * y + z * z);
+    return std::sqrt(lengthSquared());
+}
+
+float Vector3::lengthSquared() const {
+    return x * x + y * y + z * z;
 }
 
 float Vector3::angle(Vector3 other) const {
