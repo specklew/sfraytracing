@@ -15,6 +15,9 @@ public:
     static float randomFloat(); // Returns a random value in [0, 1)
     static float randomFloat(float min, float max);
 
+    static float clampFloat(float& value, const float& min, const float& max);
+    static float linearToGamma(const float& value, const float& gamma = 2.0f);
+
 
 
 };

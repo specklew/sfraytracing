@@ -41,11 +41,18 @@ public:
 
     [[nodiscard]] bool operator!=(const Color &color) const;
 
+    Color clamp();
+    Color linearToGamma(const float& gamma);
+
     static Color getAverageColor(const Color *colors, int size);
 
     static bool areAllColorsEqual(const Color *colors, int size);
 
     [[nodiscard]] std::string toString() const;
+
+private:
+    static const float min;
+    static const float max;
 
 };
 

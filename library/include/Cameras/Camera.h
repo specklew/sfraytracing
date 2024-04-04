@@ -21,6 +21,9 @@ public:
 
     float aspectRatio;
 
+    float viewportWidth;
+    float viewportHeight;
+
     Sampler* sampler;
     Scene* scene{};
 
@@ -30,7 +33,7 @@ public:
 
     virtual ~Camera();
 
-    virtual sf::Texture renderFrame(int imageWidth) = 0;
+    virtual sf::Texture renderFrame(int imageWidth);
 
     [[nodiscard]] virtual Ray calculateRay(const Vector3 &point) const;
     [[nodiscard]] Color rayColor(const Ray& ray, int depth = 10) const;

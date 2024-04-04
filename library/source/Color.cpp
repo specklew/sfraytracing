@@ -1,8 +1,11 @@
 #include <cmath>
 #include <cfloat>
 #include "Color.h"
+#include "Helpers/MathHelper.h"
 
 const Color Color::Null = {-1, -1, -1};
+const float Color::min = {0.0f};
+const float Color::max = {1.0f};
 
 Color::Color() : Color(Null){}
 
@@ -102,5 +105,20 @@ bool Color::areAllColorsEqual(const Color *colors, int size) {
         }
     }
     return true;
+}
+
+Color Color::clamp() {
+    MathHelper::clampFloat(r, Color::min, Color::max);
+    MathHelper::clampFloat(g, Color::min, Color::max);
+    MathHelper::clampFloat(b, Color::min, Color::max);
+    return *this;
+}
+
+Color Color::linearToGamma(const float& gamma) {
+    r = MathHelper::linearToGamma(r, gamma);
+    g = MathHelper::linearToGamma(g, gamma);
+    b = MathHelper::linearToGamma(b, gamma);
+
+    return *this;
 }
 

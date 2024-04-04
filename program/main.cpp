@@ -31,16 +31,16 @@ int main() {
     //Camera setup
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
-            Vector3(0, 0, 1),
-            new UniformDistributionSuperSampler(8));
+            Vector3(0, 0, -1),
+            new UniformDistributionSuperSampler(4));
 
     // Scene setup
     Scene scene = Scene(camera);
 
-    Sphere s1 = Sphere({0, 0, 1}, 0.5f);
+    Sphere s1 = Sphere({0, 0, -1}, 0.5f);
     Triangle t1 = Triangle({0, -0.5, 2.5}, {1, -0.5, 2}, {0, 1, 2});
 
-    Sphere ground = Sphere({0, -100.5, 1}, 100.0f);
+    Sphere ground = Sphere({0, -100.5, -1}, 100.0f);
 
     scene.addObject(&s1);
     //scene.addObject(&t1);
@@ -58,7 +58,7 @@ int main() {
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = duration_cast<milliseconds >(stop - start);
 
-    cout << "Frame rendered in: " << duration << ".";
+    cout << "Frame rendered in: " << duration.count() << " ms.";
 
     float zoom = 1.0f;
     float pos_x = sprite.getPosition().x;

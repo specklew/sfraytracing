@@ -29,7 +29,7 @@ Vector3 Vector3::random(float min, float max) {
 
 Vector3 Vector3::randomInUnitSphere() {
     while(true){
-        auto p = Vector3::random();
+        auto p = Vector3::random(-1.0f, 1.0f);
         if(p.lengthSquared() < 1){
             return p;
         }

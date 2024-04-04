@@ -29,11 +29,12 @@ HitInfo Sphere::hit(const Ray &ray) const {
 
     float sqrtDiscriminant = std::sqrt(discriminant);
 
-    float t = (-half_b - sqrtDiscriminant) / a;
+    float inv_a = 1 / a;
+    float t = (-half_b - sqrtDiscriminant) * inv_a;
 
     if (t < ray.minimalDistance || ray.distance < t) {
 
-        t = (-half_b + sqrtDiscriminant) / a;
+        t = (-half_b + sqrtDiscriminant) * inv_a;
         if (t < ray.minimalDistance || ray.distance < t) {
             return {};
         }
