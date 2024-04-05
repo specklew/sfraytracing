@@ -1,4 +1,4 @@
-#include "Plane.h"
+#include "Geometry/Plane.h"
 
 Plane::Plane(Vector3 point, Vector3 normal) {
     this->point = point;

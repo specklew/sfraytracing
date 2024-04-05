@@ -2,7 +2,7 @@
 #define SF_RAYTRACING_SCENE_H
 
 #include <vector>
-#include "Geometry.h"
+#include "Geometry/Geometry.h"
 #include "SFML/Graphics/Texture.hpp"
 #include "Cameras/Camera.h"
 

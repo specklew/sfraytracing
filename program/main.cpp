@@ -4,16 +4,18 @@
 #include <cmath>
 #include <vector>
 #include "Vector3.h"
-#include "Sphere.h"
+#include "Geometry/Sphere.h"
 #include "Ray.h"
-#include "Plane.h"
-#include "Triangle.h"
+#include "Geometry/Plane.h"
+#include "Geometry/Triangle.h"
 #include "Matrix4x4.h"
 #include "Quaternion.h"
 #include "Cameras/PerspectiveCamera.h"
 #include "Scene.h"
 #include "Samplers/UniformDistributionSuperSampler.h"
 #include "Samplers/AdaptiveSuperSampler.h"
+#include "Materials/LambertianMaterial.h"
+#include "Materials/MetalMaterial.h"
 #include <SFML/Graphics.hpp>
 #include <chrono>
 
@@ -32,19 +34,27 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, -1),
-            new UniformDistributionSuperSampler(4));
+            new UniformDistributionSuperSampler(16));
 
     // Scene setup
     Scene scene = Scene(camera);
 
-    Sphere s1 = Sphere({0, 0, -1}, 0.5f);
-    Triangle t1 = Triangle({0, -0.5, 2.5}, {1, -0.5, 2}, {0, 1, 2});
+    std::shared_ptr<Material> material = std::make_shared<LambertianMaterial>(LambertianMaterial(Color(0.5, 0.5, 0.5)));
+    std::shared_ptr<Material> material1 = std::make_shared<MetalMaterial>(MetalMaterial(Color(0.7, 0.7,1.0)));
+    std::shared_ptr<Material> material2 = std::make_shared<LambertianMaterial>(LambertianMaterial({1.0, 0.0, 0.0}));
 
-    Sphere ground = Sphere({0, -100.5, -1}, 100.0f);
+    Sphere s1 = Sphere({-0.5, 0, -1}, 0.5f, material2);
+    Sphere s2 = Sphere({0.5, 0, -1}, 0.5, material1);
+    Triangle t1 = Triangle({1, -0.5, 0}, {0, -0.5, -2}, {0, 1, -2}, material1);
+
+    Sphere ground = Sphere({0, -100.5, -1}, 100.0f, material);
+    Sphere skyMirror = Sphere({0, 102, -1}, 100.0f, material1);
 
     scene.addObject(&s1);
-    //scene.addObject(&t1);
+    //scene.addObject(&s2);
+    scene.addObject(&t1);
     scene.addObject(&ground);
+    scene.addObject(&skyMirror);
 
     sf::Texture rendered_image = scene.renderScene(image_width);
     rendered_image.setSmooth(false);
@@ -144,23 +154,23 @@ void assignment1() {
 
 
     std::cout << "For a Sphere 'S1' with a:"  << std::endl << " Center in: " + S1.center.toString() << std::endl << " Radius of: " + std::to_string(S1.radius)<< std::endl;
-    std::cout << "And a Ray 'R1' with a: "  << std::endl
-    << " Starting point in: " + r1.origin.toString()<< std::endl
-    << " Direction: " + r1.direction.toString() << std::endl
-    << "The intersection points are: " << std:: endl
-    << hitInfo1.hitPoint.toString() << std::endl;
+    std::cout << "And a Ray 'R1' with a: " << std::endl
+              << " Starting point in: " + r1.origin.toString() << std::endl
+              << " Direction: " + r1.direction.toString() << std::endl
+              << "The intersection points are: " << std:: endl
+              << hitInfo1.point.toString() << std::endl;
 
-    std::cout << std::endl << std::endl << "For the 'S1' Sphere and a Ray 'R2' with a: "  << std::endl
-    << " Starting point in: " + r2.origin.toString() << std::endl
-    << " Direction: " + r2.direction.toString() << std::endl
-    << "The intersection points are: " << std:: endl
-    << hitInfo2.hitPoint.toString() << std::endl;
+    std::cout << std::endl << std::endl << "For the 'S1' Sphere and a Ray 'R2' with a: " << std::endl
+              << " Starting point in: " + r2.origin.toString() << std::endl
+              << " Direction: " + r2.direction.toString() << std::endl
+              << "The intersection points are: " << std:: endl
+              << hitInfo2.point.toString() << std::endl;
 
-    std::cout << std::endl << std::endl << "For the 'S1' Sphere and a Ray 'R3' with a: "  << std::endl
-    << " Starting point in: " + r3.origin.toString() << std::endl
-    << " Direction: " + r3.direction.toString() << std::endl
-    << "The intersection points are: " << std:: endl
-    << hitInfo3.hitPoint.toString() << std::endl;
+    std::cout << std::endl << std::endl << "For the 'S1' Sphere and a Ray 'R3' with a: " << std::endl
+              << " Starting point in: " + r3.origin.toString() << std::endl
+              << " Direction: " + r3.direction.toString() << std::endl
+              << "The intersection points are: " << std:: endl
+              << hitInfo3.point.toString() << std::endl;
 
     Plane P1= {{0,0,0},{0,1,1}};
     HitInfo P1hit = P1.hit(r2);
@@ -170,47 +180,12 @@ void assignment1() {
     << " Normal Vector3 of: " + P1.normal.toString() << std::endl
     << "The intersection points are: " << std:: endl << " ";
     if (P1hit.intersected) {
-        std::cout << P1hit.hitPoint.toString() << std::endl;
+        std::cout << P1hit.point.toString() << std::endl;
     } else {
         std::cout << "No intersection with plane P1 and R2." << std::endl;
     }
 
     std::cout << std::endl;
-
-    v1 = Vector3(0, 0, 0);
-    v2 = Vector3(1, 0, 0);
-    Vector3 v3 = Vector3(0, 1, 0);
-    Triangle t1 = Triangle(v1, v2, v3);
-
-    Vector3 p1 = Vector3(-1, 0.5, 0);
-    r1 = Ray(p1, Vector3(1, 0, 0), 2);
-
-    std::cout << "For triangle 'T1': " + t1.toString() << std::endl;
-    std::cout << "A ray 'R1' " + r1.toString();
-    if(t1.hit(r1).intersected){
-        std::cout << " passes through the triangle 'T1'" << std::endl;
-    } else {
-        std::cout << " does not pass through the triangle 'T1'" << std::endl;
-    }
-
-    r2 = Ray(Vector3(2, -1, 0), Vector3(0, 1, 0), 3);
-
-    std::cout << "A ray 'R2' " + r2.toString();
-    if(t1.hit(r2).intersected){
-        std::cout << " passes through the triangle 'T1'" << std::endl;
-    } else {
-        std::cout << " does not pass through the triangle 'T1'" << std::endl;
-    }
-
-    r3 = Ray(Vector3(0, 0, -1), Vector3(0, 0, 1), 2);
-
-    std::cout << "A ray 'R3' " + r3.toString();
-    if(t1.hit(r3).intersected){
-        std::cout << " passes through the triangle 'T1'" << std::endl;
-    } else {
-        std::cout << " does not pass through the triangle 'T1'" << std::endl;
-    }
-
     std::cout << std::endl << "---- Additional assignments ----" << std::endl << std::endl;
 
     v1 = Vector3(1, 0, 0);

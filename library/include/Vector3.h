@@ -40,9 +40,13 @@ public:
     Vector3 normalize();
     [[nodiscard]] Vector3 normalized() const;
 
+    Vector3 reflect(const Vector3& normal);
+
     [[nodiscard]] float length() const;
     [[nodiscard]] float lengthSquared() const;
     [[nodiscard]] float angle(Vector3 other) const;
+
+    [[nodiscard]] bool isNearZero() const;
 
     Vector3 rotateAroundAngleAndAxis(float angle, Vector3& axis) const;
 

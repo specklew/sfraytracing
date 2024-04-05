@@ -1,5 +1,5 @@
 #include <cmath>
-#include "Sphere.h"
+#include "Geometry/Sphere.h"
 
 
 Sphere::Sphere() = default;
@@ -9,9 +9,10 @@ Sphere::Sphere(float r){
     radius = r;
 }
 
-Sphere::Sphere(Vector3 center, float radius){
+Sphere::Sphere(Vector3 center, float radius, const std::shared_ptr<Material>& material){
     this->center = center;
     this->radius = radius;
+    this->material = material;
 }
 
 HitInfo Sphere::hit(const Ray &ray) const {
@@ -42,7 +43,7 @@ HitInfo Sphere::hit(const Ray &ray) const {
 
     Vector3 hitPoint = ray.origin + rayDirection * t;
 
-    return {true, hitPoint, (hitPoint - center).normalize(), t};
+    return {true, hitPoint, (hitPoint - center).normalize(), t, material};
 }
 
 std::string Sphere::toString() const {

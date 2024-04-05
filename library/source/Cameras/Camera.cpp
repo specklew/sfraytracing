@@ -1,12 +1,13 @@
 #include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
-#include "Sphere.h"
+#include "Geometry/Sphere.h"
 #include "Color.h"
 #include "Ray.h"
 #include <cmath>
 #include "Cameras/Camera.h"
 #include "Samplers/UniformDistributionSuperSampler.h"
 #include "Scene.h"
+#include "Materials/Material.h"
 
 Camera::Camera() : Camera({0,0,0}, {0,0,0}) {}
 
@@ -39,12 +40,11 @@ Color Camera::rayColor(const Ray &ray, int depth) const {
 
     if(depth <= 0) return {0,0,0};
 
-    if(HitInfo info = scene->hit(ray); info.intersected){
+    if(HitInfo hit = scene->hit(ray); hit.intersected){
 
-        //return (Color(1 + info.hitNormal.x,1 + info.hitNormal.y,1 + info.hitNormal.z)) * 0.5f;
-
-        Vector3 dir = Vector3::randomInUnitSphere() + info.hitNormal;
-        return rayColor(Ray(info.hitPoint, dir, std::numeric_limits<float>::max(), 0.001f), depth - 1) * 0.5f;
+        if(MaterialInfo mat = hit.material->scatter(ray, hit); mat.wasScattered){
+            return mat.attenuation * rayColor(mat.scattered, depth - 1);
+        }
     }
 
     Vector3 unit_direction = ray.direction.normalized();

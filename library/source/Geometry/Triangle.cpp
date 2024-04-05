@@ -1,10 +1,12 @@
-#include <cmath>
 #include <cfloat>
-#include "Triangle.h"
+#include "Geometry/Triangle.h"
 
 Triangle::Triangle() = default;
 
-Triangle::Triangle(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3) {
+Triangle::Triangle(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3,
+                   const std::shared_ptr<Material>& material) {
+    this->material = material;
+
     vertices[0] = vertex1;
     vertices[1] = vertex2;
     vertices[2] = vertex3;
@@ -19,7 +21,10 @@ Triangle::Triangle(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3) {
 }
 
 Triangle::Triangle(Vector3 vertex1, Vector3 vertex2, Vector3 vertex3,
-                   Vector3 normal1, Vector3 normal2, Vector3 normal3) {
+                   Vector3 normal1, Vector3 normal2, Vector3 normal3,
+                   const std::shared_ptr<Material>&) {
+    this->material = material;
+
     vertices[0] = vertex1;
     vertices[1] = vertex2;
     vertices[2] = vertex3;
@@ -50,7 +55,7 @@ HitInfo Triangle::hit(const Ray &ray) const {
 
     float t = ac.dotProduct(s_cross_ab) * inv_det;
 
-    if(t > ray.minimalDistance) return {true, ray.origin + ray.direction * t, normals[0], t};
+    if(t > ray.minimalDistance) return {true, ray.origin + ray.direction * t, normals[0], t, material};
 
     return {};
 }

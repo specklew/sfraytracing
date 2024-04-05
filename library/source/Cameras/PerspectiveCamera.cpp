@@ -3,7 +3,7 @@
 #include "Cameras/PerspectiveCamera.h"
 #include "Ray.h"
 #include "Color.h"
-#include "Sphere.h"
+#include "Geometry/Sphere.h"
 #include "SFML/Graphics.hpp"
 
 PerspectiveCamera::PerspectiveCamera() : Camera() {

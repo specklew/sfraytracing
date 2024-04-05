@@ -17,12 +17,12 @@ message("Loading library...")
 set(SOURCE_FILES
         include/Vector3.h source/Vector3.cpp
         include/Ray.h source/Ray.cpp
-        include/Sphere.h source/Sphere.cpp
-        include/Plane.h source/Plane.cpp
-        include/Triangle.h source/Triangle.cpp
+        include/Geometry/Sphere.h source/Geometry/Sphere.cpp
+        include/Geometry/Plane.h source/Geometry/Plane.cpp
+        include/Geometry/Triangle.h source/Geometry/Triangle.cpp
         include/Matrix4x4.h source/Matrix4x4.cpp
         include/Quaternion.h source/Quaternion.cpp
-        include/Geometry.h
+        include/Geometry/Geometry.h
         include/HitInfo.h
         include/Color.h source/Color.cpp
         include/Cameras/PerspectiveCamera.h source/Cameras/PerspectiveCamera.cpp
@@ -40,6 +40,11 @@ set(SOURCE_FILES
         include/Helpers/MathHelper.h
         source/Helpers/MathHelper.cpp
         include/Materials/Material.h
+        include/Materials/MaterialInfo.h
+        include/Materials/LambertianMaterial.h
+        source/Materials/LambertianMaterial.cpp
+        source/Materials/MetalMaterial.cpp
+        include/Materials/MetalMaterial.h
 )
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})

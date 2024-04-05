@@ -17,7 +17,7 @@ public:
     Sphere();
     Sphere(float r);
 
-    Sphere(Vector3 center, float radius);
+    Sphere(Vector3 center, float radius, const std::shared_ptr<Material>& material);
 
     [[nodiscard]] HitInfo hit(const Ray &ray) const override;
 

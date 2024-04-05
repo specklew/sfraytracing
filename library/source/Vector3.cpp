@@ -152,6 +152,10 @@ float Vector3::angle(Vector3 other) const {
     return angle;
 }
 
+bool Vector3::isNearZero() const {
+    return (std::fabs(x) < FLT_EPSILON && std::fabs(y) < FLT_EPSILON && std::fabs(z) < FLT_EPSILON);
+}
+
 std::string Vector3::toString() const {
     return "[" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + "]";
 }
@@ -166,4 +170,8 @@ Vector3 Vector3::rotateAroundAngleAndAxis(float angle, Vector3 &axis) const {
     Quaternion rotatedVector = q * pure * qInv;
 
     return rotatedVector.vector;
+}
+
+Vector3 Vector3::reflect(const Vector3 &normal) {
+    return *this - normal * 2 * (*this).dotProduct(normal);
 }
