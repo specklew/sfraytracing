@@ -18,6 +18,7 @@
 #include "Materials/MetalMaterial.h"
 #include <SFML/Graphics.hpp>
 #include <chrono>
+#include "Helpers/LoggerHelper.h"
 
 using namespace std::chrono;
 using namespace std;
@@ -34,7 +35,7 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, -1),
-            new UniformDistributionSuperSampler(16));
+            new UniformDistributionSuperSampler(1));
 
     // Scene setup
     Scene scene = Scene(camera);
@@ -68,7 +69,12 @@ int main() {
     auto stop = std::chrono::high_resolution_clock::now();
     auto duration = duration_cast<milliseconds >(stop - start);
 
-    cout << "Frame rendered in: " << duration.count() << " ms.";
+    std::string renderRecord = "Frame rendered in: " + to_string(duration.count()) + " ms.";
+
+    cout << LoggerHelper::getLastTenRecords();
+    cout << "Last record: " << renderRecord;
+
+    LoggerHelper::addNewRecord(renderRecord);
 
     float zoom = 1.0f;
     float pos_x = sprite.getPosition().x;

@@ -45,6 +45,8 @@ set(SOURCE_FILES
         source/Materials/LambertianMaterial.cpp
         source/Materials/MetalMaterial.cpp
         include/Materials/MetalMaterial.h
+        include/Helpers/LoggerHelper.h
+        source/Helpers/LoggerHelper.cpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
