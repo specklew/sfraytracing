@@ -9,6 +9,7 @@
 #include "Vector3.h"
 #include "SFML/Graphics/Sprite.hpp"
 #include "Samplers/Sampler.h"
+#include "HitInfo.h"
 
 class Scene; // Forward declaration
 
@@ -36,7 +37,7 @@ public:
     virtual sf::Texture renderFrame(int imageWidth);
 
     [[nodiscard]] virtual Ray calculateRay(const Vector3 &point) const;
-    [[nodiscard]] Color rayColor(const Ray& ray, int depth = 1) const;
+    [[nodiscard]] Color rayColor(const Ray& ray, int depth = 4, const HitInfo &lastHit = {}) const;
 };
 
 

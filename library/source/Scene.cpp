@@ -2,6 +2,7 @@
 #include "Cameras/PerspectiveCamera.h"
 #include "Samplers/UniformDistributionSuperSampler.h"
 #include "Cameras/OrthographicCamera.h"
+#include "Helpers/MathHelper.h"
 
 Scene::Scene() : Scene(
         new PerspectiveCamera(
@@ -53,13 +54,13 @@ HitInfo Scene::hit(const Ray &ray) const {
 Color Scene::hitLights(const HitInfo &lastHit) const {
     for(auto light : lights){
 
-        Vector3 direction = light->position - lastHit.point;
-        Ray ray(lastHit.point, direction.normalized());
+        Vector3 direction = (light->position - lastHit.point).normalized();
+        Ray ray(lastHit.point, direction, infinity, minimalDistance);
 
         if(HitInfo hit = this->hit(ray); !hit.intersected){
             // works for one light only TODO: implement multiple lights.
             // no distinction between different lights.
-            return light->color * direction.dotProduct(lastHit.normal);
+            return light->color * lastHit.normal.dotProduct(direction);
         }
     }
     return Color(0,0,0);

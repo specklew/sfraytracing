@@ -3,7 +3,6 @@
 #include "Geometry/Sphere.h"
 #include "Color.h"
 #include "Ray.h"
-#include <cmath>
 #include "Cameras/Camera.h"
 #include "Samplers/UniformDistributionSuperSampler.h"
 #include "Scene.h"
@@ -36,19 +35,19 @@ Ray Camera::calculateRay(const Vector3 &point) const {
     return {position, point - position};
 }
 
-Color Camera::rayColor(const Ray &ray, int depth) const {
+Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const {
+
+    if(depth <= 0) return scene->hitLights(lastHit);
 
     if(HitInfo hit = scene->hit(ray); hit.intersected){
 
         if(MaterialInfo mat = hit.material->scatter(ray, hit); mat.wasScattered){
 
-            if(depth <= 0) return scene->hitLights(hit);
-
-            return mat.attenuation * rayColor(mat.scattered, depth - 1);
+            return mat.attenuation * rayColor(mat.scattered, depth - 1, hit);
         }
     }
 
-    return Color(0,0,0);
+    return scene->hitLights(lastHit);
 
     Vector3 unit_direction = ray.direction.normalized();
     float t = 0.5f * (unit_direction.y + 1.0f);

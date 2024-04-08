@@ -4,11 +4,12 @@
 #include <limits>
 #include <cstdlib>
 
+const float infinity = std::numeric_limits<float>::infinity();
+const float minimalDistance = 0.001f;
+const float pi = 3.1415926535897932385f;
+
 class MathHelper {
 public:
-    const float infinity = std::numeric_limits<float>::infinity();
-    const float pi = 3.1415926535897932385f;
-
     [[nodiscard]] float degreesToRadians(float degrees) const;
 
 

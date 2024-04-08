@@ -36,14 +36,14 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, -1),
-            new UniformDistributionSuperSampler(8));
+            new UniformDistributionSuperSampler(2));
 
     // Scene setup
     Scene scene = Scene(camera);
 
     std::shared_ptr<Material> material = std::make_shared<LambertianMaterial>(LambertianMaterial(Color(0.5, 0.5, 0.5)));
     std::shared_ptr<Material> material1 = std::make_shared<MetalMaterial>(MetalMaterial(Color(0.7, 0.7,1.0)));
-    std::shared_ptr<Material> material2 = std::make_shared<LambertianMaterial>(LambertianMaterial({1.0, 0.0, 0.0}));
+    std::shared_ptr<Material> material2 = std::make_shared<LambertianMaterial>(LambertianMaterial({0.5, 0.0, 0.0}));
 
     Sphere s1 = Sphere({-0.5, 0, -1}, 0.5f, material2);
     Sphere s2 = Sphere({0.5, 0, -1}, 0.5, material1);
