@@ -58,7 +58,7 @@ int main() {
     scene.addObject(&ground);
     //scene.addObject(&skyMirror);
 
-    auto light = PointLight({2, 5, 0});
+    auto light = PointLight({2, 3, 2});
 
     scene.addLight(&light);
 

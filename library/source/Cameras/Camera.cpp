@@ -37,7 +37,13 @@ Ray Camera::calculateRay(const Vector3 &point) const {
 
 Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const {
 
-    if(depth <= 0) return scene->hitLights(lastHit);
+    if(HitInfo hit = scene->hit(ray); hit.intersected){
+        return scene->hitLights(hit, direction);
+    }
+
+    return Color(0,0,0);
+
+/*    if(depth <= 0) return scene->hitLights(lastHit);
 
     if(HitInfo hit = scene->hit(ray); hit.intersected){
 
@@ -47,11 +53,11 @@ Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const 
         }
     }
 
-    return scene->hitLights(lastHit);
+    return scene->hitLights(lastHit);*/
 
-    Vector3 unit_direction = ray.direction.normalized();
+/*    Vector3 unit_direction = ray.direction.normalized();
     float t = 0.5f * (unit_direction.y + 1.0f);
-    return Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;
+    return Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;*/
 }
 
 sf::Texture Camera::renderFrame(int imageWidth) {
@@ -80,7 +86,7 @@ sf::Texture Camera::renderFrame(int imageWidth) {
     for(int j = 0; j < image_height; ++j){
         for(int i = 0; i < imageWidth; ++i){
 
-            Color pixel_color = sampler->samplePixel(i, j).clamp().linearToGamma(2);
+            Color pixel_color = sampler->samplePixel(i, j).clamp().linearToGamma(2.0f);
 
             pixels[(j * imageWidth + i) * 4 + 0] = pixel_color.r * 255;
             pixels[(j * imageWidth + i) * 4 + 1] = pixel_color.g * 255;

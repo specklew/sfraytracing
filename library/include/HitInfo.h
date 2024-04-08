@@ -5,6 +5,7 @@
 #include "Vector3.h"
 
 class Material;
+class Ray;
 
 struct HitInfo {
     bool intersected{};
@@ -12,6 +13,7 @@ struct HitInfo {
     Vector3 normal{};
     float distance{};
     std::shared_ptr<Material> material{};
+    Ray ray;
 };
 
 #endif //SFRAYTRACING_HITINFO_H

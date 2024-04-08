@@ -1,8 +1,9 @@
+#include <cmath>
 #include "Scene.h"
 #include "Cameras/PerspectiveCamera.h"
 #include "Samplers/UniformDistributionSuperSampler.h"
-#include "Cameras/OrthographicCamera.h"
 #include "Helpers/MathHelper.h"
+#include "Materials/Material.h"
 
 Scene::Scene() : Scene(
         new PerspectiveCamera(
@@ -51,7 +52,9 @@ HitInfo Scene::hit(const Ray &ray) const {
     return result;
 }
 
-Color Scene::hitLights(const HitInfo &lastHit) const {
+Color Scene::hitLights(const HitInfo &lastHit, const Vector3& cameraDirection) const {
+    Color result(0, 0, 0);
+
     for(auto light : lights){
 
         Vector3 direction = (light->position - lastHit.point).normalized();
@@ -60,10 +63,17 @@ Color Scene::hitLights(const HitInfo &lastHit) const {
         if(HitInfo hit = this->hit(ray); !hit.intersected){
             // works for one light only TODO: implement multiple lights.
             // no distinction between different lights.
-            return light->color * lastHit.normal.dotProduct(direction);
+            result += lastHit.material->albedo * lastHit.normal.dotProduct(direction) * lastHit.material->diffuseAmount
+                    + lastHit.material->albedo * lastHit.material->specularAmount *
+                    powf(std::max(cameraDirection.dotProduct(direction.reflect(lastHit.normal)), 0.0f), lastHit.material->specularCoefficient);
         }
+
     }
-    return Color(0,0,0);
+
+    result += lastHit.material->albedo * lastHit.material->ambientAmount;
+
+
+    return result;
 }
 
 void Scene::addLight(Light *light) {

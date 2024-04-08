@@ -25,7 +25,7 @@ public:
     std::vector<Light*> getLights();
 
     [[nodiscard]] HitInfo hit(const Ray& ray) const;
-    [[nodiscard]] Color hitLights(const HitInfo &lastHit) const;
+    [[nodiscard]] Color hitLights(const HitInfo &lastHit, const Vector3 &cameraDirection) const;
 
     [[nodiscard]] sf::Texture renderScene(int width) const;
 

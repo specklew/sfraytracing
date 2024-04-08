@@ -9,13 +9,16 @@ class Material{
 public:
     virtual ~Material() = default;
 
-    float specularAmount;
-    float specularCoefficient;
+    float diffuseAmount = 0.7f;
+
+    float ambientAmount = 0.1f;
+
+    float specularAmount = 1.0f;
+    float specularCoefficient = 20.0f;
     float reflectFraction;
 
     virtual MaterialInfo scatter(const Ray& rayIn, const HitInfo& hit) const = 0;
 
-protected:
     Color albedo;
 };
 
