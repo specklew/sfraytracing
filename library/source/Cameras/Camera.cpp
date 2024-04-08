@@ -38,14 +38,17 @@ Ray Camera::calculateRay(const Vector3 &point) const {
 
 Color Camera::rayColor(const Ray &ray, int depth) const {
 
-    if(depth <= 0) return {0,0,0};
-
     if(HitInfo hit = scene->hit(ray); hit.intersected){
 
         if(MaterialInfo mat = hit.material->scatter(ray, hit); mat.wasScattered){
+
+            if(depth <= 0) return scene->hitLights(hit);
+
             return mat.attenuation * rayColor(mat.scattered, depth - 1);
         }
     }
+
+    return Color(0,0,0);
 
     Vector3 unit_direction = ray.direction.normalized();
     float t = 0.5f * (unit_direction.y + 1.0f);

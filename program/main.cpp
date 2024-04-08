@@ -19,6 +19,7 @@
 #include <SFML/Graphics.hpp>
 #include <chrono>
 #include "Helpers/LoggerHelper.h"
+#include "Lights/PointLight.h"
 
 using namespace std::chrono;
 using namespace std;
@@ -35,7 +36,7 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, -1),
-            new UniformDistributionSuperSampler(1));
+            new UniformDistributionSuperSampler(8));
 
     // Scene setup
     Scene scene = Scene(camera);
@@ -53,9 +54,13 @@ int main() {
 
     scene.addObject(&s1);
     //scene.addObject(&s2);
-    scene.addObject(&t1);
+    //scene.addObject(&t1);
     scene.addObject(&ground);
-    scene.addObject(&skyMirror);
+    //scene.addObject(&skyMirror);
+
+    auto light = PointLight({2, 5, 0});
+
+    scene.addLight(&light);
 
     sf::Texture rendered_image = scene.renderScene(image_width);
     rendered_image.setSmooth(false);

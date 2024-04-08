@@ -47,6 +47,10 @@ set(SOURCE_FILES
         include/Materials/MetalMaterial.h
         include/Helpers/LoggerHelper.h
         source/Helpers/LoggerHelper.cpp
+        include/Lights/Light.h
+        include/Lights/PointLight.h
+        source/Lights/PointLight.cpp
+        source/Lights/Light.cpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})

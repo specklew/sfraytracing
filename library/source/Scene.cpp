@@ -49,3 +49,30 @@ HitInfo Scene::hit(const Ray &ray) const {
 
     return result;
 }
+
+Color Scene::hitLights(const HitInfo &lastHit) const {
+    for(auto light : lights){
+
+        Vector3 direction = light->position - lastHit.point;
+        Ray ray(lastHit.point, direction.normalized());
+
+        if(HitInfo hit = this->hit(ray); !hit.intersected){
+            // works for one light only TODO: implement multiple lights.
+            // no distinction between different lights.
+            return light->color * direction.dotProduct(lastHit.normal);
+        }
+    }
+    return Color(0,0,0);
+}
+
+void Scene::addLight(Light *light) {
+    lights.push_back(light);
+}
+
+void Scene::removeLight(Light *light) {
+    lights.erase(std::remove(lights.begin(), lights.end(), light), lights.end());
+}
+
+std::vector<Light *> Scene::getLights() {
+    return lights;
+}
