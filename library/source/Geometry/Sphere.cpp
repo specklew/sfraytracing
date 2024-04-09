@@ -43,7 +43,7 @@ HitInfo Sphere::hit(const Ray &ray) const {
 
     Vector3 hitPoint = ray.origin + rayDirection * t;
 
-    return {true, hitPoint, (hitPoint - center).normalize(), t, material, ray};
+    return {true, hitPoint, (hitPoint - center).normalized(), t, material, ray};
 }
 
 std::string Sphere::toString() const {
