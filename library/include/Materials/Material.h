@@ -9,13 +9,13 @@ class Material{
 public:
     virtual ~Material() = default;
 
-    float diffuseAmount = 0.7f;
+    double diffuseAmount = 0.7;
 
-    float ambientAmount = 0.1f;
+    double ambientAmount = 0.1;
 
-    float specularAmount = 0.3f;
-    float specularCoefficient = 2.0f;
-    float reflectFraction;
+    double specularAmount = 0.3;
+    double specularCoefficient = 2.0;
+    double reflectFraction;
 
     virtual MaterialInfo scatter(const Ray& rayIn, const HitInfo& hit) const = 0;
 

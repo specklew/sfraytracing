@@ -20,10 +20,10 @@ public:
     Vector3 direction;
     Vector3 up;
 
-    float aspectRatio;
+    double aspectRatio;
 
-    float viewportWidth;
-    float viewportHeight;
+    double viewportWidth;
+    double viewportHeight;
 
     Sampler* sampler;
     Scene* scene{};

@@ -20,18 +20,18 @@ HitInfo Sphere::hit(const Ray &ray) const {
     rayDirection.normalize();
 
     Vector3 oc = ray.origin - center;
-    float a = rayDirection.dotProduct(rayDirection);
-    float half_b = oc.dotProduct(rayDirection);
-    float c = oc.dotProduct(oc) - radius * radius;
+    double a = rayDirection.dotProduct(rayDirection);
+    double half_b = oc.dotProduct(rayDirection);
+    double c = oc.dotProduct(oc) - radius * radius;
 
-    float discriminant = half_b * half_b - a * c;
+    double discriminant = half_b * half_b - a * c;
 
     if (discriminant < 0) return {};
 
-    float sqrtDiscriminant = std::sqrt(discriminant);
+    double sqrtDiscriminant = std::sqrt(discriminant);
 
-    float inv_a = 1 / a;
-    float t = (-half_b - sqrtDiscriminant) * inv_a;
+    double inv_a = 1 / a;
+    double t = (-half_b - sqrtDiscriminant) * inv_a;
 
     if (t < ray.minimalDistance || ray.distance < t) {
 

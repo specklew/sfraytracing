@@ -58,13 +58,14 @@ Color Scene::hitLights(const HitInfo &lastHit, const Vector3& cameraDirection) c
     for(auto light : lights){
 
         Vector3 direction = (light->position - lastHit.point).normalized();
-        Ray ray(lastHit.point, direction, infinity, minimalDistance);
+        Ray ray(lastHit.point, direction, infinity, minRayDistance);
 
         if(HitInfo hit = this->hit(ray); !hit.intersected){
             // no distinction between different lights. TODO: support other types
+
             result += lastHit.material->albedo * lastHit.normal.dotProduct(direction) * lastHit.material->diffuseAmount
                     + lastHit.material->albedo * lastHit.material->specularAmount *
-                    powf(std::max(cameraDirection.dotProduct(direction.reflect(lastHit.normal)), 0.0f), lastHit.material->specularCoefficient);
+                   pow(std::max(lastHit.ray.direction.dotProduct(direction.reflect(lastHit.normal)), 0.0), lastHit.material->specularCoefficient);
         }
 
     }

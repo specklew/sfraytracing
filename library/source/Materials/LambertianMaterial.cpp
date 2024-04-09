@@ -3,10 +3,10 @@
 
 LambertianMaterial::LambertianMaterial(const Color &albedo) {
     this->albedo = albedo;
-    this->diffuseAmount = 0.7f;
-    this->ambientAmount = 0.05f;
-    this->specularAmount = 0.1f;
-    this->specularCoefficient = 0.5f;
+    this->diffuseAmount = 0.7;
+    this->ambientAmount = 0.05;
+    this->specularAmount = 0.1;
+    this->specularCoefficient = 0.5;
 }
 
 MaterialInfo LambertianMaterial::scatter(const Ray &rayIn, const HitInfo &hit) const {
@@ -16,7 +16,7 @@ MaterialInfo LambertianMaterial::scatter(const Ray &rayIn, const HitInfo &hit) c
         scatter_direction = hit.normal;
     }
 
-    Ray scattered = Ray(hit.point, scatter_direction, infinity, minimalDistance);
+    Ray scattered = Ray(hit.point, scatter_direction, infinity, minRayDistance);
     Color attenuation = albedo;
 
     return {true, attenuation, scattered};

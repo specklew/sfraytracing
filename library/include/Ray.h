@@ -2,7 +2,7 @@
 #define SFRAYTRACING_RAY_H
 
 #include "Vector3.h"
-#include <limits>
+#include "Helpers/MathHelper.h"
 
 class Ray{
 public:
@@ -10,12 +10,12 @@ public:
     Vector3 origin{};
     Vector3 direction{};
     Vector3 destination{};
-    float distance{std::numeric_limits<float>::max()};
-    float minimalDistance{0.0f};
+    double distance{infinity};
+    double minimalDistance{minRayDistance};
 
     Ray();
     Ray(Vector3 origin, Vector3 direction);
-    Ray(Vector3 origin, Vector3 direction, float distance, float minimalDistance = 0);
+    Ray(Vector3 origin, Vector3 direction, double distance, double minimalDistance = minRayDistance);
 
     [[nodiscard]] std::string toString() const;
 

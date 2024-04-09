@@ -46,9 +46,9 @@ int main() {
     std::shared_ptr<Material> material1 = std::make_shared<MetalMaterial>(MetalMaterial(Color(0.7, 0.7,1.0)));
     std::shared_ptr<Material> material2 = std::make_shared<LambertianMaterial>(LambertianMaterial({0.5, 0.0, 0.0}));
 
-    Sphere s1 = Sphere({-0.5, 0, -1}, 0.5f, material2);
+    Sphere s1 = Sphere({-0.5, 0, -1}, 0.5f, material1);
     Sphere s2 = Sphere({0.5, 0, -1}, 0.5, material1);
-    Triangle t1 = Triangle({1.25, -0.5, -1}, {0.25, -0.5, -1}, {0.25, 1, -1.5}, material1);
+    Triangle t1 = Triangle({1.25, -0.5, -1}, {0.25, 1, -1.5}, {0.25, -0.5, -1}, material1);
 
     Sphere ground = Sphere({0, -100.5, -1}, 100.0f, material);
     Sphere skyMirror = Sphere({0, 102, -1}, 100.0f, material1);

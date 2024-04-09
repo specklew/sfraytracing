@@ -7,8 +7,8 @@ UniformDistributionSuperSampler::UniformDistributionSuperSampler(int samplingRes
 Color UniformDistributionSuperSampler::samplePixel(int x, int y) {
 
     Vector3 pixel_offset = upperLeftViewportCorner
-                           + pixelDeltaU * (x + InvertedSamplingResolution_ * 0.5f)
-                           + pixelDeltaV * (y + InvertedSamplingResolution_ * 0.5f);
+                           + pixelDeltaU * (x + InvertedSamplingResolution_ * 0.5)
+                           + pixelDeltaV * (y + InvertedSamplingResolution_ * 0.5);
 
     for(int i = 0; i < SamplingResolution_; ++i) {
         for (int j = 0; j < SamplingResolution_; ++j) {

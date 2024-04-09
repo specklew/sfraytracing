@@ -7,15 +7,15 @@ class Color {
 public:
     static const Color Null;
 
-    float r{};
-    float g{};
-    float b{};
+    double r;
+    double g;
+    double b;
 
     Color();
 
     Color(const Color &color);
 
-    Color(float r, float g, float b);
+    Color(double r, double g, double b);
 
     [[nodiscard]] Color operator+(const Color &color) const;
 
@@ -23,9 +23,9 @@ public:
 
     [[nodiscard]] Color operator*(const Color &color) const;
 
-    [[nodiscard]] Color operator*(float scalar) const;
+    [[nodiscard]] Color operator*(double scalar) const;
 
-    [[nodiscard]] Color operator/(float scalar) const;
+    [[nodiscard]] Color operator/(double scalar) const;
 
     Color &operator+=(const Color &color);
 
@@ -33,16 +33,16 @@ public:
 
     Color &operator*=(const Color &color);
 
-    Color &operator*=(float scalar);
+    Color &operator*=(double scalar);
 
-    Color &operator/=(float scalar);
+    Color &operator/=(double scalar);
 
     [[nodiscard]] bool operator==(const Color &other) const;
 
     [[nodiscard]] bool operator!=(const Color &color) const;
 
     Color clamp();
-    Color linearToGamma(const float& gamma);
+    Color linearToGamma(const double& gamma);
 
     static Color getAverageColor(const Color *colors, int size);
 
@@ -51,8 +51,8 @@ public:
     [[nodiscard]] std::string toString() const;
 
 private:
-    static const float min;
-    static const float max;
+    static const double min;
+    static const double max;
 
 };
 

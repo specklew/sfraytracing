@@ -40,7 +40,7 @@ Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const 
         return scene->hitLights(hit, direction);
     }
 
-    return Color(0,0,0);
+    return {0,0,0};
 
 /*    if(depth <= 0) return scene->hitLights(lastHit);
 

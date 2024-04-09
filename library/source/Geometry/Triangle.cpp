@@ -38,22 +38,22 @@ HitInfo Triangle::hit(const Ray &ray) const {
     Vector3 ab = vertices[1] - vertices[0];
     Vector3 ac = vertices[2] - vertices[0];
     Vector3 ray_cross_ac = ray.direction.crossProduct(ac);
-    float det = ab.dotProduct(ray_cross_ac);
+    double det = ab.dotProduct(ray_cross_ac);
 
-    if(det > -FLT_EPSILON && det < FLT_EPSILON) return {};
+    if(det > -DBL_EPSILON && det < DBL_EPSILON) return {};
 
-    float inv_det  = 1.0f / det;
+    double inv_det  = 1.0f / det;
     Vector3 s = ray.origin - vertices[0];
-    float u = s.dotProduct(ray_cross_ac) * inv_det;
+    double u = s.dotProduct(ray_cross_ac) * inv_det;
 
     if(u < 0 || u > 1) return {};
 
     Vector3 s_cross_ab = s.crossProduct(ab);
-    float v = ray.direction.dotProduct(s_cross_ab) * inv_det;
+    double v = ray.direction.dotProduct(s_cross_ab) * inv_det;
 
     if(v < 0 || u + v > 1) return {};
 
-    float t = ac.dotProduct(s_cross_ab) * inv_det;
+    double t = ac.dotProduct(s_cross_ab) * inv_det;
 
     if(t > ray.minimalDistance) return {true, ray.origin + ray.direction * t, normals[0].normalized(), t, material, ray};
 

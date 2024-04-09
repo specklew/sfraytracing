@@ -1,27 +1,27 @@
 #include <random>
 #include "Helpers/MathHelper.h"
 
-inline float MathHelper::degreesToRadians(float degrees) const {
+inline double MathHelper::degreesToRadians(double degrees) {
     return degrees * pi / 180.0f;
 }
 
-float MathHelper::randomFloat() {
-    static std::uniform_real_distribution<float> dis(0.0f, 1.0f);
+double MathHelper::randomDouble() {
+    static std::uniform_real_distribution<double> dis(0.0, 1.0);
     static std::mt19937 generator;
 
     return dis(generator);
 }
 
-float MathHelper::randomFloat(float min, float max) {
-    return min + (max - min) * randomFloat();
+double MathHelper::randomDouble(double min, double max) {
+    return min + (max - min) * randomDouble();
 }
 
-float MathHelper::clampFloat(float &value, const float &min, const float& max) {
+double MathHelper::clamp(double &value, const double &min, const double& max) {
     if(value < min) return min;
     if(value > max) return max;
     return value;
 }
 
-float MathHelper::linearToGamma(const float& value, const float& gamma) {
+double MathHelper::linearToGamma(const double& value, const double& gamma) {
     return std::pow(value, 1 / gamma);
 }

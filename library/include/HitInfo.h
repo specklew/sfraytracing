@@ -11,7 +11,7 @@ struct HitInfo {
     bool intersected{};
     Vector3 point{};
     Vector3 normal{};
-    float distance{};
+    double distance{};
     std::shared_ptr<Material> material{};
     Ray ray;
 };
