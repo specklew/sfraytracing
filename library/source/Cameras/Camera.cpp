@@ -8,7 +8,7 @@
 #include "Scene.h"
 #include "Materials/Material.h"
 
-Camera::Camera() : Camera({0,0,0}, {0,0,0}) {}
+Camera::Camera() : Camera({0,0,0}, {0,0,-1}) {}
 
 Camera::Camera(const Vector3 &position, const Vector3 &direction) :
 Camera(
@@ -22,7 +22,6 @@ Camera::Camera(const Vector3 &position, const Vector3 &direction, Sampler *sampl
     up = Vector3(0, 1, 0);
     aspectRatio = 16.0f / 9.0f;
     this->sampler = sampler;
-    this->sampler->center = position;
     this->sampler->camera = this;
     this->viewportHeight = 2.0f;
 }
@@ -32,7 +31,7 @@ Camera::~Camera() {
 }
 
 Ray Camera::calculateRay(const Vector3 &point) const {
-    return {position, point - position};
+    return {position, (point - position).normalize()};
 }
 
 Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const {
@@ -86,11 +85,11 @@ sf::Texture Camera::renderFrame(int imageWidth) {
     for(int j = 0; j < image_height; ++j){
         for(int i = 0; i < imageWidth; ++i){
 
-            Color pixel_color = sampler->samplePixel(i, j).clamp().linearToGamma(2.0f);
+            Color pixel_color = sampler->samplePixel(i, j).clamp().linearToGamma(2);
 
-            pixels[(j * imageWidth + i) * 4 + 0] = pixel_color.r * 255;
-            pixels[(j * imageWidth + i) * 4 + 1] = pixel_color.g * 255;
-            pixels[(j * imageWidth + i) * 4 + 2] = pixel_color.b * 255;
+            pixels[(j * imageWidth + i) * 4 + 0] = (pixel_color.r * 255);
+            pixels[(j * imageWidth + i) * 4 + 1] = (pixel_color.g * 255);
+            pixels[(j * imageWidth + i) * 4 + 2] = (pixel_color.b * 255);
             pixels[(j * imageWidth + i) * 4 + 3] = 255;
         }
     }
