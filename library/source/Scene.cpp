@@ -61,8 +61,7 @@ Color Scene::hitLights(const HitInfo &lastHit, const Vector3& cameraDirection) c
         Ray ray(lastHit.point, direction, infinity, minimalDistance);
 
         if(HitInfo hit = this->hit(ray); !hit.intersected){
-            // works for one light only TODO: implement multiple lights.
-            // no distinction between different lights.
+            // no distinction between different lights. TODO: support other types
             result += lastHit.material->albedo * lastHit.normal.dotProduct(direction) * lastHit.material->diffuseAmount
                     + lastHit.material->albedo * lastHit.material->specularAmount *
                     powf(std::max(cameraDirection.dotProduct(direction.reflect(lastHit.normal)), 0.0f), lastHit.material->specularCoefficient);

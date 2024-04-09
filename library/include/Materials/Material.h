@@ -13,8 +13,8 @@ public:
 
     float ambientAmount = 0.1f;
 
-    float specularAmount = 1.0f;
-    float specularCoefficient = 20.0f;
+    float specularAmount = 0.3f;
+    float specularCoefficient = 2.0f;
     float reflectFraction;
 
     virtual MaterialInfo scatter(const Ray& rayIn, const HitInfo& hit) const = 0;

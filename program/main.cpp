@@ -20,6 +20,7 @@
 #include <chrono>
 #include "Helpers/LoggerHelper.h"
 #include "Lights/PointLight.h"
+#include "Cameras/OrthographicCamera.h"
 
 using namespace std::chrono;
 using namespace std;
@@ -36,7 +37,7 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0, 0),
             Vector3(0, 0, -1),
-            new UniformDistributionSuperSampler(2));
+            new UniformDistributionSuperSampler(1));
 
     // Scene setup
     Scene scene = Scene(camera);
@@ -47,14 +48,14 @@ int main() {
 
     Sphere s1 = Sphere({-0.5, 0, -1}, 0.5f, material2);
     Sphere s2 = Sphere({0.5, 0, -1}, 0.5, material1);
-    Triangle t1 = Triangle({1, -0.5, 0}, {0, -0.5, -2}, {0, 1, -2}, material1);
+    Triangle t1 = Triangle({1.25, -0.5, -1}, {0.25, -0.5, -1}, {0.25, 1, -1.5}, material1);
 
     Sphere ground = Sphere({0, -100.5, -1}, 100.0f, material);
     Sphere skyMirror = Sphere({0, 102, -1}, 100.0f, material1);
 
     scene.addObject(&s1);
     //scene.addObject(&s2);
-    //scene.addObject(&t1);
+    scene.addObject(&t1);
     scene.addObject(&ground);
     //scene.addObject(&skyMirror);
 
