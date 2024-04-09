@@ -6,7 +6,7 @@
 class AdaptiveSuperSampler : public Sampler {
 public:
     AdaptiveSuperSampler();
-    AdaptiveSuperSampler(int samplingResolution);
+    explicit AdaptiveSuperSampler(int samplingResolution);
     Color samplePixel(int x, int y) override;
 
 private:

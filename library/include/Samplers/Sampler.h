@@ -12,18 +12,13 @@ class Sampler{
 public:
     virtual ~Sampler();
     Sampler();
-    Sampler(int samplingResolution);
+    explicit Sampler(int samplingResolution);
 
-    Vector3 center;
-    Vector3 direction;
     Vector3 upperLeftViewportCorner;
     Vector3 pixelDeltaU;
     Vector3 pixelDeltaV;
 
     Camera* camera;
-
-    [[nodiscard]] int GetMaximalSamplingResolution() const;
-    void SetMaximalSamplingResolution(int maximalSamplingResolution);
 
     virtual Color samplePixel(int x, int y) = 0;
 
