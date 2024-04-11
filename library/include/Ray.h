@@ -10,12 +10,12 @@ public:
     Vector3 origin{};
     Vector3 direction{};
     Vector3 destination{};
-    double distance{infinity};
-    double minimalDistance{minRayDistance};
+    precision distance{infinity};
+    precision minimalDistance{minRayDistance};
 
     Ray();
     Ray(Vector3 origin, Vector3 direction);
-    Ray(Vector3 origin, Vector3 direction, double distance, double minimalDistance = minRayDistance);
+    Ray(Vector3 origin, Vector3 direction, precision distance, precision minimalDistance = minRayDistance);
 
     [[nodiscard]] std::string toString() const;
 

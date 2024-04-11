@@ -7,7 +7,7 @@ Ray::Ray(Vector3 origin, Vector3 direction) {
     this->direction = direction;
 }
 
-Ray::Ray(Vector3 origin, Vector3 direction, double distance, double minimalDistance) {
+Ray::Ray(Vector3 origin, Vector3 direction, precision distance, precision minimalDistance) {
     this->origin = origin;
     this->direction = direction;
     this->distance = distance;

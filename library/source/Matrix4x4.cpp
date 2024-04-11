@@ -3,10 +3,10 @@
 
 Matrix4x4::Matrix4x4() = default;
 
-Matrix4x4::Matrix4x4(float e0, float e4, float e8, float e12,
-                     float e1, float e5, float e9, float e13,
-                     float e2,float e6, float e10, float e14,
-                     float e3, float e7, float e11, float e15) {
+Matrix4x4::Matrix4x4(precision e0, precision e4, precision e8, precision e12,
+                     precision e1, precision e5, precision e9, precision e13,
+                     precision e2,precision e6, precision e10, precision e14,
+                     precision e3, precision e7, precision e11, precision e15) {
 
     entries[0] = e0;
     entries[1] = e1;
@@ -31,7 +31,7 @@ Matrix4x4::Matrix4x4(const Matrix4x4 &m) {
     memcpy(entries, m.entries, sizeof(entries));
 }
 
-Matrix4x4::Matrix4x4(const float *pF) {
+Matrix4x4::Matrix4x4(const precision *pF) {
     memcpy(entries, pF, sizeof(entries));
 }
 
@@ -42,28 +42,28 @@ Matrix4x4 Matrix4x4::identity() {
             0, 0, 0, 1};
 }
 
-Matrix4x4 Matrix4x4::getTranslateMatrix(float x, float y, float z) {
+Matrix4x4 Matrix4x4::getTranslateMatrix(precision x, precision y, precision z) {
     return {1, 0, 0, x,
             0, 1, 0, y,
             0, 0, 1, z,
             0, 0, 0, 1};
 }
 
-Matrix4x4 Matrix4x4::getScaleMatrix(float x, float y, float z) {
+Matrix4x4 Matrix4x4::getScaleMatrix(precision x, precision y, precision z) {
     return {x, 0, 0, 0,
             0, y, 0, 0,
             0, 0, z, 0,
             0, 0, 0, 1};
 }
 
-Matrix4x4 Matrix4x4::getRotateMatrix(float angle, const Vector3 &axis) {
-    float c = std::cos(angle);
-    float s = std::sin(angle);
-    float t = 1 - c;
+Matrix4x4 Matrix4x4::getRotateMatrix(precision angle, const Vector3 &axis) {
+    precision c = std::cos(angle);
+    precision s = std::sin(angle);
+    precision t = 1 - c;
 
-    float x = axis.x;
-    float y = axis.y;
-    float z = axis.z;
+    precision x = axis.x;
+    precision y = axis.y;
+    precision z = axis.z;
 
     return {t * x * x + c, t * x * y - s * z, t * x * z + s * y, 0,
             t * x * y + s * z, t * y * y + c, t * y * z - s * x, 0,
@@ -71,27 +71,27 @@ Matrix4x4 Matrix4x4::getRotateMatrix(float angle, const Vector3 &axis) {
             0, 0, 0, 1};
 }
 
-Matrix4x4 Matrix4x4::getRotateXMatrix(float angle) {
-    float c = std::cos(angle);
-    float s = std::sin(angle);
+Matrix4x4 Matrix4x4::getRotateXMatrix(precision angle) {
+    precision c = std::cos(angle);
+    precision s = std::sin(angle);
     return {1, 0, 0, 0,
             0, c, -s, 0,
             0, s, c, 0,
             0, 0, 0, 1};
 }
 
-Matrix4x4 Matrix4x4::getRotateYMatrix(float angle) {
-    float c = std::cos(angle);
-    float s = std::sin(angle);
+Matrix4x4 Matrix4x4::getRotateYMatrix(precision angle) {
+    precision c = std::cos(angle);
+    precision s = std::sin(angle);
     return {c, 0, s, 0,
             0, 1, 0, 0,
             -s, 0, c, 0,
             0, 0, 0, 1};
 }
 
-Matrix4x4 Matrix4x4::getRotateZMatrix(float angle) {
-    float c = std::cos(angle);
-    float s = std::sin(angle);
+Matrix4x4 Matrix4x4::getRotateZMatrix(precision angle) {
+    precision c = std::cos(angle);
+    precision s = std::sin(angle);
     return {c, -s, 0, 0,
             s, c, 0, 0,
             0, 0, 1, 0,
@@ -127,7 +127,7 @@ Matrix4x4 Matrix4x4::operator*(const Matrix4x4 &m) const {
     return result;
 }
 
-Matrix4x4 Matrix4x4::operator*(float f) const {
+Matrix4x4 Matrix4x4::operator*(precision f) const {
     Matrix4x4 result;
     for (int i = 0; i < 16; i++) {
         result.entries[i] = entries[i] * f;
@@ -146,30 +146,30 @@ Matrix4x4 Matrix4x4::transpose() const {
 }
 
 Matrix4x4 Matrix4x4::inverse() {
-    float t1 = entries[0] * entries[4];
-    float t2 = entries[0] * entries[7];
-    float t3 = entries[3] * entries[1];
-    float t4 = entries[6] * entries[1];
-    float t5 = entries[3] * entries[2];
-    float t6 = entries[6] * entries[2];
+    precision t1 = entries[0] * entries[4];
+    precision t2 = entries[0] * entries[7];
+    precision t3 = entries[3] * entries[1];
+    precision t4 = entries[6] * entries[1];
+    precision t5 = entries[3] * entries[2];
+    precision t6 = entries[6] * entries[2];
 
-    float det = t1 * entries[8] - t2 * entries[5] - t3 * entries[8] + t4 * entries[5] + t5 * entries[7] - t6 * entries[4];
+    precision det = t1 * entries[8] - t2 * entries[5] - t3 * entries[8] + t4 * entries[5] + t5 * entries[7] - t6 * entries[4];
 
     if (det == 0) {
         return *this;
     }
 
-    float invDet = 1.0f / det;
+    precision invDet = 1.0f / det;
 
-    float m0 = (entries[4] * entries[8] - entries[7] * entries[5]) * invDet;
-    float m3 = -(entries[3] * entries[8] - entries[6] * entries[5]) * invDet;
-    float m6 = (entries[3] * entries[7] - entries[6] * entries[4]) * invDet;
-    float m1 = -(entries[1] * entries[7] - entries[2] * entries[4]) * invDet;
-    float m4 = (entries[0] * entries[8] - t6) * invDet;
-    float m7 = -(t2 - t4) * invDet;
-    float m2 = (entries[1] * entries[5] - entries[2] * entries[4]) * invDet;
-    float m5 = -(entries[0] * entries[4] - t5) * invDet;
-    float m8 = (t1 - t3) * invDet;
+    precision m0 = (entries[4] * entries[8] - entries[7] * entries[5]) * invDet;
+    precision m3 = -(entries[3] * entries[8] - entries[6] * entries[5]) * invDet;
+    precision m6 = (entries[3] * entries[7] - entries[6] * entries[4]) * invDet;
+    precision m1 = -(entries[1] * entries[7] - entries[2] * entries[4]) * invDet;
+    precision m4 = (entries[0] * entries[8] - t6) * invDet;
+    precision m7 = -(t2 - t4) * invDet;
+    precision m2 = (entries[1] * entries[5] - entries[2] * entries[4]) * invDet;
+    precision m5 = -(entries[0] * entries[4] - t5) * invDet;
+    precision m8 = (t1 - t3) * invDet;
 
     entries[0] = m0;
     entries[1] = m1;

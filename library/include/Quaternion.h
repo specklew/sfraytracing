@@ -5,25 +5,25 @@
 
 class Quaternion {
 public:
-    double scalar{0.0};
-    Vector3 vector{0.0, 0.0, 0.0};
+    precision scalar{0};
+    Vector3 vector{0, 0, 0};
 
     Quaternion();
-    Quaternion(double scalar, const Vector3& vector);
+    Quaternion(precision scalar, const Vector3& vector);
     Quaternion(const Quaternion& quaternion);
 
     Quaternion& operator=(const Quaternion& quaternion);
     Quaternion operator+(const Quaternion& quaternion) const;
     Quaternion operator-(const Quaternion& quaternion) const;
     Quaternion operator*(const Quaternion& quaternion) const;
-    Quaternion operator*(double f) const;
+    Quaternion operator*(precision f) const;
 
     Quaternion operator+=(const Quaternion& quaternion);
     Quaternion operator-=(const Quaternion& quaternion);
     Quaternion operator*=(const Quaternion& quaternion);
-    Quaternion operator*=(double f);
+    Quaternion operator*=(precision f);
 
-    [[nodiscard]] double norm() const;
+    [[nodiscard]] precision norm() const;
 
     Quaternion normalize();
     [[nodiscard]] Quaternion normalized() const;

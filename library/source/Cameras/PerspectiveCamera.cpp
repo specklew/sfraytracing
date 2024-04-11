@@ -18,9 +18,9 @@ PerspectiveCamera::PerspectiveCamera(const Vector3 &position, const Vector3 &dir
 
 sf::Texture PerspectiveCamera::renderFrame(int imageWidth) {
 
-    double theta = fov * M_PI / 180.0f;
-    double h = std::tan(theta / 2.0f);
-    viewportHeight = 2.0 * h;
+    precision theta = fov * pi / half360;
+    precision h = std::tan(theta * 0.5);
+    viewportHeight = 2 * h;
 
     return Camera::renderFrame(imageWidth);
 

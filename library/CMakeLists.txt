@@ -51,6 +51,7 @@ set(SOURCE_FILES
         include/Lights/PointLight.h
         source/Lights/PointLight.cpp
         source/Lights/Light.cpp
+        include/Precision.h
 )
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})

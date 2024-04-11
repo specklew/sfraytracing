@@ -9,7 +9,7 @@ Sampler::Sampler(int samplingResolution) {
     pixelDeltaU = Vector3(0, 0, 0);
     pixelDeltaV = Vector3(0, 0, 0);
     SamplingResolution_ = samplingResolution;
-    InvertedSamplingResolution_ = static_cast<float>(1.0 / SamplingResolution_);
+    InvertedSamplingResolution_ = static_cast<precision>(1.0 / SamplingResolution_);
     ColorBuffer_ = new Color[SamplingResolution_ * SamplingResolution_];
 }
 

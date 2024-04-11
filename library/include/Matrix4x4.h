@@ -5,29 +5,29 @@
 
 class Matrix4x4{
 public:
-    float entries[16] = {};
+    precision entries[16] = {};
 
     Matrix4x4();
-    Matrix4x4(float e0, float e4, float e8, float e12,
-              float e1, float e5, float e9, float e13,
-              float e2, float e6, float e10, float e14,
-              float e3, float e7, float e11, float e15);
+    Matrix4x4(precision e0, precision e4, precision e8, precision e12,
+              precision e1, precision e5, precision e9, precision e13,
+              precision e2, precision e6, precision e10, precision e14,
+              precision e3, precision e7, precision e11, precision e15);
     Matrix4x4(const Matrix4x4& m);
-    explicit Matrix4x4(const float * pF);
+    explicit Matrix4x4(const precision * pF);
 
     static Matrix4x4 identity();
-    static Matrix4x4 getTranslateMatrix(float x, float y, float z);
-    static Matrix4x4 getScaleMatrix(float x, float y, float z);
-    static Matrix4x4 getRotateMatrix(float angle, const Vector3& axis);
-    static Matrix4x4 getRotateXMatrix(float angle);
-    static Matrix4x4 getRotateYMatrix(float angle);
-    static Matrix4x4 getRotateZMatrix(float angle);
+    static Matrix4x4 getTranslateMatrix(precision x, precision y, precision z);
+    static Matrix4x4 getScaleMatrix(precision x, precision y, precision z);
+    static Matrix4x4 getRotateMatrix(precision angle, const Vector3& axis);
+    static Matrix4x4 getRotateXMatrix(precision angle);
+    static Matrix4x4 getRotateYMatrix(precision angle);
+    static Matrix4x4 getRotateZMatrix(precision angle);
 
     Matrix4x4 operator+(const Matrix4x4& m) const;
     Matrix4x4 operator-(const Matrix4x4& m) const;
     Matrix4x4 operator*(const Matrix4x4& m) const;
 
-    Matrix4x4 operator*(float f) const;
+    Matrix4x4 operator*(precision f) const;
 
     [[nodiscard]] Matrix4x4 transpose() const;
     Matrix4x4 inverse();

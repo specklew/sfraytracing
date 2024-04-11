@@ -4,12 +4,12 @@
 
 Sphere::Sphere() = default;
 
-Sphere::Sphere(float r){
+Sphere::Sphere(precision r){
     center = Vector3(0, 0, 0);
     radius = r;
 }
 
-Sphere::Sphere(Vector3 center, float radius, const std::shared_ptr<Material>& material){
+Sphere::Sphere(Vector3 center, precision radius, const std::shared_ptr<Material>& material){
     this->center = center;
     this->radius = radius;
     this->material = material;
@@ -20,18 +20,18 @@ HitInfo Sphere::hit(const Ray &ray) const {
     rayDirection.normalize();
 
     Vector3 oc = ray.origin - center;
-    double a = rayDirection.dotProduct(rayDirection);
-    double half_b = oc.dotProduct(rayDirection);
-    double c = oc.dotProduct(oc) - radius * radius;
+    precision a = rayDirection.dotProduct(rayDirection);
+    precision half_b = oc.dotProduct(rayDirection);
+    precision c = oc.dotProduct(oc) - radius * radius;
 
-    double discriminant = half_b * half_b - a * c;
+    precision discriminant = half_b * half_b - a * c;
 
     if (discriminant < 0) return {};
 
-    double sqrtDiscriminant = std::sqrt(discriminant);
+    precision sqrtDiscriminant = std::sqrt(discriminant);
 
-    double inv_a = 1 / a;
-    double t = (-half_b - sqrtDiscriminant) * inv_a;
+    precision inv_a = 1 / a;
+    precision t = (-half_b - sqrtDiscriminant) * inv_a;
 
     if (t < ray.minimalDistance || ray.distance < t) {
 

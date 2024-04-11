@@ -78,7 +78,7 @@ sf::Texture Camera::renderFrame(int imageWidth) {
     sampler->pixelDeltaU = viewport_u / static_cast<float>(imageWidth);
     sampler->pixelDeltaV = viewport_v / static_cast<float>(image_height);
 
-    sampler->upperLeftViewportCorner = position - viewport_u / 2.0f - viewport_v / 2.0f + direction;
+    sampler->upperLeftViewportCorner = position - viewport_u / 2.0 - viewport_v / 2.0 + direction;
 
     // Scanlines
 

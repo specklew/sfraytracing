@@ -38,7 +38,7 @@ std::vector<Geometry*> Scene::getObjects() {
 
 HitInfo Scene::hit(const Ray &ray) const {
     HitInfo result;
-    float min_distance = ray.distance;
+    precision min_distance = ray.distance;
 
     for(auto object : objects){
         if(HitInfo info = object->hit(ray); info.intersected){
@@ -63,9 +63,13 @@ Color Scene::hitLights(const HitInfo &lastHit, const Vector3& cameraDirection) c
         if(HitInfo hit = this->hit(ray); !hit.intersected){
             // no distinction between different lights. TODO: support other types
 
-            result += lastHit.material->albedo * lastHit.normal.dotProduct(direction) * lastHit.material->diffuseAmount
-                    + lastHit.material->albedo * lastHit.material->specularAmount *
-                   pow(std::max(lastHit.ray.direction.dotProduct(direction.reflect(lastHit.normal)), 0.0), lastHit.material->specularCoefficient);
+            precision minMaxPrecision = 0;
+
+            Color diffuse = lastHit.material->albedo * lastHit.normal.dotProduct(direction) * lastHit.material->diffuseAmount;
+            Color specular = lastHit.material->albedo * lastHit.material->specularAmount *
+                             pow(std::max(lastHit.ray.direction.dotProduct(direction.reflected(lastHit.normal)), minMaxPrecision), lastHit.material->specularCoefficient);
+
+            result += diffuse + specular;
         }
 
     }

@@ -13,14 +13,12 @@
 #include "Cameras/PerspectiveCamera.h"
 #include "Scene.h"
 #include "Samplers/UniformDistributionSuperSampler.h"
-#include "Samplers/AdaptiveSuperSampler.h"
 #include "Materials/LambertianMaterial.h"
 #include "Materials/MetalMaterial.h"
 #include <SFML/Graphics.hpp>
 #include <chrono>
 #include "Helpers/LoggerHelper.h"
 #include "Lights/PointLight.h"
-#include "Cameras/OrthographicCamera.h"
 
 using namespace std::chrono;
 using namespace std;
@@ -46,7 +44,7 @@ int main() {
     std::shared_ptr<Material> material1 = std::make_shared<MetalMaterial>(MetalMaterial(Color(0.7, 0.7,1.0)));
     std::shared_ptr<Material> material2 = std::make_shared<LambertianMaterial>(LambertianMaterial({0.5, 0.0, 0.0}));
 
-    Sphere s1 = Sphere({-0.5, 0, -1}, 0.5f, material1);
+    Sphere s1 = Sphere({-0.5, 0, -1}, 0.5f, material2);
     Sphere s2 = Sphere({0.5, 0, -1}, 0.5, material1);
     Triangle t1 = Triangle({1.25, -0.5, -1}, {0.25, 1, -1.5}, {0.25, -0.5, -1}, material1);
 

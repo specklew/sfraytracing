@@ -7,7 +7,7 @@
 
 Vector3::Vector3() = default;
 
-Vector3::Vector3(double x, double y, double z) {
+Vector3::Vector3(precision x, precision y, precision z) {
     this->x = x;
     this->y = y;
     this->z = z;
@@ -20,16 +20,16 @@ Vector3::Vector3(const Vector3& p1, const Vector3& p2) {
 }
 
 Vector3 Vector3::random() {
-    return {MathHelper::randomDouble(), MathHelper::randomDouble(), MathHelper::randomDouble()};
+    return {MathHelper::randomPrecision(), MathHelper::randomPrecision(), MathHelper::randomPrecision()};
 }
 
-Vector3 Vector3::random(double min, double max) {
-    return {MathHelper::randomDouble(min, max), MathHelper::randomDouble(min, max), MathHelper::randomDouble(min, max)};
+Vector3 Vector3::random(precision min, precision max) {
+    return {MathHelper::randomPrecision(min, max), MathHelper::randomPrecision(min, max), MathHelper::randomPrecision(min, max)};
 }
 
 Vector3 Vector3::randomInUnitSphere() {
     while(true){
-        auto p = Vector3::random(-1.0, 1.0);
+        auto p = Vector3::random(-1, 1);
         if(p.lengthSquared() < 1){
             return p;
         }
@@ -42,7 +42,7 @@ Vector3 Vector3::randomUnitVector() {
 
 Vector3 Vector3::randomOnHemisphere(const Vector3 &normal) {
     Vector3 unit_sphere_vector = randomUnitVector();
-    if(unit_sphere_vector.dotProduct(normal) > 0.0){
+    if(unit_sphere_vector.dotProduct(normal) > 0){
         return unit_sphere_vector;
     } else {
         return -unit_sphere_vector;
@@ -60,11 +60,11 @@ Vector3 Vector3::operator-(const Vector3 &other) const {
     return {x - other.x, y - other.y, z - other.z};
 }
 
-Vector3 Vector3::operator*(const double &scalar) const {
+Vector3 Vector3::operator*(const precision &scalar) const {
     return {x * scalar, y * scalar, z * scalar};
 }
 
-Vector3 Vector3::operator/(const double &scalar) const {
+Vector3 Vector3::operator/(const precision &scalar) const {
     return {x / scalar, y / scalar, z / scalar};
 }
 
@@ -84,14 +84,14 @@ Vector3 Vector3::operator-=(const Vector3 &other) {
     return *this;
 }
 
-Vector3 Vector3::operator*=(double scalar) {
+Vector3 Vector3::operator*=(precision scalar) {
     x *= scalar;
     y *= scalar;
     z *= scalar;
     return *this;
 }
 
-Vector3 Vector3::operator/=(double scalar) {
+Vector3 Vector3::operator/=(precision scalar) {
     x /= scalar;
     y /= scalar;
     z /= scalar;
@@ -99,9 +99,9 @@ Vector3 Vector3::operator/=(double scalar) {
 }
 
 bool Vector3::operator==(const Vector3 &other) const {
-    return std::fabs(x - other.x) <= DBL_EPSILON &&
-            std::fabs(y - other.y) <= DBL_EPSILON &&
-            std::fabs(z - other.z) <= DBL_EPSILON;
+    return std::fabs(x - other.x) <= epsilon &&
+            std::fabs(y - other.y) <= epsilon &&
+            std::fabs(z - other.z) <= epsilon;
 }
 
 Vector3 Vector3::operator-() {
@@ -113,7 +113,7 @@ Vector3 Vector3::operator-() {
 
 //Other methods
 
-double Vector3::dotProduct(const Vector3 &other) const{
+precision Vector3::dotProduct(const Vector3 &other) const{
     return x * other.x + y * other.y + z * other.z;
 }
 
@@ -136,15 +136,15 @@ Vector3 Vector3::normalized() const {
     return *this/length;
 }
 
-double Vector3::length() const {
+precision Vector3::length() const {
     return std::sqrt(lengthSquared());
 }
 
-double Vector3::lengthSquared() const {
+precision Vector3::lengthSquared() const {
     return x * x + y * y + z * z;
 }
 
-double Vector3::angle(Vector3 other) const {
+precision Vector3::angle(Vector3 other) const {
     float dot = this->dotProduct(other);
     float lenSq1 = x * x + y * y + z * z;
     float lenSq2 = other.x * other.x + other.y * other.y + other.z * other.z;
@@ -153,14 +153,16 @@ double Vector3::angle(Vector3 other) const {
 }
 
 bool Vector3::isNearZero() const {
-    return (std::fabs(x) < DBL_EPSILON && std::fabs(y) < DBL_EPSILON && std::fabs(z) < DBL_EPSILON);
+    return (std::fabs(x) < epsilon &&
+            std::fabs(y) < epsilon &&
+            std::fabs(z) < epsilon);
 }
 
 std::string Vector3::toString() const {
     return "[" + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z) + "]";
 }
 
-Vector3 Vector3::rotateAroundAngleAndAxis(double angle, Vector3 &axis) const {
+Vector3 Vector3::rotateAroundAngleAndAxis(precision angle, Vector3 &axis) const {
     Quaternion pure = {0, *this};
     axis.normalize();
 
@@ -173,5 +175,10 @@ Vector3 Vector3::rotateAroundAngleAndAxis(double angle, Vector3 &axis) const {
 }
 
 Vector3 Vector3::reflect(const Vector3 &normal) {
+    *this = *this - normal * 2 * (*this).dotProduct(normal);
+    return *this;
+}
+
+Vector3 Vector3::reflected(const Vector3 &normal) const {
     return *this - normal * 2 * (*this).dotProduct(normal);
 }

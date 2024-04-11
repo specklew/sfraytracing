@@ -24,7 +24,7 @@ public:
 
 protected:
     int SamplingResolution_;
-    double InvertedSamplingResolution_;
+    precision InvertedSamplingResolution_;
     Color *ColorBuffer_;
 
     virtual Color samplePoint(const Vector3& point);

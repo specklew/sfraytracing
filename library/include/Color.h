@@ -2,20 +2,23 @@
 #define SFRAYTRACING_COLOR_H
 
 #include <string>
+#include "Precision.h"
 
 class Color {
 public:
     static const Color Null;
+    static const Color Black;
+    static const Color White;
 
-    double r;
-    double g;
-    double b;
+    precision r;
+    precision g;
+    precision b;
 
     Color();
 
     Color(const Color &color);
 
-    Color(double r, double g, double b);
+    Color(precision r, precision g, precision b);
 
     [[nodiscard]] Color operator+(const Color &color) const;
 
@@ -23,9 +26,9 @@ public:
 
     [[nodiscard]] Color operator*(const Color &color) const;
 
-    [[nodiscard]] Color operator*(double scalar) const;
+    [[nodiscard]] Color operator*(precision scalar) const;
 
-    [[nodiscard]] Color operator/(double scalar) const;
+    [[nodiscard]] Color operator/(precision scalar) const;
 
     Color &operator+=(const Color &color);
 
@@ -33,16 +36,16 @@ public:
 
     Color &operator*=(const Color &color);
 
-    Color &operator*=(double scalar);
+    Color &operator*=(precision scalar);
 
-    Color &operator/=(double scalar);
+    Color &operator/=(precision scalar);
 
     [[nodiscard]] bool operator==(const Color &other) const;
 
     [[nodiscard]] bool operator!=(const Color &color) const;
 
     Color clamp();
-    Color linearToGamma(const double& gamma);
+    Color linearToGamma(const precision& gamma);
 
     static Color getAverageColor(const Color *colors, int size);
 
@@ -51,8 +54,8 @@ public:
     [[nodiscard]] std::string toString() const;
 
 private:
-    static const double min;
-    static const double max;
+    static const precision min;
+    static const precision max;
 
 };
 

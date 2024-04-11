@@ -4,14 +4,17 @@
 #include "Helpers/MathHelper.h"
 
 const Color Color::Null = {-1, -1, -1};
-const double Color::min = {0};
-const double Color::max = {1};
+const Color Color::Black = {0, 0, 0};
+const Color Color::White = {1, 1, 1};
+
+const precision Color::min{0};
+const precision Color::max{1};
 
 Color::Color() : Color(Null){}
 
 Color::Color(const Color& color) : Color(color.r, color.g, color.b){}
 
-Color::Color(double r, double g, double b) {
+Color::Color(precision r, precision g, precision b) {
     this->r = r;
     this->g = g;
     this->b = b;
@@ -29,43 +32,54 @@ Color Color::operator*(const Color &color) const {
     return {r * color.r, g * color.g, b * color.b};
 }
 
-Color Color::operator*(double scalar) const {
+Color Color::operator*(precision scalar) const {
     return {r * scalar, g * scalar, b * scalar};
 }
 
-Color Color::operator/(double scalar) const {
+Color Color::operator/(precision scalar) const {
     return {r / scalar, g / scalar, b / scalar};
 }
 
 Color &Color::operator+=(const Color &color) {
-    *this = *this + color;
+    this->r += color.r;
+    this->g += color.g;
+    this->b += color.b;
+
     return *this;
 }
 
 Color &Color::operator-=(const Color &color) {
-    *this = *this - color;
+    this->r -= color.r;
+    this->g -= color.g;
+    this->b -= color.b;
     return *this;
 }
 
 Color &Color::operator*=(const Color &color) {
-    *this = *this * color;
+    this->r *= color.r;
+    this->g *= color.g;
+    this->b *= color.b;
     return *this;
 }
 
-Color &Color::operator*=(double scalar) {
-    *this = *this * scalar;
+Color &Color::operator*=(precision scalar) {
+    this->r *= scalar;
+    this->g *= scalar;
+    this->b *= scalar;
     return *this;
 }
 
-Color &Color::operator/=(double scalar) {
-    *this = *this / scalar;
+Color &Color::operator/=(precision scalar) {
+    this->r /= scalar;
+    this->g /= scalar;
+    this->b /= scalar;
     return *this;
 }
 
 bool Color::operator==(const Color &other) const {
-    return std::fabs(r - other.r) <= DBL_EPSILON &&
-            std::fabs(g - other.r) <= DBL_EPSILON &&
-            std::fabs(b - other.b) <= DBL_EPSILON;
+    return std::fabs(r - other.r) <= epsilon &&
+            std::fabs(g - other.r) <= epsilon &&
+            std::fabs(b - other.b) <= epsilon;
 }
 
 bool Color::operator!=(const Color &color) const {
@@ -78,11 +92,11 @@ std::string Color::toString() const {
 
 Color Color::getAverageColor(const Color *colors, int size) {
 
-    double invSize = 1.0 / size;
+    precision invSize = 1.0 / size;
 
-    double r = 0;
-    double g = 0;
-    double b = 0;
+    precision r = 0;
+    precision g = 0;
+    precision b = 0;
 
     for(int i = 0; i < size; ++i){
         Color color = colors[i];
@@ -114,7 +128,7 @@ Color Color::clamp() {
     return *this;
 }
 
-Color Color::linearToGamma(const double& gamma) {
+Color Color::linearToGamma(const precision& gamma) {
     r = MathHelper::linearToGamma(r, gamma);
     g = MathHelper::linearToGamma(g, gamma);
     b = MathHelper::linearToGamma(b, gamma);
