@@ -5,7 +5,7 @@ MetalMaterial::MetalMaterial(const Color &albedo) {
     this->albedo = albedo;
     this->diffuseAmount = 0.3;
     this->ambientAmount = 0.1;
-    this->specularAmount = 0.5;
+    this->specularAmount = 1;
     this->specularCoefficient = 10.0;
 }
 

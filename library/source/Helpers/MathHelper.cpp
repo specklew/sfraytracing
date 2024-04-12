@@ -17,8 +17,8 @@ precision MathHelper::randomPrecision(precision min, precision max) {
 }
 
 precision MathHelper::clamp(precision &value, const precision &min, const precision &max) {
-    if(value < min) return min;
-    if(value > max) return max;
+    if(value < min) return (value = min);
+    if(value > max) return (value = max);
     return value;
 }
 

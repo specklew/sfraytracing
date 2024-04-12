@@ -37,12 +37,12 @@ Ray Camera::calculateRay(const Vector3 &point) const {
 Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const {
 
     if(HitInfo hit = scene->hit(ray); hit.intersected){
-        return scene->hitLights(hit, direction);
+        return scene->hitLights(hit);
     }
 
-    return {0,0,0};
+    return Color::Black;
 
-/*    if(depth <= 0) return scene->hitLights(lastHit);
+    if(depth <= 0) return scene->hitLights(lastHit);
 
     if(HitInfo hit = scene->hit(ray); hit.intersected){
 
@@ -52,7 +52,11 @@ Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const 
         }
     }
 
-    return scene->hitLights(lastHit);*/
+    if(!lastHit.intersected) return Color::Black;
+
+    return scene->hitLights(lastHit);
+
+    //return scene->hitLights(lastHit);
 
 /*    Vector3 unit_direction = ray.direction.normalized();
     float t = 0.5f * (unit_direction.y + 1.0f);

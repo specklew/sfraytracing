@@ -52,7 +52,7 @@ HitInfo Scene::hit(const Ray &ray) const {
     return result;
 }
 
-Color Scene::hitLights(const HitInfo &lastHit, const Vector3& cameraDirection) const {
+Color Scene::hitLights(const HitInfo &lastHit) const {
     Color result(0, 0, 0);
 
     for(auto light : lights){
