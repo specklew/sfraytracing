@@ -136,3 +136,31 @@ Color Color::linearToGamma(const precision& gamma) {
     return *this;
 }
 
+Color Color::operator+(precision scalar) const {
+    return {r + scalar, g + scalar, b + scalar};
+}
+
+Color Color::operator-(precision scalar) const {
+    return {r - scalar, g - scalar, b - scalar};
+}
+
+Color &Color::operator+=(precision scalar) {
+    r += scalar;
+    g += scalar;
+    b += scalar;
+    return *this;
+}
+
+Color &Color::operator-=(precision scalar) {
+    r -= scalar;
+    g -= scalar;
+    b -= scalar;
+    return *this;
+}
+
+Color::Color(precision intensity) {
+    r = intensity;
+    g = intensity;
+    b = intensity;
+}
+

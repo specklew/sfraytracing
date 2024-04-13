@@ -36,11 +36,11 @@ Ray Camera::calculateRay(const Vector3 &point) const {
 
 Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const {
 
-    if(HitInfo hit = scene->hit(ray); hit.intersected){
+/*    if(HitInfo hit = scene->hit(ray); hit.intersected){
         return scene->hitLights(hit);
     }
 
-    return Color::Black;
+    return Color::Black;*/
 
     if(depth <= 0) return scene->hitLights(lastHit);
 
@@ -48,7 +48,7 @@ Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const 
 
         if(MaterialInfo mat = hit.material->scatter(ray, hit); mat.wasScattered){
 
-            return mat.attenuation * rayColor(mat.scattered, depth - 1, hit);
+            return mat.attenuation * rayColor(mat.scatteredRay, depth - 1, hit);
         }
     }
 

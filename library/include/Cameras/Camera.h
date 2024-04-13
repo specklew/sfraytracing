@@ -37,7 +37,7 @@ public:
     virtual sf::Texture renderFrame(int imageWidth);
 
     [[nodiscard]] virtual Ray calculateRay(const Vector3 &point) const;
-    [[nodiscard]] Color rayColor(const Ray& ray, int depth = 4, const HitInfo &lastHit = {}) const;
+    [[nodiscard]] Color rayColor(const Ray& ray, int depth = 3, const HitInfo &lastHit = {}) const;
 };
 
 

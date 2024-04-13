@@ -7,7 +7,7 @@
 struct MaterialInfo{
     bool wasScattered{false};
     Color attenuation{Color::Null};
-    Ray scattered{};
+    Ray scatteredRay{};
 };
 
 #endif //SF_RAYTRACING_MATERIALINFO_H

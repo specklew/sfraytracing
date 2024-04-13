@@ -16,6 +16,8 @@ public:
 
     Color();
 
+    Color(precision intensity);
+
     Color(const Color &color);
 
     Color(precision r, precision g, precision b);
@@ -26,6 +28,10 @@ public:
 
     [[nodiscard]] Color operator*(const Color &color) const;
 
+    [[nodiscard]] Color operator+(precision scalar) const;
+
+    [[nodiscard]] Color operator-(precision scalar) const;
+
     [[nodiscard]] Color operator*(precision scalar) const;
 
     [[nodiscard]] Color operator/(precision scalar) const;
@@ -35,6 +41,10 @@ public:
     Color &operator-=(const Color &color);
 
     Color &operator*=(const Color &color);
+
+    Color &operator+=(precision scalar);
+
+    Color &operator-=(precision scalar);
 
     Color &operator*=(precision scalar);
 
