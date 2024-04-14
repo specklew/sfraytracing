@@ -13,6 +13,7 @@
 #include "Cameras/PerspectiveCamera.h"
 #include "Scene.h"
 #include "Samplers/UniformDistributionSuperSampler.h"
+#include "Samplers/AdaptiveSuperSampler.h"
 #include "Materials/LambertianMaterial.h"
 #include "Materials/MetalMaterial.h"
 #include <SFML/Graphics.hpp>
@@ -27,13 +28,11 @@ int main() {
 
     auto start = high_resolution_clock::now();
 
-    int image_width = 1600;
-
     //Camera setup
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0.5, 0),
             Vector3(0, 0, -1),
-            new UniformDistributionSuperSampler(4));
+            new AdaptiveSuperSampler(2));
 
     // Scene setup
     Scene scene = Scene(camera);
@@ -66,7 +65,7 @@ int main() {
 
     scene.addLight(&light);
 
-    sf::Texture rendered_image = scene.renderScene(image_width);
+    sf::Texture rendered_image = scene.renderScene();
     rendered_image.setSmooth(false);
 
     sf::Sprite sprite(rendered_image);

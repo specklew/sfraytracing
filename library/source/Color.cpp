@@ -77,13 +77,13 @@ Color &Color::operator/=(precision scalar) {
 }
 
 bool Color::operator==(const Color &other) const {
-    return std::fabs(r - other.r) <= epsilon &&
-            std::fabs(g - other.r) <= epsilon &&
-            std::fabs(b - other.b) <= epsilon;
+    return std::fabs(r - other.r) <= 0.02 &&
+            std::fabs(g - other.r) <= 0.02 &&
+            std::fabs(b - other.b) <= 0.02;
 }
 
 bool Color::operator!=(const Color &color) const {
-    return r != color.r && g != color.g && b != color.b;
+    return !(*this==color);
 }
 
 std::string Color::toString() const {

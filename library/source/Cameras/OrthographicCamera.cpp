@@ -9,8 +9,8 @@ OrthographicCamera::OrthographicCamera(const Vector3 &position, const Vector3 &d
 
 }
 
-sf::Texture OrthographicCamera::renderFrame(int imageWidth) {
-    return Camera::renderFrame(imageWidth);
+sf::Texture OrthographicCamera::renderFrame() {
+    return Camera::renderFrame();
 }
 
 Ray OrthographicCamera::calculateRay(const Vector3 &point) const {

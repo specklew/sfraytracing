@@ -10,11 +10,6 @@ Sampler::Sampler(int samplingResolution) {
     pixelDeltaV = Vector3(0, 0, 0);
     SamplingResolution_ = samplingResolution;
     InvertedSamplingResolution_ = static_cast<precision>(1.0 / SamplingResolution_);
-    ColorBuffer_ = new Color[SamplingResolution_ * SamplingResolution_];
-}
-
-Sampler::~Sampler() {
-    delete[] ColorBuffer_;
 }
 
 Color Sampler::samplePoint(const Vector3& point) {

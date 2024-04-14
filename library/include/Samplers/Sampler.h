@@ -10,7 +10,6 @@ class Camera;
 
 class Sampler{
 public:
-    virtual ~Sampler();
     Sampler();
     explicit Sampler(int samplingResolution);
 
@@ -25,7 +24,6 @@ public:
 protected:
     int SamplingResolution_;
     precision InvertedSamplingResolution_;
-    Color *ColorBuffer_;
 
     virtual Color samplePoint(const Vector3& point);
 };

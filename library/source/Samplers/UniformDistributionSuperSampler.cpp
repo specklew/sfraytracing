@@ -6,6 +6,8 @@ UniformDistributionSuperSampler::UniformDistributionSuperSampler(int samplingRes
 
 Color UniformDistributionSuperSampler::samplePixel(int x, int y) {
 
+    Color buffer[SamplingResolution_ * SamplingResolution_];
+
     Vector3 pixel_offset = upperLeftViewportCorner
                            + pixelDeltaU * (x + InvertedSamplingResolution_ * 0.5)
                            + pixelDeltaV * (y + InvertedSamplingResolution_ * 0.5);
@@ -19,9 +21,9 @@ Color UniformDistributionSuperSampler::samplePixel(int x, int y) {
                                                 + pixelDeltaU * (InvertedSamplingResolution_ * i)
                                                 + pixelDeltaV * (InvertedSamplingResolution_ * j);
 
-            ColorBuffer_[sample_index] = samplePoint(pixel_sample_intersection);
+            buffer[sample_index] = samplePoint(pixel_sample_intersection);
         }
     }
 
-    return Color::getAverageColor(ColorBuffer_, SamplingResolution_ * SamplingResolution_);
+    return Color::getAverageColor(buffer, SamplingResolution_ * SamplingResolution_);
 }

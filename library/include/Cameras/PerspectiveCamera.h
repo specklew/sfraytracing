@@ -13,7 +13,7 @@ public:
     PerspectiveCamera(const Vector3& position, const Vector3& direction);
     PerspectiveCamera(const Vector3& position, const Vector3& direction, Sampler *sampler);
 
-    sf::Texture renderFrame(int imageWidth) override;
+    sf::Texture renderFrame() override;
 };
 
 #endif //SFRAYTRACING_CAMERA_H

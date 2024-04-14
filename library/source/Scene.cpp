@@ -24,8 +24,8 @@ void Scene::removeObject(Geometry *object) {
     objects.erase(std::remove(objects.begin(), objects.end(), object), objects.end());
 }
 
-sf::Texture Scene::renderScene(int imageWidth) const {
-    return camera->renderFrame(imageWidth);
+sf::Texture Scene::renderScene() const {
+    return camera->renderFrame();
 }
 
 Scene::~Scene() {

@@ -9,7 +9,7 @@ public:
     OrthographicCamera(const Vector3& position, const Vector3& direction);
     OrthographicCamera(const Vector3& position, const Vector3& direction, Sampler *sampler);
 
-    sf::Texture renderFrame(int imageWidth) override;
+    sf::Texture renderFrame() override;
 
 protected:
     Ray calculateRay(const Vector3 &point) const override;

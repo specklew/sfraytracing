@@ -20,6 +20,9 @@ public:
     Vector3 direction;
     Vector3 up;
 
+    int imageWidth;
+    int imageHeight;
+
     double aspectRatio;
 
     double viewportWidth;
@@ -30,11 +33,13 @@ public:
 
     Camera();
     Camera(const Vector3& position, const Vector3& direction);
-    Camera(const Vector3& position, const Vector3& direction, Sampler *sampler);
+    Camera(const Vector3& position, const Vector3& direction, Sampler *sampler, int imageWidth = 1600);
 
     virtual ~Camera();
 
-    virtual sf::Texture renderFrame(int imageWidth);
+    static void SamplePixel(sf::Uint8 *pixelsArray, Sampler *sampler, const int *imageWidth, int i, int j);
+
+    virtual sf::Texture renderFrame();
 
     [[nodiscard]] virtual Ray calculateRay(const Vector3 &point) const;
     [[nodiscard]] Color rayColor(const Ray& ray, int depth = 3, const HitInfo &lastHit = {}) const;

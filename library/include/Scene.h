@@ -27,7 +27,7 @@ public:
     [[nodiscard]] HitInfo hit(const Ray& ray) const;
     [[nodiscard]] Color hitLights(const HitInfo &lastHit) const;
 
-    [[nodiscard]] sf::Texture renderScene(int width) const;
+    [[nodiscard]] sf::Texture renderScene() const;
 
 private:
     std::vector<Geometry*> objects;

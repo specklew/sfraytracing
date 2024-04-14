@@ -16,12 +16,12 @@ PerspectiveCamera::PerspectiveCamera(const Vector3 &position, const Vector3 &dir
         position, direction, sampler) {
 }
 
-sf::Texture PerspectiveCamera::renderFrame(int imageWidth) {
+sf::Texture PerspectiveCamera::renderFrame() {
 
     precision theta = fov * pi / half360;
     precision h = std::tan(theta * 0.5);
     viewportHeight = 2 * h;
 
-    return Camera::renderFrame(imageWidth);
+    return Camera::renderFrame();
 
 }
