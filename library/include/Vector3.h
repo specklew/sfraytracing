@@ -42,7 +42,9 @@ public:
     [[nodiscard]] Vector3 normalized() const;
 
     Vector3 reflect(const Vector3& normal);
-    Vector3 reflected(const Vector3& normal) const;
+    [[nodiscard]] Vector3 reflected(const Vector3& normal) const;
+    Vector3 refract(const Vector3& normal, precision eta_over_eta);
+    [[nodiscard]] Vector3 refracted(const Vector3& normal, precision eta_over_eta) const;
 
     [[nodiscard]] precision length() const;
     [[nodiscard]] precision lengthSquared() const;

@@ -55,7 +55,11 @@ HitInfo Triangle::hit(const Ray &ray) const {
 
     precision t = ac.dotProduct(s_cross_ab) * inv_det;
 
-    if(t > ray.minimalDistance) return {true, ray.origin + ray.direction * t, normals[0].normalized(), t, material, ray};
+    if(t > ray.minimalDistance) {
+        return {true, ray.direction.dotProduct(normals[0].normalized()) > 0, ray.origin + ray.direction * t,
+                normals[0].normalized(), t, material, ray
+        };
+    }
 
     return {};
 }

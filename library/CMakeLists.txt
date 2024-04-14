@@ -52,6 +52,8 @@ set(SOURCE_FILES
         source/Lights/PointLight.cpp
         source/Lights/Light.cpp
         include/Precision.h
+        include/Materials/DielectricMaterial.h
+        source/Materials/DielectricMaterial.cpp
 )
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})

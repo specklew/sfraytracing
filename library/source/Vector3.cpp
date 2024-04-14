@@ -182,3 +182,24 @@ Vector3 Vector3::reflect(const Vector3 &normal) {
 Vector3 Vector3::reflected(const Vector3 &normal) const {
     return *this - normal * 2 * (*this).dotProduct(normal);
 }
+
+Vector3 Vector3::refract(const Vector3 &normal, precision eta_over_eta) {
+    precision one = 1;
+    precision cos_theta = std::min(dotProduct(normal), one);
+
+    Vector3 perpendicular = (*this + normal * cos_theta) * eta_over_eta;
+    Vector3 parallel = -(normal * std::sqrt(std::abs(one - perpendicular.lengthSquared())));
+
+    *this = perpendicular + parallel;
+    return *this;
+}
+
+Vector3 Vector3::refracted(const Vector3 &normal, precision eta_over_eta) const {
+    precision one = 1;
+    precision cos_theta = std::min(-this->dotProduct(normal), one);
+
+    Vector3 perpendicular = (*this + normal * cos_theta) * eta_over_eta;
+    Vector3 parallel = -(normal * std::sqrt(std::abs(one - perpendicular.lengthSquared())));
+
+    return perpendicular + parallel;
+}

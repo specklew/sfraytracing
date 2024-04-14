@@ -9,6 +9,7 @@ class Ray;
 
 struct HitInfo {
     bool intersected{};
+    bool frontFace{};
     Vector3 point{};
     Vector3 normal{};
     precision distance{};

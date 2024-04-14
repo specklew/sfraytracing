@@ -39,12 +39,6 @@ Ray Camera::calculateRay(const Vector3 &point) const {
 
 Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const {
 
-/*    if(HitInfo hit = scene->hit(ray); hit.intersected){
-        return scene->hitLights(hit);
-    }
-
-    return Color::Black;*/
-
     if(depth <= 0) return scene->hitLights(lastHit);
 
     if(HitInfo hit = scene->hit(ray); hit.intersected){
@@ -59,11 +53,9 @@ Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const 
 
     return scene->hitLights(lastHit);
 
-    //return scene->hitLights(lastHit);
-
-/*    Vector3 unit_direction = ray.direction.normalized();
+    Vector3 unit_direction = ray.direction.normalized();
     float t = 0.5f * (unit_direction.y + 1.0f);
-    return Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;*/
+    return Color(1, 1, 1) * (1.0f - t) + Color(0.5, 0.7, 1) * t;
 }
 
 void Camera::SamplePixel(sf::Uint8 *pixelsArray, Sampler *sampler, const int *imageWidth, int i, int j) {
@@ -100,18 +92,12 @@ sf::Texture Camera::renderFrame() {
         for (int j = 0; j < imageHeight; ++j) {
 
             pool.enqueue([this, pixels, j] {
-            for (int i = 0; i < imageWidth; ++i) {
+                for (int i = 0; i < imageWidth; ++i) {
 
 
-                    SamplePixel(pixels, sampler, &imageWidth, i, j);
+                        SamplePixel(pixels, sampler, &imageWidth, i, j);
 
-/*                Color pixel_color = sampler->samplePixel(i, j).clamp().linearToGamma(2);
-
-                pixels[(j * imageWidth + i) * 4 + 0] = (pixel_color.r * 255);
-                pixels[(j * imageWidth + i) * 4 + 1] = (pixel_color.g * 255);
-                pixels[(j * imageWidth + i) * 4 + 2] = (pixel_color.b * 255);
-                pixels[(j * imageWidth + i) * 4 + 3] = 255;*/
-            }
+                }
             });
         }
     }

@@ -16,8 +16,8 @@ Sphere::Sphere(Vector3 center, precision radius, const std::shared_ptr<Material>
 }
 
 HitInfo Sphere::hit(const Ray &ray) const {
-    Vector3 rayDirection = ray.direction;
-    rayDirection.normalize();
+
+    Vector3 rayDirection = ray.direction.normalized();
 
     Vector3 oc = ray.origin - center;
     precision a = rayDirection.dotProduct(rayDirection);
@@ -33,6 +33,7 @@ HitInfo Sphere::hit(const Ray &ray) const {
     precision inv_a = 1 / a;
     precision t = (-half_b - sqrtDiscriminant) * inv_a;
 
+
     if (t < ray.minimalDistance || ray.distance < t) {
 
         t = (-half_b + sqrtDiscriminant) * inv_a;
@@ -42,8 +43,17 @@ HitInfo Sphere::hit(const Ray &ray) const {
     }
 
     Vector3 hitPoint = ray.origin + rayDirection * t;
+    Vector3 normal = (hitPoint - center).normalized();
 
-    return {true, hitPoint, (hitPoint - center).normalized(), t, material, ray};
+    bool front_face;
+    if(rayDirection.dotProduct(normal) > 0){
+        front_face = false;
+        normal = -normal;
+    } else {
+        front_face = true;
+    }
+
+    return {true, front_face, hitPoint, normal, t, material, ray};
 }
 
 std::string Sphere::toString() const {

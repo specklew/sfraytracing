@@ -11,12 +11,12 @@ HitInfo Plane::hit(const Ray &ray) const {
 
     precision denominator = normal.dotProduct(rayDirection);
 
-    if (denominator < epsilon) {
+    if (std::abs(denominator) > epsilon) {
         Vector3 p = point - ray.origin;
 
         if (precision t = p.dotProduct(normal) / denominator; t > ray.minimalDistance && t < ray.distance) {
             Vector3 intersectionPoint = ray.origin + rayDirection.normalized() * t;
-            return {true, intersectionPoint, normal, t, material, ray};
+            return {true, denominator > 0, intersectionPoint, normal, t, material, ray};
         }
     }
     return {};

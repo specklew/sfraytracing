@@ -16,6 +16,7 @@
 #include "Samplers/AdaptiveSuperSampler.h"
 #include "Materials/LambertianMaterial.h"
 #include "Materials/MetalMaterial.h"
+#include "Materials/DielectricMaterial.h"
 #include <SFML/Graphics.hpp>
 #include <chrono>
 #include "Helpers/LoggerHelper.h"
@@ -32,34 +33,35 @@ int main() {
     Camera* camera = new PerspectiveCamera(
             Vector3(0, 0.5, 0),
             Vector3(0, 0, -1),
-            new AdaptiveSuperSampler(2));
+            new UniformDistributionSuperSampler(4));
 
     // Scene setup
     Scene scene = Scene(camera);
 
-    std::shared_ptr<Material> material = std::make_shared<LambertianMaterial>(LambertianMaterial(Color(0.5, 0.5, 0.5)));
-    std::shared_ptr<Material> material1 = std::make_shared<MetalMaterial>(MetalMaterial(Color(1, 0,0)));
-    std::shared_ptr<Material> material2 = std::make_shared<LambertianMaterial>(LambertianMaterial({0.5, 0.0, 0.0}));
+    std::shared_ptr<Material> diffuseWhite = std::make_shared<LambertianMaterial>(LambertianMaterial(Color(0.5, 0.5, 0.5)));
+    std::shared_ptr<Material> mirror = std::make_shared<MetalMaterial>(MetalMaterial(Color(1, 0, 0)));
+    std::shared_ptr<Material> diffuseRed = std::make_shared<LambertianMaterial>(LambertianMaterial({0.5, 0.0, 0.0}));
+    std::shared_ptr<Material> glass = std::make_shared<DielectricMaterial>(DielectricMaterial({1,1,1}, 1.6));
 
-    Sphere s1 = Sphere({-0.5, 0.5, -1}, 0.5f, material2);
-    Sphere s2 = Sphere({0.5, 0.5, -1}, 0.5, material1);
-    Triangle t1 = Triangle({1.25, 0, -1}, {0.25, 1, -1.5}, {0.25, -0.5, -1}, material1);
+    Sphere s1 = Sphere({0, 1, -4}, 0.5f, diffuseRed);
+    Sphere s2 = Sphere({0, 0, -4}, 0.5f, diffuseWhite);
+    Sphere s3 = Sphere({0, 0.5, -1}, 0.5, glass);
+    Triangle t1 = Triangle({1.25, 0, -1}, {0.25, 1, -1.5}, {0.25, -0.5, -1}, mirror);
 
-    Plane ground = Plane({0, 0, 0}, {0, 1, 0}, material);
-    Plane leftWall = Plane({3,0,0}, {-1,0,0}, material);
-    Plane rightWall = Plane({-3,0,0}, {1,0,0}, material);
-    Plane ceiling = Plane({0,3,0}, {0,-1,0}, material);
-    //Sphere ground = Sphere({0, -100.5, -1}, 100.0f, material);
-    Sphere skyMirror = Sphere({0, 102, -1}, 100.0f, material1);
+    //Plane ground = Plane({0, 0, 0}, {0, 1, 0}, diffuseWhite);
+    Plane leftWall = Plane({3,0,0}, {-1,0,0}, diffuseWhite);
+    Plane rightWall = Plane({-3,0,0}, {1,0,0}, diffuseWhite);
+    Plane ceiling = Plane({0,3,0}, {0,-1,0}, diffuseWhite);
+    Sphere ground = Sphere({0, -100, -1}, 100.0f, diffuseWhite);
 
     scene.addObject(&s1);
     scene.addObject(&s2);
+    scene.addObject(&s3);
     //scene.addObject(&t1);
     scene.addObject(&ground);
-    scene.addObject(&leftWall);
-    scene.addObject(&rightWall);
-    scene.addObject(&ceiling);
-    //scene.addObject(&skyMirror);
+    //scene.addObject(&leftWall);
+    //scene.addObject(&rightWall);
+    //scene.addObject(&ceiling);
 
     auto light = PointLight({2, 2, 2});
 
