@@ -41,8 +41,8 @@ set(SOURCE_FILES
         source/Helpers/MathHelper.cpp
         include/Materials/Material.h
         include/Materials/MaterialInfo.h
-        include/Materials/LambertianMaterial.h
-        source/Materials/LambertianMaterial.cpp
+        include/Materials/DiffuseMaterial.h
+        source/Materials/DiffuseMaterial.cpp
         source/Materials/MetalMaterial.cpp
         include/Materials/MetalMaterial.h
         include/Helpers/LoggerHelper.h

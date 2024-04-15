@@ -46,12 +46,12 @@ Color Camera::rayColor(const Ray &ray, int depth, const HitInfo& lastHit) const 
         if(MaterialInfo mat = hit.material->scatter(ray, hit); mat.wasScattered){
 
             return mat.attenuation * rayColor(mat.scatteredRay, depth - 1, hit);
+        } else {
+            return scene->hitLights(hit) * mat.attenuation;
         }
     }
 
-    if(!lastHit.intersected) return Color::Black;
-
-    return scene->hitLights(lastHit);
+    return Color::Black;
 
     Vector3 unit_direction = ray.direction.normalized();
     float t = 0.5f * (unit_direction.y + 1.0f);

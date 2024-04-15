@@ -9,11 +9,11 @@ struct HitInfo;
 
 class Light{
 public:
-    explicit Light(Vector3 position);
+    explicit Light(Vector3 position, precision intensity);
     Scene *scene;
     Vector3 position;
 
-    float intensity;
+    precision intensity;
     Color color;
 
     virtual Color calculateLightColorForHit(HitInfo lastHit) = 0;

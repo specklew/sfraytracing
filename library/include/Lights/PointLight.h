@@ -5,7 +5,7 @@
 
 class PointLight : public Light{
 public:
-    explicit PointLight(Vector3 position);
+    explicit PointLight(Vector3 position, precision intensity);
     Color calculateLightColorForHit(HitInfo lastHit) override;
 };
 
