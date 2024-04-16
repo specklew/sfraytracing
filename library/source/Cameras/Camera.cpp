@@ -93,10 +93,7 @@ sf::Texture Camera::renderFrame() {
 
             pool.enqueue([this, pixels, j] {
                 for (int i = 0; i < imageWidth; ++i) {
-
-
-                        SamplePixel(pixels, sampler, &imageWidth, i, j);
-
+                    SamplePixel(pixels, sampler, &imageWidth, i, j);
                 }
             });
         }

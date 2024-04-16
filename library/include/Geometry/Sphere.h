@@ -21,7 +21,6 @@ public:
 
     [[nodiscard]] HitInfo hit(const Ray &ray) const override;
 
-
     [[nodiscard]] std::string toString() const;
 };
 

@@ -31,7 +31,7 @@ int main() {
 
     //Camera setup
     Camera* camera = new PerspectiveCamera(
-            Vector3(0, 1, 1),
+            Vector3(0, 0.5, 0.1),
             Vector3(0, 0, -1),
             new UniformDistributionSuperSampler(4));
 
@@ -50,8 +50,8 @@ int main() {
     glossyMagenta->specularCoefficient = 15;
 
     Sphere s1 = Sphere({1, 0.5, -1.5}, 0.5f, glossyMagenta);
-    Sphere s2 = Sphere({-1, 0.5, -1.5}, 0.5f, diffuseWhite);
-    Sphere s3 = Sphere({0, 0.5, -1.5}, 0.5, glass);
+    Sphere s2 = Sphere({-1, 0.5, -1.5}, 0.5f, glass);
+    Sphere s3 = Sphere({0, 0.5, -1.5}, 0.5, mirror);
     Triangle t1 = Triangle({1.25, 0, -1}, {0.25, 1, -1.5}, {0.25, -0.5, -1}, mirror);
 
     Plane ground = Plane({0, 0, 0}, {0, 1, 0}, diffuseWhite);
@@ -59,7 +59,38 @@ int main() {
     Plane rightWall = Plane({-2,0,0}, {1,0,0}, diffuseBlue);
     Plane ceiling = Plane({0,3,0}, {0,-1,0}, diffuseWhite);
     Plane backWall = Plane({0, 0, -3}, {0,0,1}, diffuseWhite);
+
+    Vector3 p1 = {0.5, 0, -1};
+    Vector3 p2 = {-0.5, 0, -1};
+    Vector3 p3 = {0, 0, -1.7};
+    Vector3 p4 = {0, 1, -1.5};
+
+    Triangle prism1 = Triangle(
+            p1,
+            p2,
+            p3,
+            glass);
+    Triangle prism2 = Triangle(
+            p1,
+            p4,
+            p2,
+            glass);
+    Triangle prism3 = Triangle(
+            p1,
+            p4,
+            p3,
+            glass);
+    Triangle prism4 = Triangle(
+            p2,
+            p3,
+            p4,
+            glass);
     //Sphere ground = Sphere({0, -100, -1}, 100.0f, diffuseWhite);
+
+    //scene.addObject(&prism1);
+    //scene.addObject(&prism2);
+    //scene.addObject(&prism3);
+    //scene.addObject(&prism4);
 
     scene.addObject(&s1);
     scene.addObject(&s2);
