@@ -20,9 +20,9 @@ HitInfo Sphere::hit(const Ray &ray) const {
     Vector3 rayDirection = ray.direction.normalized();
 
     Vector3 oc = ray.origin - center;
-    precision a = rayDirection.dotProduct(rayDirection);
-    precision half_b = oc.dotProduct(rayDirection);
-    precision c = oc.dotProduct(oc) - radius * radius;
+    precision a = rayDirection.dot(rayDirection);
+    precision half_b = oc.dot(rayDirection);
+    precision c = oc.dot(oc) - radius * radius;
 
     precision discriminant = half_b * half_b - a * c;
 
@@ -46,7 +46,7 @@ HitInfo Sphere::hit(const Ray &ray) const {
     Vector3 normal = (hitPoint - center).normalized();
 
     bool front_face;
-    if(rayDirection.dotProduct(normal) > 0){
+    if(rayDirection.dot(normal) > 0){
         front_face = false;
         normal = -normal;
     } else {

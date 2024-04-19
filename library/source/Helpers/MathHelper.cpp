@@ -25,3 +25,7 @@ precision MathHelper::clamp(precision &value, const precision &min, const precis
 precision MathHelper::linearToGamma(const precision &value, const precision& gamma) {
     return std::pow(value, 1 / gamma);
 }
+
+precision MathHelper::lerp(const precision &from, const precision &to, const precision &t) {
+    return from * (1 - t) + to * t;
+}

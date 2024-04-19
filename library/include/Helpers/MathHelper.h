@@ -21,7 +21,7 @@ public:
 
     static precision clamp(precision& value, const precision& min, const precision& max);
     static precision linearToGamma(const precision& value, const precision& gamma = 2.0f);
-
+    static precision lerp(const precision& from, const precision& to, const precision& t);
 
 
 };

@@ -9,12 +9,12 @@ Plane::Plane(Vector3 point, Vector3 normal, const std::shared_ptr<Material>& mat
 HitInfo Plane::hit(const Ray &ray) const {
     Vector3 rayDirection = ray.direction;
 
-    precision denominator = normal.dotProduct(rayDirection);
+    precision denominator = normal.dot(rayDirection);
 
     if (std::abs(denominator) > epsilon) {
         Vector3 p = point - ray.origin;
 
-        if (precision t = p.dotProduct(normal) / denominator; t > ray.minimalDistance && t < ray.distance) {
+        if (precision t = p.dot(normal) / denominator; t > ray.minimalDistance && t < ray.distance) {
             Vector3 intersectionPoint = ray.origin + rayDirection.normalized() * t;
             return {true, denominator > 0, intersectionPoint, normal, t, material, ray};
         }

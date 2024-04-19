@@ -79,7 +79,7 @@ sf::Texture Camera::renderFrame() {
     viewportWidth = viewportHeight * (static_cast<float>(imageWidth) / imageHeight);
 
     Vector3 viewport_u = Vector3(direction.z, 0,-direction.x).normalized() * viewportWidth;
-    Vector3 viewport_v = viewport_u.crossProduct(direction).normalized() * viewportHeight;
+    Vector3 viewport_v = viewport_u.cross(direction).normalized() * viewportHeight;
 
     sampler->pixelDeltaU = viewport_u / static_cast<float>(imageWidth);
     sampler->pixelDeltaV = viewport_v / static_cast<float>(imageHeight);

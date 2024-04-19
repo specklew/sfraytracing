@@ -17,6 +17,10 @@ public:
     precision specularCoefficient = 2.0;
     precision reflectFraction;
 
+    precision roughness = 0.2;
+    precision metallic = 0.7;
+    precision ao = 0.1;
+
     virtual MaterialInfo scatter(const Ray& rayIn, const HitInfo& hit) const = 0;
 
     Color albedo;

@@ -4,7 +4,6 @@
 
 #include <string>
 #include "Precision.h"
-
 class Vector3{
 public:
     precision x{};
@@ -14,6 +13,7 @@ public:
     Vector3();
     Vector3(precision x, precision y, precision z);
     Vector3(const Vector3& p1, const Vector3& p2);
+    Vector3(const precision& scalar);
 
     static Vector3 random();
     static Vector3 random(precision min, precision max);
@@ -23,6 +23,8 @@ public:
 
     Vector3 operator+(const Vector3& other) const;
     Vector3 operator-(const Vector3& other) const;
+    Vector3 operator*(const Vector3& other) const;
+    Vector3 operator/(const Vector3& other) const;
     Vector3 operator*(const precision& scalar) const;
     Vector3 operator/(const precision& scalar) const;
 
@@ -35,8 +37,8 @@ public:
 
     Vector3 operator-();
 
-    [[nodiscard]] precision dotProduct(const Vector3& other) const;
-    [[nodiscard]] Vector3 crossProduct(const Vector3& other) const;
+    [[nodiscard]] precision dot(const Vector3& other) const;
+    [[nodiscard]] Vector3 cross(const Vector3& other) const;
 
     Vector3 normalize();
     [[nodiscard]] Vector3 normalized() const;

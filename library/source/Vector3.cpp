@@ -19,6 +19,12 @@ Vector3::Vector3(const Vector3& p1, const Vector3& p2) {
     z = p2.z - p1.z;
 }
 
+Vector3::Vector3(const precision& scalar) {
+    x = scalar;
+    y = scalar;
+    z = scalar;
+}
+
 Vector3 Vector3::random() {
     return {MathHelper::randomPrecision(), MathHelper::randomPrecision(), MathHelper::randomPrecision()};
 }
@@ -42,7 +48,7 @@ Vector3 Vector3::randomUnitVector() {
 
 Vector3 Vector3::randomOnHemisphere(const Vector3 &normal) {
     Vector3 unit_sphere_vector = randomUnitVector();
-    if(unit_sphere_vector.dotProduct(normal) > 0){
+    if(unit_sphere_vector.dot(normal) > 0){
         return unit_sphere_vector;
     } else {
         return -unit_sphere_vector;
@@ -113,11 +119,11 @@ Vector3 Vector3::operator-() {
 
 //Other methods
 
-precision Vector3::dotProduct(const Vector3 &other) const{
+precision Vector3::dot(const Vector3 &other) const{
     return x * other.x + y * other.y + z * other.z;
 }
 
-Vector3 Vector3::crossProduct(const Vector3 &other) const {
+Vector3 Vector3::cross(const Vector3 &other) const {
     return {y * other.z - z * other.y,
             z * other.x - x * other.z,
             x * other.y - y * other.x};
@@ -145,7 +151,7 @@ precision Vector3::lengthSquared() const {
 }
 
 precision Vector3::angle(Vector3 other) const {
-    float dot = this->dotProduct(other);
+    float dot = this->dot(other);
     float lenSq1 = x * x + y * y + z * z;
     float lenSq2 = other.x * other.x + other.y * other.y + other.z * other.z;
     float angle = std::acos(dot/ std::sqrt(lenSq1 * lenSq2));
@@ -175,17 +181,17 @@ Vector3 Vector3::rotateAroundAngleAndAxis(precision angle, Vector3 &axis) const 
 }
 
 Vector3 Vector3::reflect(const Vector3 &normal) {
-    *this = *this - normal * 2 * (*this).dotProduct(normal);
+    *this = *this - normal * 2 * (*this).dot(normal);
     return *this;
 }
 
 Vector3 Vector3::reflected(const Vector3 &normal) const {
-    return *this - normal * 2 * (*this).dotProduct(normal);
+    return *this - normal * 2 * (*this).dot(normal);
 }
 
 Vector3 Vector3::refract(const Vector3 &normal, precision eta_over_eta) {
     precision one = 1;
-    precision cos_theta = std::min(dotProduct(normal), one);
+    precision cos_theta = std::min(dot(normal), one);
 
     Vector3 perpendicular = (*this + normal * cos_theta) * eta_over_eta;
     Vector3 parallel = -(normal * std::sqrt(std::abs(one - perpendicular.lengthSquared())));
@@ -196,10 +202,88 @@ Vector3 Vector3::refract(const Vector3 &normal, precision eta_over_eta) {
 
 Vector3 Vector3::refracted(const Vector3 &normal, precision eta_over_eta) const {
     precision one = 1;
-    precision cos_theta = std::min(-this->dotProduct(normal), one);
+    precision cos_theta = std::min(-this->dot(normal), one);
 
     Vector3 perpendicular = (*this + normal * cos_theta) * eta_over_eta;
     Vector3 parallel = -(normal * std::sqrt(std::abs(one - perpendicular.lengthSquared())));
 
     return perpendicular + parallel;
+}
+
+Vector3 Vector3::operator*(const Vector3 &other) const {
+    return {x * other.x, y * other.y, z * other.z};
+}
+
+Vector3 Vector3::operator/(const Vector3 &other) const {
+    return {x / other.x, y / other.y, z / other.z};
+}
+
+// BRDF Helper functions.
+
+precision DistributionGGX(Vector3 normal, Vector3 halfway, precision roughness){
+    precision a = roughness*roughness;
+    precision a2 = a*a;
+    precision normal_dot_half = std::max(normal.dot(halfway), precision(0));
+    precision normal_dot_half_sq = normal_dot_half * normal_dot_half;
+
+    precision nom   = a2;
+    precision denominator = (normal_dot_half_sq * (a2 - 1) + 1);
+    denominator = pi * denominator * denominator;
+
+    return nom / denominator;
+}
+
+precision GeometrySchlickGGX(precision normalDotView, precision roughness)
+{
+    precision r = roughness + 1;
+    precision k = (r * r) / 8;
+
+    precision normal = normalDotView;
+    precision denominator = normalDotView * (1 - k) + k;
+
+    return normal / denominator;
+}
+
+precision GeometrySmith(Vector3 normal, Vector3 view, Vector3 light, precision roughness)
+{
+    precision normal_dot_vec = std::max(normal.dot(view), precision(0));
+    precision normal_dot_light = std::max(normal.dot(light), precision(0));
+    precision ggx2 = GeometrySchlickGGX(normal_dot_vec, roughness);
+    precision ggx1 = GeometrySchlickGGX(normal_dot_light, roughness);
+
+    return ggx1 * ggx2;
+}
+
+Vector3 fresnelSchlick(precision cosTheta, Vector3 F0)
+{
+    precision one_min_cos_theta = 1 - cosTheta;
+    return F0 + (-F0 + 1.0) * std::pow(
+            MathHelper::clamp(one_min_cos_theta, precision(0), precision(1)),
+            precision(5));
+}
+
+Vector3 computeReflectance(Vector3 N, Vector3 Ve, Vector3 F0, Vector3 albedo, Vector3 L, Vector3 H, Vector3 light_col,
+                           precision intensity, precision metallic, precision roughness)
+{
+    Vector3 radiance =  light_col * intensity; //Incoming Radiance
+
+    // cook-torrance brdf
+    float NDF = DistributionGGX(N, H, roughness);
+    float G = GeometrySmith(N, Ve, L,roughness);
+    Vector3 F = fresnelSchlick(std::max(H.dot(Ve), precision(0)), F0);
+
+    Vector3 kS = F;
+    Vector3 kD = Vector3(1.0) - kS;
+    kD *= 1.0 - metallic;
+
+    Vector3 nominator =  F * NDF * G;
+    float denominator = 4 * std::max(N.dot(Ve), precision(0)) * std::max(N.dot(L), precision(0)) + 0.00001/* avoid divide by zero*/;
+    Vector3 specular = nominator / denominator;
+
+
+    // add to outgoing radiance Lo
+    float NdotL = std::max(N.dot( L), precision(0));
+    Vector3 diffuse_radiance = (albedo) * kD / pi;
+
+    return (diffuse_radiance + specular) * radiance * NdotL;
 }

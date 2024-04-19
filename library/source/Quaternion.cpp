@@ -29,8 +29,8 @@ Quaternion Quaternion::operator-(const Quaternion &quaternion) const {
 }
 
 Quaternion Quaternion::operator*(const Quaternion &quaternion) const {
-    double s = scalar * quaternion.scalar - vector.dotProduct(quaternion.vector);
-    Vector3 v = vector * quaternion.scalar + quaternion.vector * scalar + vector.crossProduct(quaternion.vector);
+    double s = scalar * quaternion.scalar - vector.dot(quaternion.vector);
+    Vector3 v = vector * quaternion.scalar + quaternion.vector * scalar + vector.cross(quaternion.vector);
     return {s, v};
 }
 

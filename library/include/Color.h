@@ -16,7 +16,7 @@ public:
 
     Color();
 
-    Color(precision intensity);
+    Color(const precision& intensity);
 
     Color(const Color &color);
 
@@ -68,5 +68,7 @@ private:
     static const precision max;
 
 };
+
+Color mix(const Color& from, const Color& to, precision t);
 
 #endif //SFRAYTRACING_COLOR_H

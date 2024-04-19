@@ -20,6 +20,12 @@ Color::Color(precision r, precision g, precision b) {
     this->b = b;
 }
 
+Color::Color(const precision& intensity) {
+    r = intensity;
+    g = intensity;
+    b = intensity;
+}
+
 Color Color::operator+(const Color &color) const {
     return {r + color.r, g + color.g, b + color.b};
 }
@@ -156,11 +162,5 @@ Color &Color::operator-=(precision scalar) {
     g -= scalar;
     b -= scalar;
     return *this;
-}
-
-Color::Color(precision intensity) {
-    r = intensity;
-    g = intensity;
-    b = intensity;
 }
 
