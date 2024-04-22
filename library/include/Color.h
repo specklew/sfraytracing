@@ -36,6 +36,8 @@ public:
 
     [[nodiscard]] Color operator/(precision scalar) const;
 
+    [[nodiscard]] Color operator-() const;
+
     Color &operator+=(const Color &color);
 
     Color &operator-=(const Color &color);

@@ -6,6 +6,7 @@
 class DiffuseMaterial : public Material{
 public:
     DiffuseMaterial(const Color& albedo);
+    DiffuseMaterial(const Color& albedo, precision roughness, precision metallic, precision ambientOcclusion, precision anisotropy);
     [[nodiscard]] MaterialInfo scatter(const Ray &rayIn, const HitInfo &hit) const override;
 };
 

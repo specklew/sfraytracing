@@ -6,7 +6,7 @@
 class PointLight : public Light{
 public:
     explicit PointLight(Vector3 position, precision intensity);
-    Color calculateLightColorForHit(HitInfo lastHit) override;
+    Color calculateLightColorForHit(HitInfo hit) override;
 };
 
 #endif //SF_RAYTRACING_POINTLIGHT_H

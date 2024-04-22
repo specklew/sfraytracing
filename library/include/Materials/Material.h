@@ -17,13 +17,14 @@ public:
     precision specularCoefficient = 2.0;
     precision reflectFraction;
 
-    precision roughness = 0.2;
-    precision metallic = 0.7;
-    precision ao = 0.1;
+    precision roughness = 0.8;
+    precision metallic = 0.2;
+    precision ambientOcclusion = 0.4;
+    precision anisotropy = 0.5;
 
     virtual MaterialInfo scatter(const Ray& rayIn, const HitInfo& hit) const = 0;
 
-    Color albedo;
+    Color color;
 };
 
 #endif //SF_RAYTRACING_MATERIAL_H

@@ -2,7 +2,7 @@
 #include "Materials/DielectricMaterial.h"
 
 DielectricMaterial::DielectricMaterial(const Color &albedo, precision refractionIndex) {
-    this->albedo = albedo;
+    this->color = albedo;
     this->refractionIndex = refractionIndex;
 }
 

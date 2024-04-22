@@ -46,6 +46,10 @@ Color Color::operator/(precision scalar) const {
     return {r / scalar, g / scalar, b / scalar};
 }
 
+Color Color::operator-() const {
+    return {-r, -g, -b};
+}
+
 Color &Color::operator+=(const Color &color) {
     this->r += color.r;
     this->g += color.g;
@@ -164,3 +168,6 @@ Color &Color::operator-=(precision scalar) {
     return *this;
 }
 
+Color mix(const Color& from, const Color& to, precision t){
+    return from * (1 - t) + to * t;
+}

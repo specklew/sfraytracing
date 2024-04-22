@@ -54,6 +54,7 @@ set(SOURCE_FILES
         include/Precision.h
         include/Materials/DielectricMaterial.h
         source/Materials/DielectricMaterial.cpp
+        include/PBR.h
 )
 
 add_library(${PROJECT_NAME} ${SOURCE_FILES})
