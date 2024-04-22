@@ -7,6 +7,7 @@ DiffuseMaterial::DiffuseMaterial(const Color &albedo) {
     this->ambientAmount = 0.05;
     this->specularAmount = 0.2;
     this->specularCoefficient = 2;
+    this->anisotropy = 0.0;
 }
 
 DiffuseMaterial::DiffuseMaterial(const Color &albedo, precision roughness, precision metallic,

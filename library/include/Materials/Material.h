@@ -17,10 +17,10 @@ public:
     precision specularCoefficient = 2.0;
     precision reflectFraction;
 
-    precision roughness = 0.8;
-    precision metallic = 0.2;
+    precision roughness = 0.9;
+    precision metallic = 0.6;
     precision ambientOcclusion = 0.4;
-    precision anisotropy = 0.5;
+    precision anisotropy = 0.0;
 
     virtual MaterialInfo scatter(const Ray& rayIn, const HitInfo& hit) const = 0;
 

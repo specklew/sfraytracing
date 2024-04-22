@@ -25,8 +25,8 @@ precision geometrySchlickGGX(precision normalDotView, precision roughness)
     precision r = roughness + 1;
 
     // K is remapping of roughness (a) for either direct lightning or IBL lightning.
-    // Kdirect = (a + 1)^2 / 8.
-    // Kibl = a^2 / 2.
+    // K direct = (a + 1)^2 / 8.
+    // K ibl = a^2 / 2.
     precision k = (r * r) / 8;
 
     precision normal = normalDotView;
@@ -75,9 +75,9 @@ Color computeReflectance(Vector3 N, Vector3 Ve, const Color& baseReflectivity, c
     Color F = fresnelSchlick(std::max(H.dot(Ve), precision(0)), baseReflectivity);
 
     if(anisotropy > 0){
-        Vector3 tangent = Vector3(0,0,1).cross(N).normalized();
+        Vector3 tangent = Vector3(0,0,-1).cross(N).normalized();
         Vector3 bi_tangent = N.cross(tangent);
-        precision an = anisotropicGGX(H, N, tangent, bi_tangent, 0.05, 0.02);
+        precision an = anisotropicGGX(H, N, tangent, bi_tangent, 0.02, 0.1);
         D = MathHelper::lerp(D, an, anisotropy);
     }
 
